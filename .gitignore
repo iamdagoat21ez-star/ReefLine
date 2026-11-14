@@ -1,0 +1,27 @@
+# Secrets and credentials
+.netrc
+_netrc
+.env
+*.pem
+id_ed25519*
+
+# Large downloaded / cached source data
+
+!data/raw/.gitkeep
+data/cache/*
+!data/cache/.gitkeep
+
+# Generated station logs, images, reports and outputs
+outputs/logs/*
+!outputs/logs/.gitkeep
+outputs/reports/*
+!outputs/reports/.gitkeep
+outputs/*.zip
+outputs/trend_summary.csv
+outputs/risk_map.geojson
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.DS_Store
