@@ -1,0 +1,30 @@
+# Core laptop application
+numpy
+scipy
+pandas
+pyyaml
+pillow
+plotly
+streamlit
+pytest
+
+# NASA / scientific data access (optional until real-data ingestion)
+earthaccess
+xarray
+netCDF4
+h5netcdf
+zarr
+dask
+statsmodels
+pymannkendall
+
+# Geospatial extensions (install if/when using reef polygons and raster masks)
+geopandas
+shapely
+rasterio
+cartopy
+
+# Reporting and security checks
+reportlab
+pip-audit
+detect-secrets

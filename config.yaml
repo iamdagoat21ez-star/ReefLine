@@ -1,0 +1,47 @@
+# Reefline configuration. Change numbers here, not in the code.
+
+project:
+  data_mode: synthetic_demo  # change to real when real NASA-derived CSVs replace demo files
+
+analysis:
+  alpha: 0.05          # significance level for Mann-Kendall
+  use_fdr: true        # Benjamini-Hochberg correction across reefs
+  min_months: 60       # skip a reef if it has fewer valid months than this
+  recent_months: 12    # window for the "recent anomaly" used in prediction
+
+# Every entry here becomes a variable in the app. To add one (for example
+# turbidity): drop CSVs in the folder, add an entry, done.
+variables:
+  sst:
+    folder: data/sst
+    value_col: sst_c
+    label: Sea-surface temperature (deg C)
+    unit: deg C per year
+    bad_direction: increasing     # which trend direction means more reef stress
+  chlorophyll:
+    folder: data/chlorophyll
+    value_col: chl_mg_m3
+    label: Chlorophyll-a (mg/m3)
+    unit: mg/m3 per year
+    bad_direction: increasing
+
+risk:
+  variable: sst                   # variable used to predict "next" high-risk reefs
+  # Each name must exist in satellite/similar.py (COMPONENTS). Add a new
+  # component there, then give it a weight here.
+  weights:
+    trend: 0.45
+    anomaly: 0.30
+    neighbour: 0.25
+  top_next: 3                     # how many non-significant reefs to flag as "predicted next"
+  neighbour_sigma_km: 400         # how far a significant reef influences others
+  high: 0.66
+  medium: 0.33
+
+station:
+  site_id: reef_003               # site_id of the reef this Pi is "deployed" at
+  log_dir: outputs/logs
+  cooldown_s: 5
+  # vision thresholds (calibrate on your coral model under fixed lighting)
+  paling_threshold: 0.15
+  bleached_threshold: 0.35

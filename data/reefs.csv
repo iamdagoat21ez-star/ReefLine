@@ -1,0 +1,13 @@
+site_id,name,lat,lon,region,data_source
+reef_001,"Carysfort Reef, FL",25.22,-80.21,"Florida Keys, USA",synthetic_demo
+reef_002,"Looe Key, FL",24.55,-81.4,"Florida Keys, USA",synthetic_demo
+reef_003,"Dry Tortugas, FL",24.63,-82.87,"Florida, USA",synthetic_demo
+reef_004,Belize Barrier Reef,17.3,-87.8,"Caribbean, Belize",synthetic_demo
+reef_005,"Lizard Island, GBR",-14.67,145.45,"Great Barrier Reef, Australia",synthetic_demo
+reef_006,"Osprey Reef, Coral Sea",-13.9,146.55,"Coral Sea, Australia",synthetic_demo
+reef_007,"Heron Island, GBR",-23.44,151.91,"Great Barrier Reef, Australia",synthetic_demo
+reef_008,"Ningaloo Reef, AU",-22.7,113.7,Western Australia,synthetic_demo
+reef_009,"Eilat, Red Sea",29.5,34.9,"Red Sea, Israel",synthetic_demo
+reef_010,"Ari Atoll, Maldives",3.9,72.8,"Indian Ocean, Maldives",synthetic_demo
+reef_011,"Tubbataha, Philippines",8.9,119.9,"Sulu Sea, Philippines",synthetic_demo
+reef_012,"Moorea, Fr. Polynesia",-17.5,-149.85,"Society Islands, French Polynesia",synthetic_demo
