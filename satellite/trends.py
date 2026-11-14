@@ -1,8 +1,9 @@
 """Mann–Kendall trend test and Sen's slope for monthly reef series.
 
-Series are read from the CSVs in data/sst and data/chlorophyll. The reef
-registry records each file's data_source. Tests run on anomalies: the mean of
-each calendar month is removed first when the series is monthly.
+Series are read from data/sst and data/chlorophyll. Those tables are monthly
+means of the NASA Giovanni MODIS-Aqua downloads in data/raw. Tests run on
+anomalies: the mean of each calendar month is removed first when the series
+is monthly.
 """
 from pathlib import Path
 
@@ -97,10 +98,13 @@ def _variable(variable: str) -> dict:
 
 
 def _is_monthly(index) -> bool:
+    """True for month-start series, including ones with a few missing months."""
     if not isinstance(index, pd.DatetimeIndex) or len(index) < 2:
         return False
+    if bool((index.day == 1).all()):
+        return True
     gaps = index.to_series().diff().dt.days.dropna()
-    return bool(gaps.between(28, 31).all())
+    return bool(gaps.median() >= 28 and gaps.median() <= 31)
 
 
 def _year_axis(index: pd.DatetimeIndex):

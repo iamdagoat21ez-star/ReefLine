@@ -15,13 +15,27 @@ from satellite.trends import ALPHA, analyze_all, load_reefs
 SLOPE_WEIGHT = 0.60
 DISTANCE_WEIGHT = 0.40
 PREFERRED_DISTANCE_KM = 100.0
+_CANDIDATE_COLUMNS = [
+    "site_id",
+    "name",
+    "lat",
+    "lon",
+    "region",
+    "direction",
+    "p_value",
+    "slope_per_year",
+    "significant",
+    "slope_diff",
+    "distance_km",
+    "score",
+]
 
 
-def find_similar(site_id: str, variable: str, alpha: float = ALPHA) -> pd.DataFrame:
-    """Return exactly 3 non-significant reefs closest to a worsening reference site."""
-    trends = analyze_all(variable, alpha=alpha)
-    reefs = load_reefs()
-    table = trends.merge(reefs, on="site_id", how="left")
+def rank_candidates(site_id: str, variable: str, alpha: float = ALPHA, trends: pd.DataFrame | None = None) -> pd.DataFrame:
+    """Rank every non-significant reef against a worsening reference. Lowest score is closest."""
+    if trends is None:
+        trends = analyze_all(variable, alpha=alpha)
+    table = trends if "lat" in trends.columns else trends.merge(load_reefs(), on="site_id", how="left")
     reference = table.loc[table["site_id"] == site_id]
     if reference.empty:
         raise ValueError(f"Unknown site_id {site_id!r}")
@@ -33,34 +47,26 @@ def find_similar(site_id: str, variable: str, alpha: float = ALPHA) -> pd.DataFr
         )
 
     candidates = table.loc[~table["significant"] & (table["site_id"] != site_id)].copy()
-    if len(candidates) < 3:
-        raise ValueError(
-            f"Need 3 non-significant {variable} reefs, found {len(candidates)}"
-        )
-
+    if candidates.empty:
+        return candidates.reindex(columns=_CANDIDATE_COLUMNS)
     candidates["slope_diff"] = (candidates["slope_per_year"] - reference["slope_per_year"]).abs()
     candidates["distance_km"] = _distance_km(
         reference["lat"], reference["lon"], candidates["lat"].to_numpy(), candidates["lon"].to_numpy()
     )
     candidates["score"] = _score(candidates["slope_diff"], candidates["distance_km"])
-    chosen = candidates.sort_values(
+    return candidates.sort_values(
         ["score", "distance_km", "site_id"], ascending=True
-    ).head(3)
-    columns = [
-        "site_id",
-        "name",
-        "lat",
-        "lon",
-        "region",
-        "direction",
-        "p_value",
-        "slope_per_year",
-        "significant",
-        "slope_diff",
-        "distance_km",
-        "score",
-    ]
-    return chosen[columns].reset_index(drop=True)
+    )[_CANDIDATE_COLUMNS].reset_index(drop=True)
+
+
+def find_similar(site_id: str, variable: str, alpha: float = ALPHA, trends: pd.DataFrame | None = None) -> pd.DataFrame:
+    """Return exactly 3 non-significant reefs closest to a worsening reference site."""
+    ranked = rank_candidates(site_id, variable, alpha=alpha, trends=trends)
+    if len(ranked) < 3:
+        raise ValueError(
+            f"Need 3 non-significant {variable} reefs, found {len(ranked)}"
+        )
+    return ranked.head(3).reset_index(drop=True)
 
 
 def _score(slope_diff: pd.Series, distance_km: pd.Series) -> pd.Series:
