@@ -1,99 +1,108 @@
-"""Trend statistics: Mann-Kendall test and Sen's slope (with confidence interval).
+"""Mann–Kendall trend test and Sen's slope for monthly reef series.
 
-Math follows the Reefline build document, section 4.4.
-Input is a monthly series; the seasonal cycle is removed first (anomalies).
+Series are read from the CSVs in data/sst and data/chlorophyll. The reef
+registry records each file's data_source. Tests run on anomalies: the mean of
+each calendar month is removed first when the series is monthly.
 """
-import numpy as np
+from pathlib import Path
+
 import pandas as pd
-from scipy.stats import norm
+import pymannkendall as mk
+from scipy.stats import theilslopes
+
+DATA_DIR = Path(__file__).resolve().parents[1] / "data"
+ALPHA = 0.05
+
+# Worsening is an increase: warming SST, or rising chlorophyll-a.
+VARIABLES = {
+    "sst": {"folder": "sst", "column": "sst_c", "worsening": "increasing"},
+    "chlorophyll": {"folder": "chlorophyll", "column": "chl_mg_m3", "worsening": "increasing"},
+}
 
 
-def deseasonalize(s: pd.Series) -> pd.Series:
-    """Subtract the mean of each calendar month (monthly climatology)."""
-    return s - s.groupby(s.index.month).transform("mean")
+def load_reefs() -> pd.DataFrame:
+    """Read data/reefs.csv. Required columns: site_id, name, lat, lon, region."""
+    reefs = pd.read_csv(DATA_DIR / "reefs.csv")
+    required = ["site_id", "name", "lat", "lon", "region"]
+    missing = [column for column in required if column not in reefs.columns]
+    if missing:
+        raise ValueError(f"reefs.csv is missing columns: {missing}")
+    return reefs
 
 
-def mann_kendall(x):
-    """Returns S, Var(S), Z, two-sided p, Kendall tau. Tie-corrected."""
-    x = np.asarray(x, float)
-    n = len(x)
-    i, j = np.triu_indices(n, 1)
-    s = float(np.sign(x[j] - x[i]).sum())
-    _, counts = np.unique(x, return_counts=True)
-    c = counts[counts > 1]
-    ties = float((c * (c - 1) * (2 * c + 5)).sum())
-    var_s = (n * (n - 1) * (2 * n + 5) - ties) / 18.0
-    if s > 0:
-        z = (s - 1) / np.sqrt(var_s)
-    elif s < 0:
-        z = (s + 1) / np.sqrt(var_s)
-    else:
-        z = 0.0
-    p = 2 * (1 - norm.cdf(abs(z)))
-    tau = s / (n * (n - 1) / 2)
-    return {"S": s, "var_s": var_s, "z": float(z), "p": float(p), "tau": float(tau)}
+def load_series(site_id: str, variable: str) -> pd.Series:
+    """Read one monthly series with pandas.read_csv."""
+    spec = _variable(variable)
+    path = DATA_DIR / spec["folder"] / f"{site_id}.csv"
+    frame = pd.read_csv(path)
+    if "date" not in frame.columns or spec["column"] not in frame.columns:
+        raise ValueError(f"{path.name} must have columns date and {spec['column']}")
+    frame["date"] = pd.to_datetime(frame["date"])
+    series = frame.set_index("date")[spec["column"]].astype(float).sort_index()
+    series.name = spec["column"]
+    return series
 
 
-def sens_slope(x, t, var_s, alpha=0.05):
-    """Median of all pairwise slopes, plus a (1-alpha) confidence interval.
-    t is the time axis (months), so the slope is per month."""
-    x, t = np.asarray(x, float), np.asarray(t, float)
-    i, j = np.triu_indices(len(x), 1)
-    q = np.sort((x[j] - x[i]) / (t[j] - t[i]))
-    big_n = len(q)
-    c = norm.ppf(1 - alpha / 2) * np.sqrt(var_s)
-    m1, m2 = (big_n - c) / 2, (big_n + c) / 2
-    pos = np.arange(big_n)
-    lo = np.interp(np.clip(m1 - 1, 0, big_n - 1), pos, q)
-    hi = np.interp(np.clip(m2, 0, big_n - 1), pos, q)
-    return float(np.median(q)), float(lo), float(hi)
+def deseasonalize(series: pd.Series) -> pd.Series:
+    """Subtract the mean of each calendar month. Leave non-monthly series unchanged."""
+    if not _is_monthly(series.index):
+        return series.copy()
+    anomaly = series - series.groupby(series.index.month).transform("mean")
+    anomaly.name = series.name
+    return anomaly
 
 
-def analyze_series(s: pd.Series, alpha=0.05, min_months=60, recent_months=12):
-    """Full analysis of one monthly series. Returns a dict, or None if too short."""
-    anom = deseasonalize(s).dropna()
-    if len(anom) < min_months:
-        return None
-    t = ((anom.index.year - anom.index[0].year) * 12 + (anom.index.month - anom.index[0].month)).to_numpy()
-    mk = mann_kendall(anom.to_numpy())
-    slope, lo, hi = sens_slope(anom.to_numpy(), t, mk["var_s"], alpha)
+def analyze_series(series: pd.Series, alpha: float = ALPHA) -> dict:
+    """Test one series. Returns direction, p-value, slope per year, and significance."""
+    anomalies = deseasonalize(series).dropna()
+    if len(anomalies) < 3:
+        raise ValueError("A trend test needs at least 3 observations")
+    years = _year_axis(anomalies.index)
+    test = mk.original_test(anomalies.to_numpy(), alpha=alpha)
+    slope = float(theilslopes(anomalies.to_numpy(), years).slope)
+    p_value = float(test.p)
     return {
-        "n": len(anom),
-        "tau": mk["tau"], "z": mk["z"], "p": mk["p"],
-        "slope_per_year": slope * 12, "ci_low": lo * 12, "ci_high": hi * 12,
-        "recent_anomaly": float(anom.iloc[-recent_months:].mean()),
-        "anom_std": float(anom.std()),
+        "direction": test.trend,
+        "p_value": p_value,
+        "slope_per_year": slope,
+        "significant": p_value < alpha,
     }
 
 
-def benjamini_hochberg(p):
-    """FDR-adjusted p-values (same order as input)."""
-    p = np.asarray(p, float)
-    n = len(p)
-    order = np.argsort(p)
-    ranked = p[order] * n / (np.arange(n) + 1)
-    adj = np.minimum.accumulate(ranked[::-1])[::-1]
-    out = np.empty(n)
-    out[order] = np.clip(adj, 0, 1)
-    return out
+def analyze_site(site_id: str, variable: str, alpha: float = ALPHA) -> dict:
+    """Analyze one reef. worsening is True only for a significant increase."""
+    spec = _variable(variable)
+    result = analyze_series(load_series(site_id, variable), alpha=alpha)
+    result.update({
+        "site_id": site_id,
+        "variable": variable,
+        "worsening": result["significant"] and result["direction"] == spec["worsening"],
+    })
+    return result
 
 
-def analyze_variable(site_ids, load_fn, cfg):
-    """Run analyze_series for every site. load_fn(site_id) -> monthly Series.
-    Returns a DataFrame with one row per reef."""
-    a = cfg["analysis"]
-    rows = []
-    for sid in site_ids:
-        s = load_fn(sid)
-        if s is None:
-            continue
-        r = analyze_series(s, a["alpha"], a["min_months"], a["recent_months"])
-        if r:
-            rows.append({"site_id": sid, **r})
-    df = pd.DataFrame(rows)
-    if df.empty:
-        return df
-    df["p_adj"] = benjamini_hochberg(df["p"]) if a.get("use_fdr", True) else df["p"]
-    df["significant"] = df["p_adj"] < a["alpha"]
-    df["direction"] = np.where(df["slope_per_year"] > 0, "increasing", "decreasing")
-    return df
+def analyze_all(variable: str, alpha: float = ALPHA) -> pd.DataFrame:
+    """One row per reef in data/reefs.csv."""
+    reefs = load_reefs()
+    rows = [analyze_site(site_id, variable, alpha=alpha) for site_id in reefs["site_id"]]
+    return pd.DataFrame(rows)
+
+
+def _variable(variable: str) -> dict:
+    try:
+        return VARIABLES[variable]
+    except KeyError:
+        known = ", ".join(VARIABLES)
+        raise ValueError(f"Unknown variable {variable!r}. Expected one of: {known}") from None
+
+
+def _is_monthly(index) -> bool:
+    if not isinstance(index, pd.DatetimeIndex) or len(index) < 2:
+        return False
+    gaps = index.to_series().diff().dt.days.dropna()
+    return bool(gaps.between(28, 31).all())
+
+
+def _year_axis(index: pd.DatetimeIndex):
+    months = (index.year - index[0].year) * 12 + (index.month - index[0].month)
+    return months / 12.0

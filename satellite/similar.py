@@ -1,79 +1,80 @@
-"""Prediction layer: which reefs are most likely to see intensifying stress next?
+"""Pick the three non-significant reefs most like a worsening reference reef.
 
-A transparent, rule-based risk score (build document, section 4.6). Each
-component is a small function registered in COMPONENTS and weighted in
-config.yaml. To add a feature (for example heat stress from DHW), write one
-function with @component("name") and add "name: weight" under risk.weights.
+Score = 0.60 * slope difference + 0.40 * distance.
+Slope difference is the absolute gap in Sen's slope, scaled by the largest gap
+in the candidate pool. Distance uses kilometers relative to a 100 km preference:
+0 at the same point, 0.5 at 100 km, and closer to 1 as range grows. Lower score
+is more similar. Reefs farther than 100 km stay eligible, because this catalog
+has no pair inside that range.
 """
 import numpy as np
 import pandas as pd
 
-COMPONENTS = {}
+from satellite.trends import ALPHA, analyze_all, load_reefs
+
+SLOPE_WEIGHT = 0.60
+DISTANCE_WEIGHT = 0.40
+PREFERRED_DISTANCE_KM = 100.0
 
 
-def component(name):
-    def deco(fn):
-        COMPONENTS[name] = fn
-        return fn
-    return deco
+def find_similar(site_id: str, variable: str, alpha: float = ALPHA) -> pd.DataFrame:
+    """Return exactly 3 non-significant reefs closest to a worsening reference site."""
+    trends = analyze_all(variable, alpha=alpha)
+    reefs = load_reefs()
+    table = trends.merge(reefs, on="site_id", how="left")
+    reference = table.loc[table["site_id"] == site_id]
+    if reference.empty:
+        raise ValueError(f"Unknown site_id {site_id!r}")
+    reference = reference.iloc[0]
+    if not bool(reference["worsening"]):
+        raise ValueError(
+            f"{site_id} has no significant worsening {variable} trend "
+            f"(direction={reference['direction']}, p={reference['p_value']:.3g})"
+        )
+
+    candidates = table.loc[~table["significant"] & (table["site_id"] != site_id)].copy()
+    if len(candidates) < 3:
+        raise ValueError(
+            f"Need 3 non-significant {variable} reefs, found {len(candidates)}"
+        )
+
+    candidates["slope_diff"] = (candidates["slope_per_year"] - reference["slope_per_year"]).abs()
+    candidates["distance_km"] = _distance_km(
+        reference["lat"], reference["lon"], candidates["lat"].to_numpy(), candidates["lon"].to_numpy()
+    )
+    candidates["score"] = _score(candidates["slope_diff"], candidates["distance_km"])
+    chosen = candidates.sort_values(
+        ["score", "distance_km", "site_id"], ascending=True
+    ).head(3)
+    columns = [
+        "site_id",
+        "name",
+        "lat",
+        "lon",
+        "region",
+        "direction",
+        "p_value",
+        "slope_per_year",
+        "significant",
+        "slope_diff",
+        "distance_km",
+        "score",
+    ]
+    return chosen[columns].reset_index(drop=True)
 
 
-def haversine_km(lat1, lon1, lat2, lon2):
-    r = 6371.0
-    p1, p2 = np.radians(lat1), np.radians(lat2)
-    dphi, dl = p2 - p1, np.radians(lon2) - np.radians(lon1)
-    a = np.sin(dphi / 2) ** 2 + np.cos(p1) * np.cos(p2) * np.sin(dl / 2) ** 2
-    return 2 * r * np.arcsin(np.sqrt(a))
+def _score(slope_diff: pd.Series, distance_km: pd.Series) -> pd.Series:
+    slope_span = float(slope_diff.max())
+    slope_term = slope_diff / slope_span if slope_span > 0 else slope_diff * 0.0
+    distance_term = distance_km / (distance_km + PREFERRED_DISTANCE_KM)
+    return SLOPE_WEIGHT * slope_term + DISTANCE_WEIGHT * distance_term
 
 
-@component("trend")
-def trend_component(ctx):
-    """Own warming rate relative to the strongest in the dataset (0 to 1)."""
-    slope = ctx["df"]["slope_per_year"].clip(lower=0)
-    ref = np.percentile(slope[slope > 0], 95) if (slope > 0).any() else 1.0
-    return (slope / ref).clip(0, 1)
-
-
-@component("anomaly")
-def anomaly_component(ctx):
-    """How far the last year is above normal, in units of 3 standard deviations."""
-    d = ctx["df"]
-    return (d["recent_anomaly"] / (3 * d["anom_std"])).clip(0, 1)
-
-
-@component("neighbour")
-def neighbour_component(ctx):
-    """Closeness to reefs that already show a significant warming trend."""
-    d, dist, sigma = ctx["df"], ctx["dist"], ctx["sigma"]
-    sig = (d["significant"] & (d["slope_per_year"] > 0)).to_numpy(float)
-    w = np.exp(-(dist ** 2) / (2 * sigma ** 2))
-    np.fill_diagonal(w, 0.0)
-    denom = w.sum(axis=1)
-    score = np.divide(w @ sig, denom, out=np.zeros_like(denom), where=denom > 0)
-    return pd.Series(score, index=d.index)
-
-
-def risk_table(trends: pd.DataFrame, reefs: pd.DataFrame, cfg):
-    """Merge trend results with reef locations and add risk score and class."""
-    rc = cfg["risk"]
-    df = trends.merge(reefs, on="site_id").reset_index(drop=True)
-    lat, lon = df["lat"].to_numpy(), df["lon"].to_numpy()
-    dist = haversine_km(lat[:, None], lon[:, None], lat[None, :], lon[None, :])
-    ctx = {"df": df, "dist": dist, "sigma": rc["neighbour_sigma_km"]}
-
-    weights = {k: w for k, w in rc["weights"].items() if k in COMPONENTS}
-    total = sum(weights.values())
-    for name in weights:
-        df[f"c_{name}"] = COMPONENTS[name](ctx)
-    df["risk"] = sum(w * df[f"c_{k}"] for k, w in weights.items()) / total
-
-    df["risk_class"] = np.select(
-        [df["risk"] >= rc["high"], df["risk"] >= rc["medium"]], ["High", "Medium"], "Low")
-    warming_sig = df["significant"] & (df["slope_per_year"] > 0)
-    # "Predicted next" = the highest-scoring reefs that are NOT yet significant
-    # (a reef already in a significant trend is not a prediction).
-    pool = df[~warming_sig & (df["risk"] >= rc["medium"])].nlargest(rc.get("top_next", 3), "risk")
-    df["status"] = "Monitor"
-    df.loc[warming_sig, "status"] = "Significant warming trend"
-    df.loc[pool.index, "status"] = "Predicted next intensification"
-    return df.sort_values("risk", ascending=False).reset_index(drop=True)
+def _distance_km(lat1, lon1, lat2, lon2) -> np.ndarray:
+    radius = 6371.0
+    phi1 = np.radians(float(lat1))
+    phi2 = np.radians(np.asarray(lat2, dtype=float))
+    dphi = phi2 - phi1
+    dlambda = np.radians(np.asarray(lon2, dtype=float) - float(lon1))
+    a = np.sin(dphi / 2) ** 2 + np.cos(phi1) * np.cos(phi2) * np.sin(dlambda / 2) ** 2
+    return 2 * radius * np.arcsin(np.sqrt(a))
