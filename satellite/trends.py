@@ -15,11 +15,9 @@ from scipy.stats import theilslopes
 DATA_DIR = Path(__file__).resolve().parents[1] / "data"
 ALPHA = 0.05
 
-# Worsening definition:
-# - SST: significant decrease = worsening (cooling stress for coral reefs)
-# - Chlorophyll: significant increase = worsening (rising chlorophyll-a)
+# Worsening is a significant increase: warming SST, or rising chlorophyll-a.
 VARIABLES = {
-    "sst": {"folder": "sst", "column": "sst_c", "worsening": "decreasing"},
+    "sst": {"folder": "sst", "column": "sst_c", "worsening": "increasing"},
     "chlorophyll": {"folder": "chlorophyll", "column": "chl_mg_m3", "worsening": "increasing"},
 }
 
@@ -217,7 +215,7 @@ def analyze_series(series: pd.Series, alpha: float = ALPHA) -> dict:
 
 
 def analyze_site(site_id: str, variable: str, alpha: float = ALPHA, raw: bool = False) -> dict:
-    """Analyze one reef. worsening is True only for a significant decrease (SST) or increase (chlorophyll)."""
+    """Analyze one reef. worsening is True only for a significant increase."""
     spec = _variable(variable)
     result = analyze_series(load_series(site_id, variable, raw=raw), alpha=alpha)
     result.update({
