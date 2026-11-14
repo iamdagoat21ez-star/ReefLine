@@ -1,52 +1,37 @@
 # Reefline – Agent Instructions
 
 ## Product Goal
-Dual-system coral reef trend detective for the “Be an Earth System Trend Detective!” track.
+Dual-system coral reef early-detection tool that also recommends action.
 
-1. User selects a reef that already shows a statistically significant worsening trend.
-2. System returns exactly 3 candidate reefs with the most similar statistical profile that are not yet significant.
-3. User picks one of the 3 as the Pi deployment site.
-4. Raspberry Pi station records motion-triggered images and logs.
-5. App shows side-by-side satellite statistics + latest Pi observation for that site.
+1. User selects a reef with a statistically significant worsening trend.
+2. App returns exactly 3 candidate reefs with similar statistical profiles (not yet significant).
+3. User picks one as the Pi deployment site.
+4. Pi station captures motion-triggered images and logs them.
+5. App shows satellite stats + Pi image side-by-side.
+6. App displays a clear **Recommended Action** based on the risk level.
 
-## Statistical Requirements (Must Implement)
-- Mann–Kendall test (`pymannkendall.original_test`) for trend significance.
-- Sen’s slope (`scipy.stats.theilslopes`) for rate of change (reported per year).
-- Results must include: trend direction, p-value, slope, and whether significant (p < 0.05).
-- Deseasonalize series by subtracting monthly climatology before testing (when data is monthly).
-- “Similar reefs” scoring:
-  - 60 % weight on absolute difference in Sen’s slope
-  - 40 % weight on geographic distance (prefer < 100 km)
-  - Return exactly 3 non-significant reefs.
+## Statistical Requirements
+- Mann–Kendall + Sen’s slope on deseasonalized monthly series.
+- Significant = p < 0.05.
+- Similar reefs: 60 % slope difference + 40 % distance, return exactly 3.
 
-## Data Rules
-data/
-├── chlorophyll/reef_XXX.csv
-├── sst/reef_XXX.csv
-└── reefs.csv   # site_id,name,lat,lon,region
+## UI Requirements (Working Prototype)
+- Clean Streamlit layout with sidebar controls.
+- Interactive map showing significant reefs and at-risk matches.
+- Time-series plot with Sen’s slope line.
+- Trend summary cards (p-value, slope, direction).
+- “Reefs at risk” section with the 3 candidates.
+- Deployment site selector.
+- Side-by-side satellite vs Pi panel.
+- **Recommended Action** box that appears when a site is selected (e.g. “Prioritize for field survey within 30 days”).
+- Export Action Report button (CSV or simple download).
+- Data citation visible: NASA Giovanni / AppEEARS.
 
-- Load only with pandas.read_csv.
-- No cache, no raw NetCDF, no earthaccess required at runtime.
+## Data & Structure
+data/sst/, data/chlorophyll/, data/reefs.csv  
+satellite/trends.py, satellite/similar.py  
+station/reef_station.py  
+app.py
 
-## Repository Structure
-reefline/
-├── data/
-├── satellite/
-│   ├── trends.py      # Mann–Kendall + Sen’s slope
-│   └── similar.py     # find exactly 3 similar reefs
-├── station/
-│   └── reef_station.py
-├── app.py             # Streamlit
-├── requirements.txt
-└── AGENTS.md
-
-## Workstreams (Parallel)
-- Satellite: only satellite/trends.py + satellite/similar.py
-- Pi Station: only station/reef_station.py
-- App: only app.py (wires the other two)
-
-## Hard Rules
-- Do not add features outside this document.
-- Use real CSVs only.
-- Table-top Pi demo is acceptable.
-- Cite Giovanni or AppEEARS as data source.
+## Rules
+Build a working, demoable prototype. Prioritize clear UI and the action recommendation over extra features.
