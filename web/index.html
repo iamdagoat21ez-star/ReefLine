@@ -60,13 +60,13 @@ html { scroll-behavior: smooth; }
 .step-number { border: 1px solid #f591af70; background: #ff6b8f15; color: #ffb6ce; width: 23px; height: 23px; border-radius: 50%; display: grid; place-items: center; flex-shrink: 0; font-size: 10px; }
 .complete .step-number { background: #00e67622; border-color: #00c87a99; color: #69f6b0; }
 .data-context { display: none; }
-.data-context.demo-context { display: block; font-size: 8px; padding: 8px; border-radius: 7px; color: #ffd1e1; border: 1px solid #c57b98; background: #4b2649; max-width: 130px; }
+.data-context.illustrative-context { display: block; font-size: 8px; padding: 8px; border-radius: 7px; color: #ffd1e1; border: 1px solid #c57b98; background: #4b2649; max-width: 130px; }
 .section-kicker { font-size: 7px; letter-spacing: .8px; color: #93aec5; display: block; margin-top: 4px; font-weight: 500; }
 .help-button { color: #ffd2df; border-color: #b77591; white-space: nowrap; padding: 9px; }
 .head-actions { flex-wrap: wrap; justify-content: flex-end; }
 .map-reset { position: absolute; left: 10px; top: 47px; z-index: 500; color: #ddeaf5; background: #081d32dd; border: 1px solid #456078; border-radius: 6px; padding: 6px 8px; font-size: 8px; }
 .evidence-label { display: inline-block; color: #ffc5db; background: #b35d801a; border: 1px solid #c7809b66; padding: 4px 6px; border-radius: 5px; font-size: 8px; margin-top: 6px; }
-.demo-source { border-color: #e797b5!important; }
+.illustrative-source { border-color: #e797b5!important; }
 .inspector { transition: opacity .22s ease, transform .22s ease; }
 .inspector .coords { line-height: 1.5; }
 .directory-search { width: 100%; padding: 12px; color: #f3e8ef; border: 1px solid #65728c; border-radius: 9px; background: #102b43; }
@@ -96,17 +96,17 @@ dialog[open] { animation: reveal-dialog .2s cubic-bezier(.2,.8,.2,1); }
  .head-actions .solution-button { font-size: 8px; padding: 7px; }
  .help-button { padding: 7px; font-size: 8px; }
  .workspace-journey b { font-size: 9px; }
- .data-context.demo-context { max-width: 100px; font-size: 7px; }
+ .data-context.illustrative-context { max-width: 100px; font-size: 7px; }
 }
 @media (max-width:1050px) {
- .workspace-journey { flex-wrap: wrap; } .data-context.demo-context { max-width: none; width: 100%; }
+ .workspace-journey { flex-wrap: wrap; } .data-context.illustrative-context { max-width: none; width: 100%; }
  .workspace-journey button { min-width: 120px; }
 }
 @media (max-width:650px) {
  .directory-grid { grid-template-columns: 1fr 1fr; }
  .workspace-journey { display: grid; grid-template-columns: 1fr; }
  .workspace-journey button { padding: 10px 12px; }
- .data-context.demo-context { max-width: none; width: auto; }
+ .data-context.illustrative-context { max-width: none; width: auto; }
  .head-actions .search { width: 100%; flex-basis: 100%; }
  .directory-card { padding: 12px; } .directory-card b { font-size: 10px; }
  .field-label, .control-help { font-size: 11px; }
@@ -147,8 +147,71 @@ dialog[open] { animation: reveal-dialog .2s cubic-bezier(.2,.8,.2,1); }
 .sidebar .control-section .field-label:first-of-type { margin-top:0; }
 .sidebar .layer { color:#254f70; }
 .sidebar .brand p { color:#365f8d; }
-.sidebar .demo-source { border-color:#8bb9da!important; }
+.sidebar .illustrative-source { border-color:#8bb9da!important; }
 @media(max-width:650px) { .sidebar .control-section { padding:14px; } }
+
+.sidebar #locations-controls { background:linear-gradient(150deg,#edf9ff,#d4edfc); border-color:#a6cce6; }
+.sidebar #variables-controls { background:linear-gradient(150deg,#d6edfc,#a9d1ee); border-color:#86b6d9; }
+.sidebar #layers-controls { background:linear-gradient(150deg,#96c5e6,#639bc8); border-color:#77aad0; }
+.sidebar #hardware-controls { background:linear-gradient(150deg,#376eab,#143b6b); border-color:#4d84b8; }
+#hardware-controls>.section-label { color:#e9f7ff; }
+#hardware-controls .hardware { background:#e3f2ff; }
+#hardware-controls .control-help { color:#d8ecfc; }
+.section-label[role="button"] { cursor:zoom-in; border-radius:5px; padding:4px; }
+.section-label[role="button"]::after { content:"↗"; font-size:13px; margin-left:auto; }
+.banner { background:linear-gradient(115deg,#e6f7ff 0%,#bfe6fa 48%,#8ac9ec 100%); border-color:#78bbe3; color:#10354d; }
+.chart-area { border-color:#e2f6ff; background:#ffffff45; }
+.chart-head p,.chart-footnote { color:#315b77; }
+.chart-modes { background:#e0f2ff; border-color:#81b8d9; }
+.connection-label { color:#fff3bd; border:1px solid #ffe07088; background:#0a243be8; box-shadow:0 3px 9px #00182780; font-size:9px; font-weight:700; }
+.connection-label::before { display:none; }
+.connection-label { max-width:145px; white-space:normal; text-align:center; }
+.inspector { border-color:#71caff; box-shadow:0 0 0 1px #64c7ff44,0 8px 24px #00152677; }
+.inspector-actions { display:flex; gap:6px; margin-top:9px; }
+.inspector-explainer { font-size:8px; color:#9ec4dc; line-height:1.5; margin-top:8px; }
+#focus-dialog { width:100vw; height:100dvh; max-width:none; max-height:none; margin:0; padding:18px; border-radius:0; background:linear-gradient(125deg,#163b5b,#081b32 72%); overflow:auto; }
+.focus-header { display:flex; align-items:center; gap:25px; padding-bottom:16px; border-bottom:1px solid #3b6683; margin-bottom:18px; }
+.focus-header h2 { font-size:22px; }
+.focus-header p { font-size:12px; color:#a9cce3; margin-top:5px; }
+.focus-back { background:#d8efff; color:#123d5e; padding:11px 14px; border:1px solid #94c7ea; border-radius:9px; font-size:12px; white-space:nowrap; }
+#focus-content { display:grid; grid-template-columns:300px minmax(0,1fr); gap:20px; min-height:calc(100dvh - 135px); align-items:start; }
+#focus-content>.control-section { color:#103550; border-radius:16px; padding:20px; border:1px solid #83badc; }
+#focus-content .section-label { font-size:12px; margin-bottom:16px; }
+#focus-content .control-section select { margin-bottom:12px; }
+#focus-content>.map-panel { height:calc(100dvh - 145px); min-height:480px; }
+#focus-content .map { min-height:0; }
+#focus-content .map-wrap { min-height:0; }
+#focus-content .inspector { width:min(410px,60%); padding:18px; bottom:20px; right:20px; }
+#focus-content .inspector h3 { font-size:16px; }
+#focus-content .inspector-grid strong { font-size:16px; }
+#focus-content .inspector-grid div { font-size:10px; padding:12px 8px; }
+#focus-content .inspector-explainer { font-size:10px; }
+#focus-content .map-bottom { padding:15px; }
+#focus-content.focus-map { grid-template-columns:1fr; }
+#focus-content>.right-panel { min-height:560px; height:66dvh; padding:20px; }
+#focus-content .scene-frame { min-height:280px; }
+#focus-content>.banner { grid-column:1/-1; min-height:420px; height:46dvh; }
+#focus-content.focus-variables-controls>.banner { grid-column:2; height:calc(100dvh - 150px); }
+#focus-content .kpi strong { font-size:18px; }
+#focus-content .scene-header h3 { font-size:16px; }
+#focus-content .sim-kpis strong { font-size:20px; }
+@media(max-width:850px){
+ .focus-header { align-items:flex-start; gap:12px; flex-direction:column; }
+ .focus-header h2 { font-size:19px; }
+ #focus-content { grid-template-columns:1fr; }
+ #focus-content>.map-panel { min-height:600px; height:75dvh; }
+ #focus-content>.banner,#focus-content.focus-variables-controls>.banner { grid-column:1; min-height:620px; }
+ #focus-content .inspector { width:calc(100% - 24px); max-width:360px; right:12px; padding:12px; }
+ #focus-content>.right-panel { height:650px; }
+}
+
+#focus-content #locations-controls { background:linear-gradient(150deg,#edf9ff,#d4edfc); }
+#focus-content #variables-controls { background:linear-gradient(150deg,#d6edfc,#a9d1ee); }
+#focus-content #layers-controls { background:linear-gradient(150deg,#96c5e6,#639bc8); }
+#focus-content #hardware-controls { background:linear-gradient(150deg,#376eab,#143b6b); }
+#focus-content #hardware-controls>.section-label { color:#e9f7ff; }
+#focus-content .hardware { background:#e3f2ff; color:#153754; }
+#focus-content .section-label[role="button"]::after { display:none; }
 </style>
 </head>
 <body>
@@ -160,11 +223,11 @@ dialog[open] { animation: reveal-dialog .2s cubic-bezier(.2,.8,.2,1); }
  <div class="section-label">1. EXPLORE LOCATIONS <span class="pill" id="region-count">Worldwide</span></div>
  <label class="field-label" for="region">Region & reef network</label>
  <select id="region" aria-label="Select region"></select>
- <div class="field-pair"><label class="field-label" for="catalog-filter">Location data</label><button class="text-link" id="browse-locations">Browse all →</button></div>
- <select id="catalog-filter" aria-label="Filter location data"><option value="all">All locations · measured + demo</option><option value="measured">Measured NASA locations only</option><option value="demo">Demo locations · synthetic data</option></select>
+ <div class="field-pair"><span class="field-label">Location catalog</span><button class="text-link" id="browse-locations">Browse all →</button></div>
+ <select class="hidden" id="catalog-filter" aria-label="Filter location data"><option value="all">All locations · measured + illustrative</option><option value="measured">Measured NASA locations only</option><option value="illustrative">Illustrative locations · illustrative data</option></select>
  <label class="field-label" for="station-selector">Inspect a reef location</label>
  <select id="station-selector" aria-label="Inspect a reef location"></select>
- <p class="control-help"><b id="location-count">514 worldwide reef locations</b> · Dashed markers have demo readings. NOAA-labeled markers use documented reef-region geography.</p>
+ <p class="control-help"><b id="location-count">514 worldwide reef locations</b> · Dashed markers have illustrative readings. NOAA-labeled markers use documented reef-region geography.</p>
  </section>
  <section class="control-section" id="variables-controls"><div class="section-label">2. SELECT VARIABLE <span class="pill" id="variable-pill">Primary · SST</span></div>
  <label class="variable"><span class="tile-icon">♨</span><span><strong>Sea Surface Temperature (°C)</strong><small id="sst-source">NASA MODIS-Aqua · thermal trend</small></span><input type="radio" name="variable" value="sst" checked></label>
@@ -183,7 +246,7 @@ dialog[open] { animation: reveal-dialog .2s cubic-bezier(.2,.8,.2,1); }
  <label class="hardware node"><input type="checkbox" data-tool="node" checked><span class="details"><strong>Pi Reef Node</strong><small>Temperature sensor + field camera<br><b>Early alert & image log</b></small></span><span class="cost">$185/unit</span></label>
  <button class="deploy" id="deploy-all">✓ All solutions deployed · Turn off</button>
  </section>
- <div class="source-card" id="source-card"><b><i class="dot pulse"></i> <span id="source-title">NASA Giovanni · MODIS-Aqua</span></b><br><span id="source-kind">Measured monthly SST & chlorophyll-a</span><br><span id="source-dates"></span><br>MK + Sen’s slope · deseasonalized series<br><small>Measured stations use NASA Giovanni. Demo stations use labeled synthetic fixtures.</small></div>
+ <div class="source-card" id="source-card"><b><i class="dot pulse"></i> <span id="source-title">NASA Giovanni · satellite records</span></b><br><span id="source-kind">Measured monthly SST & chlorophyll-a</span><br><span id="source-dates"></span><br>MK + Sen’s slope · deseasonalized series<br><small>Measured stations use NASA Giovanni. Illustrative stations use labeled illustrative fixtures.</small></div>
 </aside>
 <main class="workspace">
  <header class="topbar glass"><div><div class="eyebrow">REEFLINE / DETECTION TO ACTION</div><h1 id="region-title">Coral Reef Trend Analysis</h1><p>Satellite environmental telemetry & active biological intervention platform</p></div><div class="head-actions"><button class="outline help-button" id="help-button">? Quick guide</button><button class="solution-button" id="how-button">⌘ How Our Solution Works</button><div class="search"><input id="search" aria-label="Search reefs, variables, or studies" placeholder="⌕ Search reefs, variables, or studies…" autocomplete="off"><div class="search-results" id="search-results"></div></div><button class="profile" id="about-button" aria-label="About this workspace">♙</button></div></header>
@@ -201,7 +264,7 @@ dialog[open] { animation: reveal-dialog .2s cubic-bezier(.2,.8,.2,1); }
  <button class="map-world" id="world-view" title="Show all reef locations across the world">◎ World view</button><button class="map-reset" id="reset-view" title="Reset map to this region and clear the risk filter">⌖ Reset region view</button><div class="map-note" id="map-note"></div><div class="map-hud inspector" id="inspector"></div></div>
  <div class="map-bottom"><div class="legend"><span><i style="background:#ff334b"></i>Significant worsening · p &lt; .05</span><span><i style="background:#ffd000"></i>3 at-risk matches</span><span><i style="background:#ff7b00"></i>Rising, p ≥ .05</span><span><i style="background:#00e676"></i>Solution halo</span></div><div class="map-actions"><button class="outline" id="fit-matches" title="Zoom the map to the reference reef and its three candidate matches">Show 3 matches</button><button class="outline" id="full-map">⛶ Expand map</button><button class="outline" id="export-data">↓ Export data</button><button class="deploy-action" id="assessment-button">3 reefs → Deploy</button></div></div>
  </article>
- <article class="panel glass right-panel"><div class="tabs"><button class="tab-button active" data-pane="visualizer">Live Reef Visualizer</button><button class="tab-button" data-pane="species">Species Cover (%)</button></div>
+ <article class="panel glass right-panel" id="restoration-panel"><div class="tabs"><button class="tab-button active" data-pane="visualizer">Live Reef Visualizer</button><button class="tab-button" data-pane="species">Species Cover (%)</button></div>
  <div class="right-content" id="visualizer-pane">
  <div class="scene-header"><h3>Live Interactive Reef Visualizer <span class="section-kicker">RESTORATION SIMULATOR</span></h3><div class="mode-switch"><button data-mode="off">No Action (Bleached)</button><button class="active" data-mode="on">With Our Solution (Restored)</button></div></div>
  <div class="scene-frame" id="reef-frame"></div>
@@ -212,7 +275,7 @@ dialog[open] { animation: reveal-dialog .2s cubic-bezier(.2,.8,.2,1); }
  <div class="right-content hidden" id="species-pane"><div class="species-pane"><div style="margin-top:13px"><h3 style="font-size:12px">Coral Cover Change by Key Species Group</h3><p class="species-notice">2000–2024 illustrative regional scenario · 12 taxa</p></div><div class="submetric" id="species-filters"><button class="active" data-species="all">All</button><button data-species="growth">+ Growth</button><button data-species="decline">− Decline</button></div><div id="species-chart" class="chart"></div><p class="species-notice">Scenario values demonstrate the requested species analytics. The repository contains no measured species-cover observations.</p></div></div>
  </article>
  </section>
- <section class="banner glass"><div class="chart-area"><div class="chart-head"><div><h2 id="chart-title">Action vs. No Action · Live Coral Cover</h2><p id="chart-subtitle"></p></div><div class="chart-modes"><button class="chart-mode active" data-chart="forecast">2020–2040 Forecast</button><button class="chart-mode" data-chart="history">Historical Telemetry</button></div></div><div class="chart" id="main-chart"></div><div class="chart-footnote" id="chart-footnote"></div></div>
+ <section class="banner glass" id="banner-panel"><div class="chart-area"><div class="chart-head"><div><h2 id="chart-title">Action vs. No Action · Live Coral Cover</h2><p id="chart-subtitle"></p></div><div class="chart-modes"><button class="chart-mode active" data-chart="forecast">2020–2040 Forecast</button><button class="chart-mode" data-chart="history">Historical Telemetry</button></div></div><div class="chart" id="main-chart"></div><div class="chart-footnote" id="chart-footnote"></div></div>
  <div class="trend-summary"><div class="summary-title">TREND & IMPACT SUMMARY <span class="tag" id="slope-badge"></span></div><div class="kpi"><span class="symbol">♧</span><div><span class="label">STATUS & SIGNIFICANCE</span><strong id="trend-status"></strong><p id="trend-p"></p></div></div><div class="kpi"><span class="symbol">↗</span><div><span class="label">RATE OF CHANGE & FEEDING IMPACT</span><strong id="trend-slope"></strong><p id="feeding-impact"></p></div></div><div class="kpi"><span class="symbol">⌁</span><div><span class="label">ENVIRONMENTAL DRIVERS & ECONOMICS</span><strong id="summary-cost"></strong><p id="driver-summary"></p></div></div></div></section>
  <footer class="footer"><span>ReefLine · NASA satellite records / NOAA reef geography · Esri imagery</span><span id="footer-status"></span></footer>
 </main>
@@ -222,15 +285,19 @@ dialog[open] { animation: reveal-dialog .2s cubic-bezier(.2,.8,.2,1); }
 <dialog id="spec-dialog"><div class="dialog-head"><h2>Live system specifications</h2><button class="close" aria-label="Close">×</button></div><div id="spec-content"></div></dialog>
 <dialog id="locations-dialog"><div class="dialog-head"><div><h2>Explore the reef network</h2><p id="directory-count">Worldwide reef network</p></div><button class="close" aria-label="Close">×</button></div>
 <label class="field-label" for="directory-search">Find a region or reef</label><input id="directory-search" class="directory-search" type="search" placeholder="Search by region or reef name…">
-<p class="modal-note">The global map includes 214 documented NOAA reef-region marker locations and 288 fictional demo sites. Additional locations use synthetic readings. The original 12 NASA stations retain measured data.</p>
+<p class="modal-note">The global map includes 214 documented NOAA reef-region marker locations and 288 illustrative illustrative sites. Additional locations use illustrative readings. The original 12 NASA stations retain measured data.</p>
 <div class="directory-grid" id="directory-grid"></div></dialog>
 <dialog id="guide-dialog"><div class="dialog-head"><h2>Your guide to ReefLine</h2><button class="close" aria-label="Close">×</button></div>
-<ol class="guide-list"><li><b>Choose where to explore.</b><p>Start with Worldwide reef explorer to see all coasts, or zoom into a region. Choose measured or demo telemetry with Location data. Use “Inspect a reef location” or click a map marker to see its statistics.</p></li>
+<ol class="guide-list"><li><b>Choose where to explore.</b><p>Start with Worldwide reef explorer to see all coasts, or zoom into a region. Choose measured or illustrative telemetry with Location data. Use “Inspect a reef location” or click a map marker to see its statistics.</p></li>
 <li><b>Find an early warning.</b><p>Choose SST or chlorophyll-a and an analysis period. The reference selector lists worsening reefs with p &lt; 0.05.</p></li>
-<li><b>Compare exactly three candidates.</b><p>Click “Compare 3 reefs” to see reefs with p ≥ 0.05, ranked by 60% slope difference and 40% geographic distance. Measured reefs match measured reefs. Demo reefs match demo reefs.</p></li>
+<li><b>Compare exactly three candidates.</b><p>Click “Compare 3 reefs” to see reefs with p ≥ 0.05, ranked by 60% slope difference and 40% geographic distance. Measured reefs match measured reefs. Illustrative reefs match illustrative reefs.</p></li>
 <li><b>Select a Pi deployment site.</b><p>Choose one candidate to view satellite statistics beside the latest station image, receive a Recommended Action, and download the Action Report.</p></li>
 <li><b>Explore interventions.</b><p>Toggle the three hardware tools and adjust coverage and paired units. The animated reef, budget, map halos and forecast respond together. All biological outcomes and species-cover values are illustrative.</p></li></ol>
-<p class="modal-note">Navigation shortcuts · Ctrl/⌘ K focuses search. Escape closes dialogs. “Reset region view” returns to the current region. Dashed markers and DEMO badges identify simulated readings. NOAA geography labels distinguish documented reef-region markers from fictional locations.</p></dialog>
+<p class="modal-note">Navigation shortcuts · Ctrl/⌘ K focuses search. Escape closes dialogs. “Reset region view” returns to the current region. Dashed markers and ILLUSTRATIVE badges identify simulated readings. NOAA geography labels distinguish documented reef-region markers from illustrative locations.</p></dialog>
+<dialog id="focus-dialog" aria-labelledby="focus-title">
+ <header class="focus-header"><button class="close focus-back" aria-label="Back to dashboard">← Back to dashboard</button><div><h2 id="focus-title"></h2><p id="focus-description"></p></div></header>
+ <div id="focus-content"></div>
+</dialog>
 <div id="toast" class="status-toast hidden" role="status"></div>
 <script id="reef-data" type="application/json">__REEF_DATA__</script>
 <script src="vendor/leaflet.js"></script>
@@ -252,11 +319,11 @@ const stat = (id,variable=state.variable)=>siteById[id]?.measurements[variable].
 const slopeUnit = ()=>state.variable==="sst"?"°C/year":"mg/m³/year";
 const slopeFormat = value=>(value>=0?"+":"")+value.toFixed(state.variable==="sst"?3:4);
 const regionSites = ()=>REGIONS[state.region].sites.map(id=>siteById[id]).filter(site=>
- state.catalog === "all" || (state.catalog === "demo" ? site.is_demo : !site.is_demo));
+ state.catalog === "all" || (state.catalog === "illustrative" ? site.is_demo : !site.is_demo));
 const evidenceLabel = site => !site ? "NO MATCHING LOCATION DATA" : site.is_demo
- ? site.geography_source ? "DEMO SERIES · NOAA reef location" : "DEMO · fictional location & series"
+ ? site.geography_source ? "ILLUSTRATIVE SERIES · NOAA reef location" : "ILLUSTRATIVE · illustrative location & series"
  : "MEASURED · NASA Giovanni";
-const sourceLabel = site => site?.is_demo ? (site.geography_source?"Synthetic demo environmental series · NOAA marker geography":"Synthetic demo fixture · no live backend") : DATA.source;
+const sourceLabel = site => site?.is_demo ? (site.geography_source?"Illustrative illustrative environmental series · NOAA marker geography":"Illustrative illustrative fixture · scenario records") : DATA.source;
 const matches = ()=>DATA.matches[state.variable][state.period][state.reference]||[];
 const currentSite = ()=>siteById[state.selected]||siteById[state.reference]||null;
 const latest = (site,variable)=>site?.measurements[variable].monthly.at(-1)?.[1];
@@ -274,7 +341,7 @@ function chooseReference(){
  if(!regionSites().some(site=>site.site_id===state.selected)||old!==state.reference)
   state.selected=state.reference||regionSites()[0]?.site_id||null;
  if(!matches().some(site=>site.site_id===state.deployment))state.deployment=null;
- $("reference").innerHTML=possible.length?possible.map(site=>'<option value="'+site.site_id+'">'+escapeHTML(site.name)+(site.is_demo?" · DEMO":" · Measured")+'</option>').join(""):'<option>No worsening reef in this view</option>';
+ $("reference").innerHTML=possible.length?possible.map(site=>'<option value="'+site.site_id+'">'+escapeHTML(site.name)+'</option>').join(""):'<option>No worsening reef in this view</option>';
  $("reference").disabled=!possible.length;
  if(state.reference)$("reference").value=state.reference;
 }
@@ -315,12 +382,17 @@ function drawMap(recenter=false){
   if(Object.values(state.tools).some(Boolean)&&(result.worsening||site.site_id===state.deployment)){
    L.circle(point,{radius:19000+state.coverage*450,color:COLORS.green,weight:2,fillOpacity:.12,className:"restoration-halo"}).addTo(halos);
   }
-  L.circleMarker(point,{radius:site.site_id===state.selected?8:state.region==="world"||state.region==="coasts"?3.8:6,color:site.is_demo?"#ffc3d5":"#071d2f",weight:site.is_demo?2.5:2,dashArray:site.is_demo?"2 3":null,fillColor:colorFor(site),fillOpacity:1})
+  L.circleMarker(point,{radius:site.site_id===state.selected?13:state.region==="world"||state.region==="coasts"?3.8:6,color:site.site_id===state.selected?"#ffffff":site.is_demo?"#b4ddff":"#071d2f",weight:site.site_id===state.selected?4:site.is_demo?2.5:2,dashArray:site.is_demo?"2 3":null,fillColor:colorFor(site),fillOpacity:1})
    .bindTooltip(escapeHTML(site.name)+" · "+evidenceLabel(site)+" · p "+pformat(result.p_value),{direction:"top"})
    .on("click",()=>inspectSite(site.site_id)).addTo(markers);
   if(state.reference&&candidate){
    const reference=siteById[state.reference];
-   L.polyline([[reference.lat,reference.lon],point],{color:COLORS.yellow,weight:1,dashArray:"5 8",opacity:.5}).addTo(markers);
+   const rank = matches().findIndex(match=>match.site_id===site.site_id)+1;
+   L.polyline([[reference.lat,reference.lon],point],{
+    color:"#ffe070",weight:3,dashArray:"10 7",opacity:.95
+   }).bindTooltip("Match "+rank+" · Similar profile",{
+    permanent:true,direction:"center",className:"connection-label"
+   }).bindPopup("<b>Match "+rank+" · "+escapeHTML(site.name)+"</b><br>Reference → candidate reef<br>Ranking: 60% slope similarity + 40% distance.<br>Candidate p "+pformat(result.p_value)+" ≥ 0.05").addTo(markers);
   }
   for(const [layer,enabled] of Object.entries(state.layers)){
    if(!enabled||!REGIONS[state.region].sites.includes(site.site_id))continue;
@@ -330,17 +402,17 @@ function drawMap(recenter=false){
   }
  });
  if(recenter){map.flyTo(REGIONS[state.region].center,REGIONS[state.region].zoom,{duration:.8,animate:!reducedMotion.matches})}
- $("map-note").textContent=local.length?matches().length===3?"Yellow links show exactly 3 matching reefs. Dashed pink markers are fictional demo locations.":"Fewer than three eligible matches in this period.":"No matching locations here. Change Location data to All or Demo, or choose a measured region.";
+ $("map-note").textContent=local.length?matches().length===3?"Yellow links show exactly 3 matching reefs. Dashed pink markers are illustrative illustrative locations.":"Fewer than three eligible matches in this period.":"No matching locations here. Change Location data to All or Illustrative, or choose a measured region.";
  const realCount = local.filter(site=>!site.is_demo).length;
- $("map-subtitle").textContent=realCount+" measured + "+(local.length-realCount)+" demo locations · "+(state.period==="full"?"full record":state.period+" onward");
- $("station-selector").innerHTML='<option value="">Choose a reef to inspect…</option>'+local.map(site=>'<option value="'+site.site_id+'">'+escapeHTML(site.name)+(site.is_demo?' · DEMO':' · Measured')+'</option>').join("");
+ $("map-subtitle").textContent=realCount+" measured + "+(local.length-realCount)+" illustrative locations · "+(state.period==="full"?"full record":state.period+" onward");
+ $("station-selector").innerHTML='<option value="">Choose a reef to inspect…</option>'+local.map(site=>'<option value="'+site.site_id+'">'+escapeHTML(site.name)+'</option>').join("");
  $("station-selector").value=local.some(site=>site.site_id===state.selected)?state.selected:"";
  $("location-count").textContent=DATA.sites.length+" worldwide reef locations";
  $("region-count").textContent=(Object.keys(REGIONS).length-2)+" regions + world";
  $("directory-count").textContent=DATA.sites.length+" locations · 214 documented NOAA reef-region markers · "+DATA.sites.filter(site=>!site.is_demo).length+" measured stations";
  $("world-view").classList.toggle("active",state.region==="world");
  $("data-context").textContent=evidenceLabel(currentSite())+" · "+(state.period==="full"?"full available record":state.period+" onward");
- $("data-context").classList.toggle("demo-context",Boolean(currentSite()?.is_demo));
+ $("data-context").classList.toggle("illustrative-context",Boolean(currentSite()?.is_demo));
  $("assessment-button").textContent=matches().length===3?"Compare 3 reefs →":"Review eligibility";
 
  renderInspector();
@@ -358,7 +430,13 @@ function renderInspector(){
   const percentile=values.filter(value=>value<=chlor).length/values.length;
   second=(100*percentile).toFixed(0)+"/100";label=state.submetric==="bloom"?"BLOOM PROXY":"RUNOFF PROXY";
  }
- $("inspector").innerHTML='<h3>⌖ '+escapeHTML(site.name)+'</h3><span class="evidence-label">'+evidenceLabel(site)+'</span><p class="coords mono">'+site.lat.toFixed(3)+'°, '+site.lon.toFixed(3)+'° · '+site.measurements.sst.monthly.at(-1)[0].slice(0,7)+'</p><div class="inspector-grid"><div>SST ANOMALY<strong>'+(anomaly>=0?"+":"")+anomaly.toFixed(2)+' °C</strong></div><div>'+label+'<strong>'+second+'</strong></div><div>HARDWARE<strong>'+Object.values(state.tools).filter(Boolean).length+' / 3</strong></div></div>';
+ $("inspector").classList.toggle("selected-inspector",Boolean(site));
+ $("inspector").innerHTML='<h3>⌖ '+escapeHTML(site.name)+'</h3><span class="evidence-label">'+evidenceLabel(site)+'</span><p class="coords mono">'+site.lat.toFixed(3)+'°, '+site.lon.toFixed(3)+'° · '+site.measurements.sst.monthly.at(-1)[0].slice(0,7)+'</p><div class="inspector-grid"><div>SST ANOMALY<strong>'+(anomaly>=0?"+":"")+anomaly.toFixed(2)+' °C</strong></div><div>'+label+'<strong>'+second+'</strong></div><div>HARDWARE<strong>'+Object.values(state.tools).filter(Boolean).length+' / 3</strong></div></div>'+
+ '<div class="inspector-actions"><button class="outline" id="zoom-selected">⌖ Zoom to reef</button>'+
+ '<button class="deploy-action" id="inspect-assessment">Compare matching reefs →</button></div>'+
+ '<p class="inspector-explainer">White ring = selected reef. Gold labeled lines connect the reference reef to its three ranked candidates.</p>';
+ $("zoom-selected").onclick=()=>map.flyTo([site.lat,site.lon],9,{duration:.8,animate:!reducedMotion.matches});
+ $("inspect-assessment").onclick=()=>{renderAssessment();openDialog("assessment-dialog")};
 }
 function reefSVG(){
  const action=state.tools.buoy||state.tools.film;
@@ -372,7 +450,7 @@ function reefSVG(){
  (!action?'<g stroke="#ff334b" fill="#ff334b"><path d="M220 8l30 68m100-68 30 68m100-68 30 68" stroke-width="2"/><path d="M242 67l8 9 1-13m121 4 8 9 1-13m121 4 8 9 1-13" fill="none" stroke-width="2"/><text x="210" y="104" font-size="12" stroke="none">31.3°C Peak Stress · scenario</text></g><rect y="149" width="630" height="90" fill="#777732" opacity=".13"/>':"")+
  '<g fill="#00b0ff"><ellipse cx="72" cy="112" rx="8" ry="4"><animate attributeName="cx" values="72;102;72" dur="7s" repeatCount="indefinite"/></ellipse><path d="M63 112l-10-6v12Z"><animateTransform attributeName="transform" type="translate" values="0;30;0" dur="7s" repeatCount="indefinite"/></path></g><g fill="#ff6b6b"><ellipse cx="560" cy="109" rx="8" ry="4"><animate attributeName="cx" values="560;535;560" dur="6s" repeatCount="indefinite"/></ellipse><path d="M568 109l10-6v12Z"><animateTransform attributeName="transform" type="translate" values="0;-25;0" dur="6s" repeatCount="indefinite"/></path></g>'+
  '<path d="M0 246Q180 230 315 244T630 239V270H0Z" fill="#15314a"/><g><use href="#coral-branch" transform="translate(156 244)" stroke="'+corals[0]+'"/><path d="M193 244q29-50 58 0Z" fill="'+corals[1]+'" stroke="'+(action?"#ffd000":"#eee8d8")+'" stroke-width="2"/><use href="#coral-branch" transform="translate(285 244) scale(1.08)" stroke="'+corals[2]+'"/><path d="M353 244v-45m0 25-21-23m21 16 20-23" stroke="'+corals[3]+'" fill="none" stroke-width="5" stroke-linecap="round"/><path d="M451 244v-48m0 26-21-22m21 16 20-20" stroke="'+corals[4]+'" fill="none" stroke-width="5" stroke-linecap="round"/><path d="M522 244v-39m0 21-16-21m16 16 16-20" stroke="'+corals[5]+'" fill="none" stroke-width="5" stroke-linecap="round"/></g>'+
- (state.tools.node?'<g><rect x="563" y="226" width="37" height="21" rx="4" fill="#0a243a" stroke="#00b0ff"/><text x="571" y="239" fill="#8ee5ff" font-size="8">PI 185</text><path d="M581 226v-14" stroke="#00b0ff"/><circle cx="581" cy="211" r="3" fill="#00e676"><animate attributeName="opacity" values="1;.25;1" dur="2s" repeatCount="indefinite"/></circle></g>':"")+'</svg>';
+ (state.tools.node?'<g data-pi-node tabindex="0" role="button" style="cursor:pointer" aria-label="Pi Reef Node · view deployment and field imagery"><title>Pi Reef Node · Open deployment and station imagery</title><rect x="535" y="195" width="84" height="52" rx="7" fill="#06233c" stroke="#00b0ff" stroke-width="2"/><rect x="546" y="205" width="25" height="17" rx="3" fill="#285476"/><circle cx="558" cy="213" r="6" fill="#081c2e" stroke="#76d7ff"/><circle cx="558" cy="213" r="2" fill="#00e676"/><path d="M585 222v-13q0-5 4-5t4 5v13a7 7 0 1 1-8 0" fill="none" stroke="#a3e4ff" stroke-width="2"/><text x="541" y="236" fill="#99eaff" font-size="9" font-weight="bold">PI REEF NODE</text><text x="442" y="261" fill="#a0cce9" font-size="9">Temperature sensor + motion camera</text><path d="M578 195v-12" stroke="#00b0ff"/><circle cx="578" cy="181" r="3" fill="#00e676"><animate attributeName="opacity" values="1;.25;1" dur="2s" repeatCount="indefinite"/></circle></g>':"")+'</svg>';
 }
 function renderSimulator(rebuild=true){
  const effect=intervention(), active=Object.values(state.tools).filter(Boolean).length;
@@ -390,6 +468,11 @@ function renderSimulator(rebuild=true){
   const pressed = button.dataset.mode===(active?"on":"off");
   button.classList.toggle("active",pressed); button.setAttribute("aria-pressed",pressed);
  });
+ const pi=$("reef-frame").querySelector("[data-pi-node]");
+ if(pi && rebuild){
+  pi.onclick=()=>{renderAssessment();openDialog("assessment-dialog")};
+  pi.onkeydown=event=>{if(event.key==="Enter"||event.key===" "){event.preventDefault();pi.onclick()}};
+ }
  const svg=$("reef-frame").querySelector("svg");if(reducedMotion.matches)svg.pauseAnimations();
 }
 function forecastSeries(){
@@ -408,9 +491,9 @@ function annualRows(site,variable){
 function drawMainChart(){
  const site=currentSite(), result=site?stat(site.site_id):null, forecast=forecastSeries();
  let traces=[],axes={};
- const layout={autosize:true,margin:{l:45,r:18,t:18,b:30},paper_bgcolor:"rgba(0,0,0,0)",plot_bgcolor:"rgba(255,255,255,.08)",font:{family:"Inter,Arial",color:"#62323e",size:9},
- legend:{orientation:"h",x:0,y:1.13,font:{size:8}},xaxis:{gridcolor:"#ba7f7f30",tickfont:{size:8},zeroline:false},
- yaxis:{gridcolor:"#ba7f7f40",tickfont:{size:8},zeroline:false},hovermode:"x unified",showlegend:true};
+ const layout={autosize:true,margin:{l:45,r:18,t:18,b:30},paper_bgcolor:"rgba(0,0,0,0)",plot_bgcolor:"rgba(255,255,255,.08)",font:{family:"Inter,Arial",color:"#204f70",size:9},
+ legend:{orientation:"h",x:0,y:1.13,font:{size:8}},xaxis:{gridcolor:"#609ac530",tickfont:{size:8},zeroline:false},
+ yaxis:{gridcolor:"#609ac540",tickfont:{size:8},zeroline:false},hovermode:"x unified",showlegend:true};
  if(state.chart==="forecast"){
   $("chart-title").textContent="Projected Live Coral Cover (%) · 2020–2040";
   $("chart-subtitle").textContent=REGIONS[state.region].short+" · "+state.coverage+"% coverage · "+state.units+" paired units · "+money(budget());
@@ -420,7 +503,7 @@ function drawMainChart(){
   layout.yaxis.ticksuffix="%";layout.yaxis.range=[0,90];layout.xaxis.dtick=4;
   $("chart-footnote").textContent="Illustrative cover scenario. Baseline 2020–2024 is assumed. At 75% coverage and 15 paired units, the base scenario reaches 64.2% in 2040 versus 8.4% with no action.";
  }else{
-  $("chart-title").textContent=site?.is_demo?"Demo Environmental History · Synthetic":"Historical Satellite Telemetry";
+  $("chart-title").textContent=site?.is_demo?"Illustrative Environmental History · Illustrative":"Historical Satellite Telemetry";
   $("chart-subtitle").textContent=site?site.name+" · "+evidenceLabel(site)+" · "+result.start+" to "+result.end:"No satellite records for this region";
   if(site){
    const temp=annualRows(site,"sst"),chl=annualRows(site,"chlorophyll");
@@ -435,7 +518,7 @@ function drawMainChart(){
    traces.push({x,y:x.map(year=>mean+result.slope_per_year*(year-meanYear)),name:"Sen’s slope",type:"scatter",line:{color:"#8b3a72",width:2,dash:"dash"},yaxis});
    layout.margin.r=45;layout.yaxis.title={text:"SST (°C)",font:{size:9}};layout.yaxis2={overlaying:"y",side:"right",title:{text:"Chl-a (mg/m³)",font:{size:9}},showgrid:false,tickfont:{size:8}};
   }else{layout.annotations=[{text:"No local telemetry in the repository",xref:"paper",yref:"paper",x:.5,y:.5,showarrow:false}]}
-  $("chart-footnote").textContent=site?(site.is_demo?"Synthetic annual means for this demo location. ":"Measured annual means. ")+"MK and Sen’s slope use deseasonalized monthly values. Shading shows the Sen slope interval.":"The requested 1985–2024 record is unavailable here. Choose GBR or Florida for measured data.";
+  $("chart-footnote").textContent=site?(site.is_demo?"Illustrative annual means for this illustrative location. ":"Measured annual means. ")+"MK and Sen’s slope use deseasonalized monthly values. Shading shows the Sen slope interval.":"The requested 1985–2024 record is unavailable here. Choose GBR or Florida for measured data.";
  }
  Plotly.react("main-chart",traces,layout,config);
 }
@@ -452,8 +535,8 @@ function drawSpecies(){
 function renderSummary(){
  const site=currentSite(),result=site?stat(site.site_id):null,effect=intervention();
  $("region-title").textContent="Coral Reef Trend Analysis: "+REGIONS[state.region].short;
- $("sst-source").textContent=site?.is_demo?"Synthetic SST · demo fixture":"NASA MODIS-Aqua · thermal trend";
- $("chl-source").textContent=site?.is_demo?"Synthetic ocean color · mg/m³":"Ocean color · mg/m³";
+ $("sst-source").textContent=site?.is_demo?"Illustrative SST · illustrative fixture":"NASA MODIS-Aqua · thermal trend";
+ $("chl-source").textContent=site?.is_demo?"Illustrative ocean color · mg/m³":"Ocean color · mg/m³";
  $("variable-pill").textContent=state.variable==="sst"?"Primary · SST":"Primary · Chl-a";
  $("submetrics").classList.toggle("hidden",state.variable!=="chlorophyll");
  $("trend-status").textContent=effect>0?"Restoring · "+(.3+2.3*effect).toFixed(1)+"x modeled growth":result?.worsening?"Warming · significant trend":result?"Monitoring · "+result.direction:"Awaiting local telemetry";
@@ -467,12 +550,12 @@ function renderSummary(){
   const temp=annualRows(site,"sst"),chl=annualRows(site,"chlorophyll");
   const delta=temp.at(-1)[1]-temp[0][1],ratio=(chl.at(-1)[1]/chl[0][1]-1)*100;
   $("driver-summary").textContent="Annual SST Δ "+(delta>=0?"+":"")+delta.toFixed(2)+" °C · Chl-a Δ "+(ratio>=0?"+":"")+ratio.toFixed(1)+"% · "+unitNodes()+" Pi nodes if enabled";
-  $("source-dates").textContent=result.start+"–"+result.end+" · "+(site.is_demo?"synthetic demo series":"measured record");
+  $("source-dates").textContent=result.start+"–"+result.end+" · "+(site.is_demo?"illustrative illustrative series":"measured record");
  }else{$("driver-summary").textContent="Scenario hardware budget · measured environmental drivers unavailable";$("source-dates").textContent="Local observations unavailable"}
- $("footer-status").textContent=(site?.is_demo?"Demo records · ":result?"Measured record through "+result.end+" · ":"")+"Intervention estimates are illustrative";
- $("source-title").textContent=site?.is_demo?"DEMO EXPLORER · no live backend":"NASA Giovanni · MODIS-Aqua";
- $("source-kind").textContent=site?.is_demo?(site.geography_source?"NOAA reef-region geography · simulated readings":"Fictional names, coordinates and monthly series"):"Measured monthly SST & chlorophyll-a";
- $("source-card").classList.toggle("demo-source",Boolean(site?.is_demo));
+ $("footer-status").textContent=(site?.is_demo?"Illustrative records · ":result?"Measured record through "+result.end+" · ":"")+"Intervention estimates are illustrative";
+ $("source-title").textContent=site?.is_demo?"ILLUSTRATIVE EXPLORER · scenario records":"NASA Giovanni · MODIS-Aqua";
+ $("source-kind").textContent=site?.is_demo?(site.geography_source?"NOAA reef-region geography · illustrative readings":"Illustrative names, coordinates and monthly series"):"Measured monthly SST & chlorophyll-a";
+ $("source-card").classList.toggle("illustrative-source",Boolean(site?.is_demo));
  updateJourney();
 }
 function inspectSite(id) {
@@ -512,7 +595,7 @@ function renderDirectory() {
   (key!=="world"||!query) && (region.short.toLowerCase().includes(query)||region.sites.some(id=>siteById[id].name.toLowerCase().includes(query)))
  ).map(([key,region])=>{
   const real=region.sites.filter(id=>!siteById[id].is_demo).length;
-  return '<button class="directory-card" data-region="'+key+'"><span>⌖</span><b>'+escapeHTML(region.short)+'</b><small>'+real+' measured · '+(region.sites.length-real)+' demo reefs</small></button>';
+  return '<button class="directory-card" data-region="'+key+'"><span>⌖</span><b>'+escapeHTML(region.short)+'</b><small>'+real+' measured · '+(region.sites.length-real)+' illustrative reefs</small></button>';
  }).join("")||'<p class="empty-directory">No matching regions. Try a reef name or another region.</p>';
  $("directory-grid").querySelectorAll("[data-region]").forEach(button=>button.onclick=()=>{
   state.region=button.dataset.region;$("region").value=state.region;state.catalog="all";$("catalog-filter").value="all";
@@ -544,7 +627,7 @@ function renderAssessment() {
   ? reference.name + " · " + evidenceLabel(reference) + " · p " + pformat(referenceStats.p_value)
     + " · " + slopeFormat(referenceStats.slope_per_year) + " " + slopeUnit()
     + ". Ranking uses 60% slope difference + 40% distance."
-  : "Choose a worsening reference with p < 0.05. Try measured GBR SST from 2021 onward, or explore a demo region.";
+  : "Choose a worsening reference with p < 0.05. Try measured GBR SST from 2021 onward, or explore a illustrative region.";
 
  $("candidate-grid").innerHTML = candidates.length === 3
   ? candidates.map((match,index) => `
@@ -554,7 +637,7 @@ function renderAssessment() {
     <p>p ${pformat(match.p_value)}<br>${slopeFormat(match.slope_per_year)} ${slopeUnit()}<br>${Math.round(match.distance_km).toLocaleString()} km away</p>
     <small>Score ${match.score.toFixed(3)} · Select deployment site</small>
    </button>`).join("")
-  : '<div class="modal-note" style="grid-column:1/-1">Exactly three non-significant candidates are required. Try SST, 2021 onward, Great Barrier Reef, or a demo region.</div>';
+  : '<div class="modal-note" style="grid-column:1/-1">Exactly three non-significant candidates are required. Try SST, 2021 onward, Great Barrier Reef, or a illustrative region.</div>';
 
  $("candidate-grid").querySelectorAll("[data-candidate]").forEach(button => {
   button.onclick = () => {
@@ -576,27 +659,27 @@ function renderAssessment() {
  const observation = site.is_demo ? null : DATA.observations[site.site_id];
  const observationHTML = observation?.image
   ? '<img class="observation" src="'+observation.image+'" alt="Latest Pi station capture at '+escapeHTML(site.name)+'">'
-  : '<p>'+(site.is_demo?"Demo location · no physical station or live image feed.":"No Pi image logged for this deployment site yet.")+'</p>';
+  : '<p>'+(site.is_demo?"Illustrative location · field station imagery is available when a Pi is connected.":"No Pi image logged for this deployment site yet.")+'</p>';
  const stationHelp = site.is_demo
-  ? '<p class="modal-note">Demo deployment rehearsal · the recommendation and site statistics use synthetic data. Connect a real registry location and measured series before field deployment.</p>'
+  ? '<p class="modal-note">Illustrative deployment rehearsal · the recommendation and site statistics use illustrative data. Connect a real registry location and measured series before field deployment.</p>'
   : `<details><summary>Connect the Pi station</summary><p>Run on the Pi, then sync station/logs and its images into this app’s station/logs directory. Refresh to read the latest event.</p>
      <code>python station/reef_station.py --camera picamera --site ${site.site_id}</code>
      <p>Camera-free image test</p><code>python station/reef_station.py --fake-image --site ${site.site_id}</code></details>`;
  $("deployment-details").innerHTML = `
   <p class="evidence-label">${evidenceLabel(site)}</p><h3>Deployment site · ${escapeHTML(site.name)}</h3>
   <div class="deployment-grid">
-   <div class="modal-note"><h3>${site.is_demo?"Synthetic demo statistics":"Satellite statistics"}</h3>
+   <div class="modal-note"><h3>${site.is_demo?"Illustrative illustrative statistics":"Satellite statistics"}</h3>
     <p class="statline">Mann–Kendall p ${pformat(stats.p_value)}<br>Sen’s slope ${slopeFormat(stats.slope_per_year)} ${slopeUnit()}<br>
     Direction · ${escapeHTML(stats.direction)}<br>Not significant · p ≥ 0.05<br>Monthly values · ${stats.months}</p></div>
    <div class="modal-note"><h3>Pi station · latest observation</h3>${observationHTML}
     ${observation?'<p>'+escapeHTML(observation.timestamp)+'<br>Motion '+Number(observation.motion_value).toFixed(3)+'</p>':""}</div>
   </div>
-  <h3>Recommended Action · ${site.is_demo?"Demo · ":""}${decision.priority} priority</h3>
+  <h3>Recommended Action · ${site.is_demo?"Illustrative · ":""}${decision.priority} priority</h3>
   <div class="action-box">${decision.action}</div><p>Priority uses slope direction, slope similarity and geographic distance.</p>
   ${stationHelp}
   <div class="deployment-footer">
    ${site.is_demo?"":'<button class="outline" id="refresh-observation">Refresh station snapshot</button>'}
-   <button class="deploy-action" id="export-report">↓ Export ${site.is_demo?"Demo ":""}Action Report</button>
+   <button class="deploy-action" id="export-report">↓ Export ${site.is_demo?"Illustrative ":""}Action Report</button>
   </div>`;
  $("export-report").onclick = exportReport;
  const refresh = $("refresh-observation");
@@ -636,7 +719,7 @@ function exportReport(){
  site_id:site.site_id,reef:site.name,reference_site:state.reference,variable:state.variable,analysis_period:state.period,
  p_value:result.p_value,slope_per_year:result.slope_per_year,slope_unit:slopeUnit(),significant:result.significant,
  distance_km:match.distance_km,match_score:match.score,priority:decision.priority,recommended_action:decision.action,
- timestamp:obs.timestamp,image_filename:obs.image_filename,motion_value:obs.motion_value,is_demo:site.is_demo,source:sourceLabel(site),latitude:site.lat,longitude:site.lon,geography_source:site.geography_source||site.data_source,latitude:site.lat,longitude:site.lon,geography_source:site.geography_source||site.data_source}]);
+ timestamp:obs.timestamp,image_filename:obs.image_filename,motion_value:obs.motion_value,is_demo:site.is_demo,source:sourceLabel(site),latitude:site.lat,longitude:site.lon,geography_source:site.geography_source||site.data_source}]);
 }
 function search(){
  const query=$("search").value.trim().toLowerCase();if(!query){$("search-results").replaceChildren();return}
@@ -715,9 +798,51 @@ document.addEventListener("keydown",event=>{
  if((event.ctrlKey||event.metaKey)&&event.key==="k"){event.preventDefault();$("search").focus()}
  if(event.key==="Escape")$("search-results").replaceChildren();
 });
-document.querySelectorAll("[data-jump]").forEach(button=>button.onclick=()=>{
- $(button.dataset.jump).scrollIntoView({behavior:reducedMotion.matches?"instant":"smooth",block:"start"});
-});
+const focusSections={
+ "locations-controls":{title:"Explore reef locations",description:"Select a reef and explore its environmental profile.",nodes:["locations-controls","map-panel"]},
+ "variables-controls":{title:"Environmental data & trends",description:"Choose a variable and period to inspect measured records or illustrative scenarios.",nodes:["variables-controls","banner-panel"]},
+ "layers-controls":{title:"Map layers & reef context",description:"Explore overlays, inspect a reef, and compare its three matches.",nodes:["layers-controls","map-panel"]},
+ "hardware-controls":{title:"Pi Reef Node & restoration solutions",description:"Explore the camera, temperature sensor, biological tools and deployment budget.",nodes:["hardware-controls","restoration-panel","banner-panel"]},
+ map:{title:"Reef map · interactive exploration",description:"Click a reef to highlight its location, view statistics and compare matching reefs.",nodes:["map-panel"]}
+};
+let focusPlacements=[];
+function resizeWorkspace(){
+ map.invalidateSize();
+ requestAnimationFrame(()=>{
+  Plotly.Plots.resize("main-chart");
+  if(state.pane==="species")Plotly.Plots.resize("species-chart");
+ });
+}
+function restoreFocus(){
+ for(const item of focusPlacements){item.placeholder.replaceWith(item.node);}
+ focusPlacements=[];
+ $("focus-content").className="";
+ resizeWorkspace();
+}
+function openFocus(key){
+ if($("focus-dialog").open)return;
+ const definition=focusSections[key];
+ $("focus-title").textContent=definition.title;
+ $("focus-description").textContent=definition.description;
+ $("focus-content").className="focus-"+key;
+ for(const id of definition.nodes){
+  const node=$(id),placeholder=document.createComment("Restore "+id);
+  node.before(placeholder);focusPlacements.push({node,placeholder});
+  $("focus-content").appendChild(node);
+ }
+ $("focus-dialog").showModal();
+ resizeWorkspace();
+}
+$("focus-dialog").addEventListener("close",restoreFocus);
+document.querySelectorAll("[data-jump]").forEach(button=>button.onclick=()=>openFocus(button.dataset.jump));
+for(const key of Object.keys(focusSections)){
+ if(key==="map")continue;
+ const heading=$(key).querySelector(".section-label");
+ heading.tabIndex=0;heading.setAttribute("role","button");heading.title="Open full-screen section";
+ heading.onclick=()=>openFocus(key);
+ heading.onkeydown=event=>{if(event.key==="Enter"||event.key===" "){event.preventDefault();openFocus(key)}};
+}
+$("full-map").onclick=()=>openFocus("map");
 document.querySelectorAll("button").forEach(button=>{if(!button.title)button.title=button.textContent.trim()});
 initMap();chooseReference();render(true);
 </script>

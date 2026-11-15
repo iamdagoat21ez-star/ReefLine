@@ -38,7 +38,7 @@ Static snapshots exclude local Pi camera records. The Streamlit application read
 
 ## Location explorer
 
-The catalog includes 514 locations in 36 regional views plus worldwide views: the original 12 NASA stations, 288 fictional demo reefs and 214 documented NOAA reef-region markers with demo environmental series. Fictional location names, coordinates and monthly series are generated deterministically by satellite/demo.py. NOAA reef-region names and coordinates retain their documented geography source. They are labeled in the map, inspector, historical chart, deployment view and CSV exports. The Location data filter switches between all, measured-only and demo-only views.
+The catalog includes 514 locations in 36 regional views plus worldwide views: the original 12 NASA stations, 288 fictional demo reefs and 214 documented NOAA reef-region markers with demo environmental series. Fictional location names, coordinates and monthly series are generated deterministically by satellite/demo.py. NOAA reef-region names and coordinates retain their documented geography source. They are labeled in the map, inspector, historical chart, deployment view and CSV exports. The unified location dropdown combines all sites, while the inspector, charts and reports identify measured records and illustrative scenarios.
 
 Both evidence types use the same Mann–Kendall, Sen slope and candidate-ranking pipeline. Matching pools remain separate, so measured NASA references receive measured candidates. Demo locations support deployment rehearsal without claiming a live station connection.
 
@@ -52,3 +52,12 @@ The map opens in Worldwide reef explorer, displaying 514 locations across all oc
 An additional 214 named coastal reef-region markers use NOAA Coral Reef Watch's published geography, stored in data/reef_coasts.json with its source URL. These are regional markers rather than exact reef boundaries or deployed hardware. Their environmental series are synthetic demo fixtures, labeled separately from the 12 measured NASA stations and 288 fictional demo locations. Search supports coastal names such as Belize, Galapagos, Abrolhos Reefs, Puerto Rico and Seychelles.
 
 The sidebar fades from ice blue at the top to deep navy at the bottom. Light control cards keep labels legible at every scroll position.
+
+
+## Full-screen section workspaces
+
+Click a sidebar section heading or its navigation shortcut to open a full-screen workspace. Locations and Layers expand alongside the map; Data expands with the trend charts; Hardware expands with the restoration scene, Pi module and budget. A back arrow or Escape returns the existing controls to the dashboard without losing state.
+
+The expanded map highlights the selected reef with a large white ring and a larger inspector. Gold connections carry match-number labels explaining trend similarity and geographic proximity. The Pi module is keyboard-accessible and opens the deployment/image workflow. The lower chart panel uses sky-blue surfaces.
+
+The UI uses “Illustrative scenario” terminology for generated readings. It continues to attribute measured records to NASA Giovanni and does not claim a live NASA feed.
