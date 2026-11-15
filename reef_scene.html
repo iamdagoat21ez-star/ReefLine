@@ -1,23 +1,54 @@
-<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<style>
-*{box-sizing:border-box}body{margin:0;font:14px system-ui;color:#cbd8e4;background:transparent}
-.scene{position:relative;container-type:inline-size;aspect-ratio:822/343;background:var(--art) center/100% 100% no-repeat;border-radius:1.5cqw;overflow:hidden}
-button{cursor:pointer;font:700 1.25cqw system-ui;border:0;background:transparent;color:transparent;position:absolute;z-index:2;border-radius:.8cqw}
-button:focus-visible{outline:2px solid #fff;outline-offset:-2px}
-#off,#on{top:6.7%;height:7.5%}#off{left:63.8%;width:14.4%}#on{left:78.5%;width:18.8%}
-.off #off{color:#141b2b;background:#ff5767}.off #on{color:#00de91;background:#101d30}
-#spec{right:2.4%;bottom:4.8%;width:15%;height:9%}
-.off .ocean{position:absolute;left:21.3%;width:57.4%;top:18.65%;height:63.15%;background:#091e35}
-.off .ocean::after{content:"";position:absolute;inset:0;background:var(--art) 48.8% 50.6%/174.15% 158.4%;filter:grayscale(1) brightness(1.6);clip-path:polygon(0 88%,18% 86%,20% 65%,29% 61%,30% 86%,39% 78%,43% 88%,40% 61%,50% 60%,51% 86%,52% 68%,61% 67%,62% 88%,68% 88%,68% 68%,78% 68%,78% 88%,82% 88%,82% 71%,89% 71%,89% 88%,100% 87%,100% 100%,0 100%)}
-.off .status{position:absolute;bottom:5.3%;left:2.4%;width:73%;height:9%;background:#032426;color:#ffb5bf;display:flex;align-items:center;padding-left:1.4%;font-size:1.45cqw;font-weight:bold}
-.specs{margin:0;padding:14px 18px;background:#0b2034;border:1px solid #18506a;border-radius:8px}.specs p{margin:.3em 0}.sr{position:absolute;clip-path:inset(50%);width:1px;height:1px;overflow:hidden}
-</style><main>
-<section class="scene" aria-label="Live Interactive Reef Visualizer" style="--art:url('data:image/png;base64,REEF_PNG')">
-<h2 class="sr">Live Interactive Reef Visualizer</h2><button id="off" aria-pressed="false">No Action (Bleached)</button><button id="on" aria-pressed="true">With Solutions (Restored)</button><div class="ocean"></div><div class="status" aria-live="polite"></div><button id="spec" aria-expanded="false" aria-controls="specs">System Specs →</button></section>
-<section id="specs" class="specs" hidden><strong>System Specs</strong><p>Dusk Light Buoy · Surface light directed toward the reef at dusk.</p><p>Bio-Shield Film · Floating surface layer in the restoration scenario.</p><small>Feeding and UV figures are assumptions from the illustrated scenario.</small></section></main>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Live Interactive Reef Visualizer</title><style>
+*{box-sizing:border-box}body{margin:0;background:#08182b;color:white;font:14px Arial,sans-serif}main{max-width:1120px;margin:auto;padding:clamp(12px,2vw,22px);border:1px solid #26394a;border-radius:14px;background:#07182a}header,footer,.modes{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}h1{font-size:clamp(16px,2vw,21px);margin:0}header p{margin:4px 0;color:#a3b4c6}.modes{background:#101d30;border:1px solid #344458;border-radius:9px;padding:4px;gap:3px}button,summary{cursor:pointer;font:700 12px Arial}button{border:0;border-radius:6px;padding:8px;color:#ff536c;background:transparent}button:last-child{color:#00df91}button[aria-pressed=true]{background:#ff596b;color:#101929}button:last-child[aria-pressed=true]{background:#00df91;color:#041e1a}button:focus-visible,summary:focus-visible{outline:2px solid white}canvas{display:block;margin:12px 0;width:100%;aspect-ratio:788/218;border-radius:12px;background:#0b2138}footer{padding:10px 12px;border:1px solid #006349;border-radius:8px;background:#032526;color:#00e99a;font-size:13px;font-weight:700}summary{color:#ffd000;list-style:none}details{margin-left:auto}details[open]{width:100%}details p{font-weight:400;color:#d0dde6}.off footer{color:#ffabb7;background:#2c1e2b}.error{color:#ffadb2}@media(max-width:520px){canvas{aspect-ratio:472/218}.modes{margin-top:5px}}
+</style></head><body><main><header><div><h1>Live Interactive Reef Visualizer</h1><p>Surface Dusk Light Buoy directs front beam down to bottom reef</p></div><div class="modes" role="group" aria-label="Reef scenario"><button aria-pressed="false">No Action (Bleached)</button><button aria-pressed="true">With Solutions (Restored)</button></div></header>
+<canvas aria-label="Animated underwater reef, buoy, beam and floating film" role="img"></canvas><footer><span aria-live="polite"></span><details><summary>System Specs →</summary><p><b>Dusk Light Buoy</b> · The surface buoy directs light down toward the reef. Moving particles represent plankton in the beam.</p><p><b>Bio-Shield Film</b> · The floating strip represents localized surface coverage. The feeding and UV figures are illustrative scenario assumptions.</p></details></footer></main>
 <script>
-const scene=document.querySelector('.scene'),off=document.querySelector('#off'),on=document.querySelector('#on'),spec=document.querySelector('#spec'),specs=document.querySelector('#specs');
-function select(bleached){scene.classList.toggle('off',bleached);off.setAttribute('aria-pressed',bleached);on.setAttribute('aria-pressed',!bleached);document.querySelector('.status').textContent=bleached?'○  No Action · Bleached reef':''}
-off.onclick=()=>select(true);on.onclick=()=>select(false);
-spec.onclick=()=>{specs.hidden=!specs.hidden;spec.setAttribute('aria-expanded',!specs.hidden)};
-</script></html>
+const canvas=document.querySelector('canvas'), ctx=canvas.getContext('2d'), art=new Image();
+const buttons=[...document.querySelectorAll('button')], statusLine=document.querySelector('[aria-live]');
+let restored=true, frame=0;
+const reduced=matchMedia('(prefers-reduced-motion: reduce)');
+function select(value){
+ restored=value;document.body.classList.toggle('off',!value);
+ buttons.forEach((button,i)=>button.setAttribute('aria-pressed',String(Boolean(i)===value)));
+ statusLine.textContent=value?'✓  Dusk Light Buoy + Bio-Shield Active: 2.6x Zooplankton Feeding & UV Shield':'○  No Action · Bleached reef, buoy and film inactive';
+ draw(performance.now());
+}
+buttons[0].onclick=()=>select(false);buttons[1].onclick=()=>select(true);
+function draw(now){
+ cancelAnimationFrame(frame);if(!art.naturalWidth)return;
+ const mobile=canvas.clientWidth<=490,w=mobile?472:788,left=mobile?158:0;
+ const scale=devicePixelRatio*canvas.clientWidth/w;
+ const width=Math.max(1,Math.round(w*scale)),height=Math.max(1,Math.round(218*scale));
+ if(canvas.width!==width||canvas.height!==height){canvas.width=width;canvas.height=height}
+ ctx.setTransform(width/w,0,0,height/218,-left*width/w,0);
+ ctx.drawImage(art,17,63,788,218,0,0,788,218);
+ const t=reduced.matches?0:now/1000;
+ // Preserve the original gradients while clearing the fish at their reference positions.
+ for(const [x,y,dx] of [[188,86,1],[572,83,-1]]){
+   ctx.drawImage(art,17+x-3,63+y,1,14,x,y,25,14);
+   ctx.drawImage(art,17+x,63+y,25,14,x+dx*10*Math.sin(t*.8),y,25,14);
+ }
+ if(restored){
+   for(let i=0;i<9;i++){const phase=(t*.14+i/9)%1;ctx.fillStyle='rgba(255,211,35,.85)';ctx.beginPath();ctx.arc(315+phase*46+5*Math.sin(i*2+t),69+phase*95,1.4,0,Math.PI*2);ctx.fill()}
+ }else{
+   ctx.fillStyle='#081e35';ctx.fillRect(158,1,472,189);
+   ctx.strokeStyle='#008cc1';ctx.beginPath();ctx.moveTo(158,35);ctx.quadraticCurveTo(320,29,630,35);ctx.stroke();
+   // Draw the original reef silhouettes in pale tones, retaining their positions.
+   ctx.drawImage(bleached,158,129,472,88,158,129,472,88);
+ }
+ if(!reduced.matches)frame=requestAnimationFrame(draw);
+}
+const bleached=document.createElement('canvas');bleached.width=788;bleached.height=218;
+art.onload=()=>{
+ const b=bleached.getContext('2d');b.drawImage(art,17,63,788,218,0,0,788,218);
+ const image=b.getImageData(0,129,788,88);
+ for(let i=0;i<image.data.length;i+=4){const [r,g,blue]=image.data.subarray(i,i+3);
+ if(Math.max(r,g,blue)>120){image.data[i]=222;image.data[i+1]=220;image.data[i+2]=209}
+ else if(g>blue*.6&&g>50){image.data[i]=8;image.data[i+1]=30;image.data[i+2]=53}}
+ b.putImageData(image,0,129);select(true);
+};
+art.onerror=()=>{statusLine.textContent='Reef artwork could not be loaded.'};
+new ResizeObserver(()=>draw(performance.now())).observe(canvas);
+reduced.addEventListener('change',()=>draw(performance.now()));
+select(true);art.src='assets/restored-reef.png';
+</script></body></html>

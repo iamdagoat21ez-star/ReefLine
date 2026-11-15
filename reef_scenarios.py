@@ -6,6 +6,10 @@ import streamlit as st
 
 
 def show_scenarios():
+    assets = Path(__file__).parent
+    artwork = b64encode((assets / "assets/restored-reef.png").read_bytes()).decode("ascii")
+    scene = (assets / "reef_scene.html").read_text()
+    st.iframe(scene.replace("assets/restored-reef.png", "data:image/png;base64," + artwork), height=530, alt="Live Interactive Reef Visualizer")
     with st.container(key="projection"):
         st.subheader("Projected Live Coral Cover (%)")
         st.markdown("**With Solutions vs. No Action · 2020–2040**")
@@ -28,7 +32,3 @@ def show_scenarios():
                             xaxis=dict(dtick=2,gridcolor="#20374b"),
                             yaxis=dict(range=[0,75],ticksuffix="%",title="Live coral cover",gridcolor="#20374b"))
         st.plotly_chart(chart, theme=None, width="stretch")
-    assets = Path(__file__).parent
-    artwork = b64encode((assets / "assets/restored-reef.png").read_bytes()).decode("ascii")
-    scene = (assets / "reef_scene.html").read_text()
-    st.iframe(scene.replace("REEF_PNG", artwork), height="content", alt="Live Interactive Reef Visualizer")
