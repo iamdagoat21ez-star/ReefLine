@@ -8,6 +8,7 @@ import streamlit as st
 from scipy.stats import theilslopes
 
 from satellite import similar, trends
+from reef_scenarios import show_scenarios
 
 ROOT = Path(__file__).resolve().parent
 LOG_DIR = ROOT / "station" / "logs"
@@ -26,9 +27,14 @@ COLORS = {
 
 
 @st.cache_data(show_spinner="Running Mann–Kendall and Sen's slope on the NASA series…")
-def load_analysis(variable: str) -> pd.DataFrame:
+def load_analysis(variable: str, start: str | None) -> pd.DataFrame:
     reefs = trends.load_reefs()
-    stats = trends.analyze_all(variable)
+    rows = []
+    for site in reefs["site_id"]:
+        series = trends.load_series(site, variable).loc[start:]
+        result = trends.analyze_series(series)
+        rows.append(dict(result, site_id=site, worsening=result["significant"] and result["direction"] == "increasing"))
+    stats = pd.DataFrame(rows)
     return reefs.merge(stats, on="site_id", validate="one_to_one")
 
 
@@ -65,7 +71,7 @@ def point_status(row, match_ids) -> str:
     return "No significant trend"
 
 
-def show_latest_observation(site_id: str) -> None:
+def show_latest_observation(site_id: str) -> dict | None:
     path = LOG_DIR / "events.csv"
     if not path.exists():
         st.info("No Pi observations yet. The station has not created events.csv.")
@@ -89,10 +95,12 @@ def show_latest_observation(site_id: str) -> None:
         if not image_path.is_relative_to(LOG_DIR.resolve()):
             st.warning("The logged image path is outside the station log directory.")
         elif image_path.is_file():
-            st.image(str(image_path), caption=f"Latest observation: {latest['timestamp']}")
+            label = "Station test image" if latest["motion_value"] == 0 else "Motion capture"
+            st.image(str(image_path), caption=f"{label} · {latest['timestamp']}")
         else:
             st.info("The latest event's image is not available.")
         st.dataframe(latest[EVENT_FIELDS].to_frame().T, hide_index=True, width="stretch")
+        return latest[EVENT_FIELDS].to_dict()
     except (OSError, ValueError, pd.errors.ParserError) as exc:
         st.warning(f"Unable to read the latest Pi observation: {exc}")
 
@@ -124,6 +132,15 @@ def apply_theme() -> None:
         .risk-card h4 { margin: 0 0 0.35rem; }
         .stat-hit { color: #f6c453; font-weight: 700; }
         .stat-plain { color: #d5e2ee; }
+        .stApp {background:linear-gradient(115deg,#92b8d6 -12%,#284461 30%,#091b31 76%);}
+        section[data-testid="stSidebar"] {background:#edf6fd;border-right:1px solid #c0daea;}
+        section[data-testid="stSidebar"] :is(p,span,h3,label,small) {color:#13283f;}
+        section[data-testid="stSidebar"] [data-baseweb="select"]>div {background:white;color:#12263e;border:1px solid #9ac6e1;}
+        .st-key-hero,.st-key-reefmap,.st-key-projection,.st-key-trendpanel {background:linear-gradient(105deg,#293e55,#0a1e33 85%);border:1px solid #26516d;border-radius:17px;padding:20px;box-shadow:0 6px 20px #00183140;}
+        .st-key-hero {border-top:3px solid #ff5366;}
+        .st-key-projection {border-top:3px solid #00df92;}
+        .st-key-trendpanel {background:linear-gradient(115deg,#ffddd2,#e36c70);color:#142437;}
+        .st-key-trendpanel h3,.st-key-trendpanel [data-testid="stCaptionContainer"] p {color:#1a2334;}
         </style>
         """,
         unsafe_allow_html=True,
@@ -135,7 +152,7 @@ def map_view(frame: pd.DataFrame) -> tuple[float, float, float]:
     mid_lat = float(frame["lat"].mean())
     lon_span = max(float(frame["lon"].max() - frame["lon"].min()) * np.cos(np.radians(mid_lat)), 6)
     span = max(lat_span, lon_span) * 1.8
-    zoom = float(np.clip(np.log2(360 / span) - 0.4, 1.1, 5.2))
+    zoom = float(np.clip(np.log2(360 / span) - 0.4, 0, 5.2))
     return mid_lat, float(frame["lon"].mean()), zoom
 
 
@@ -182,7 +199,14 @@ def trend_map(frame: pd.DataFrame, selected: str | None, matches: pd.DataFrame) 
         ))
     center_lat, center_lon, zoom = map_view(frame)
     fig.update_layout(
-        map=dict(style="carto-darkmatter", center=dict(lat=center_lat, lon=center_lon), zoom=zoom),
+        map=dict(
+            style="white-bg", center=dict(lat=center_lat, lon=center_lon), zoom=zoom,
+            layers=[dict(
+                below="traces", sourcetype="raster",
+                source=["https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"],
+                sourceattribution="Imagery © Esri and its data providers",
+            )],
+        ),
         height=520,
         margin=dict(l=0, r=0, t=0, b=0),
         paper_bgcolor="#071422",
@@ -285,8 +309,8 @@ def summary_card(label: str, value: str, detail: str, accent: str) -> None:
 def main() -> None:
     st.set_page_config(page_title="Reefline", layout="wide")
     apply_theme()
-    st.sidebar.markdown("### Reefline")
-    st.sidebar.caption("Satellite data tool")
+    st.sidebar.markdown("### Coral Reef Trend Analysis")
+    st.sidebar.caption("●  ReefLine · Satellite Data Tool")
 
     try:
         reefs = trends.load_reefs()
@@ -299,6 +323,9 @@ def main() -> None:
     variable = st.sidebar.selectbox(
         "2. Select variable", list(VARIABLES), format_func=lambda key: VARIABLES[key]["label"]
     )
+    periods = {"2016 onward": "2016", "2021 onward": "2021", "Full record": None}
+    period = st.sidebar.selectbox("Analysis period", list(periods))
+    start = periods[period]
     st.sidebar.markdown("**3. Trend options**")
     show_significant = st.sidebar.checkbox("Statistically significant trends (p < 0.05)", value=True)
     show_early = st.sidebar.checkbox("Show early-detection matches", value=True)
@@ -309,7 +336,7 @@ def main() -> None:
     )
 
     try:
-        table = load_analysis(variable)
+        table = load_analysis(variable, start)
     except (OSError, ValueError, KeyError) as exc:
         st.error(f"Unable to load reef trends: {exc}")
         return
@@ -334,7 +361,7 @@ def main() -> None:
             matches = similar.rank_candidates(reference, variable, trends=table)
         except (OSError, ValueError, KeyError) as exc:
             st.error(f"Unable to rank early-detection reefs: {exc}")
-    shown_matches = matches.head(3)
+    shown_matches = matches.head(3) if len(matches) >= 3 else matches.iloc[:0]
     match_ids = set(shown_matches["site_id"]) if show_early else set()
 
     mapped = table.copy()
@@ -350,69 +377,77 @@ def main() -> None:
         mapped = mapped.loc[mapped["status"] != "Early-detection match"]
 
     title_region = "Global reefs" if region == "All regions" else region
-    header, updated = st.columns([3, 1])
-    with header:
-        st.markdown(f'<p class="dashboard-title">{title_region} coral reef trend analysis</p>', unsafe_allow_html=True)
-        st.markdown(
-            '<p class="dashboard-sub">Satellite trends for a reef that is already worsening, and the reefs at risk of following it.</p>',
-            unsafe_allow_html=True,
-        )
-    if reference:
-        series = trends.load_series(reference, variable)
-        updated.markdown(
-            f'<div class="updated-pill">Data through {series.index.max():%b %Y}</div>',
-            unsafe_allow_html=True,
-        )
-    else:
-        updated.markdown('<div class="updated-pill">NASA Giovanni MODIS-Aqua</div>', unsafe_allow_html=True)
+    with st.container(key="hero"):
+        header, updated = st.columns([3, 1])
+        with header:
+            st.markdown(f'<p class="dashboard-title">{title_region} coral reef trend analysis</p>', unsafe_allow_html=True)
+            st.markdown(
+                '<p class="dashboard-sub">Satellite trends for a reef that is already worsening, and the reefs at risk of following it.</p>',
+                unsafe_allow_html=True,
+            )
+        if reference:
+            series = trends.load_series(reference, variable).loc[start:]
+            updated.markdown(
+                f'<div class="updated-pill">Data through {series.index.max():%b %Y}</div>',
+                unsafe_allow_html=True,
+            )
+        else:
+            updated.markdown('<div class="updated-pill">NASA Giovanni MODIS-Aqua</div>', unsafe_allow_html=True)
 
-    if mapped.empty:
-        st.info("No reefs to map with the current filters.")
-    else:
-        st.plotly_chart(trend_map(mapped, reference, shown_matches if show_early else shown_matches.iloc[0:0]), width="stretch")
-    st.markdown(
-        """
-        <div class="map-legend">
-            <span style="color:#D7263D">● Significant worsening (p &lt; 0.05)</span>
-            <span style="color:#F0A202">● At-risk match, not yet significant</span>
-            <span style="color:#2E9B4A">● No significant trend</span>
-            <span style="color:#F0A202">- - Link to an at-risk reef</span>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
+    with st.container(key="reefmap"):
+        st.subheader("Satellite reef map")
+        st.caption(f"{VARIABLES[variable]['label']} · {period} · NASA Giovanni, MODIS-Aqua. Hover over a reef for its measured trend.")
+        if mapped.empty:
+            st.info("No reefs to map with the current filters.")
+        else:
+            st.plotly_chart(trend_map(mapped, reference, shown_matches if show_early else shown_matches.iloc[0:0]), width="stretch")
+        st.markdown(
+            """
+            <div class="map-legend">
+                <span style="color:#D7263D">● Significant worsening (p &lt; 0.05)</span>
+                <span style="color:#F0A202">● At-risk match, not yet significant</span>
+                <span style="color:#2E9B4A">● No significant trend</span>
+                <span style="color:#4C78A8">● Significant, other direction</span>
+                <span style="color:#F0A202">- - Link to an at-risk reef</span>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+
+    show_scenarios()
 
     if reference is None:
         return
 
     row = table.set_index("site_id").loc[reference]
-    chart_col, summary_col = st.columns([1.7, 1], gap="medium")
-    with chart_col:
-        st.plotly_chart(
-            series_chart(series, float(row["slope_per_year"]), variable, names[reference]),
-            width="stretch",
-        )
-        st.caption(
-            "Annual means are shown for reading. The test itself uses every deseasonalized month. "
-            "The band is the 95% Sen's slope interval, not a new statistic."
-        )
-    with summary_col:
-        st.markdown("### Trend summary")
-        st.caption(f"{series.index.min():%Y}–{series.index.max():%Y}")
-        summary_card(
-            "Mann–Kendall p-value",
-            format_p(float(row["p_value"])),
-            "Statistically significant" if row["significant"] else "Not significant",
-            "#7ec8f0",
-        )
-        summary_card("Sen's slope", format_slope(float(row["slope_per_year"]), variable),
-                     "Rate of change per year", "#3DDC97")
-        summary_card(
-            "Trend direction",
-            direction_label(variable, row["direction"], bool(row["significant"])),
-            f"{len(series)} monthly NASA Giovanni values",
-            "#D7263D" if row["worsening"] else "#9fb3c8",
-        )
+    with st.container(key="trendpanel"):
+        chart_col, summary_col = st.columns([1.7, 1], gap="medium")
+        with chart_col:
+            st.plotly_chart(
+                series_chart(series, float(row["slope_per_year"]), variable, names[reference]),
+                width="stretch",
+            )
+            st.caption(
+                "Annual means are shown for reading. The test itself uses every deseasonalized month. "
+                "The band is the 95% Sen's slope interval, not a new statistic."
+            )
+        with summary_col:
+            st.markdown("### Trend summary")
+            st.caption(f"{series.index.min():%Y}–{series.index.max():%Y}")
+            summary_card(
+                "Mann–Kendall p-value",
+                format_p(float(row["p_value"])),
+                "Statistically significant" if row["significant"] else "Not significant",
+                "#7ec8f0",
+            )
+            summary_card("Sen's slope", format_slope(float(row["slope_per_year"]), variable),
+                         "Rate of change per year", "#3DDC97")
+            summary_card(
+                "Trend direction",
+                direction_label(variable, row["direction"], bool(row["significant"])),
+                f"{len(series)} monthly NASA Giovanni values",
+                "#D7263D" if row["worsening"] else "#9fb3c8",
+            )
 
     if not show_early:
         return
@@ -422,15 +457,9 @@ def main() -> None:
         "Changing the worsening reef reruns the match. A reef is at risk here when it is **not yet significant** "
         "and its profile is close: **60% Sen's slope**, **40% distance**."
     )
-    if shown_matches.empty:
-        st.info("Every other reef is already significant, so there is no at-risk match.")
+    if len(shown_matches) < 3:
+        st.info(f"This analysis has {len(matches)} eligible reefs. Three are required for deployment. Try another variable or analysis period.")
         return
-    if len(matches) < 3:
-        st.caption(
-            f"Only {len(matches)} reef{'s' if len(matches) != 1 else ''} "
-            f"{'are' if len(matches) != 1 else 'is'} not yet significant for this variable, "
-            "so that is the full at-risk list."
-        )
     cards = st.columns(len(shown_matches))
     for card, (_, match) in zip(cards, shown_matches.iterrows()):
         slope_close, distance_close, reason = match_parts(match, float(row["slope_per_year"]), variable)
@@ -483,7 +512,39 @@ def main() -> None:
         st.metric("Significant (p < 0.05)", "Yes" if satellite["significant"] else "No")
     with pi_col:
         st.markdown("**Latest Pi observation**")
-        show_latest_observation(deployment)
+        observation = show_latest_observation(deployment)
+        st.button("Refresh station log")
+        with st.expander("Connect the station"):
+            st.code(f"python station/reef_station.py --camera picamera --site {deployment}")
+            st.caption("Sync station/logs from the Pi to the dashboard, then refresh. For a camera-free test, run this on the dashboard computer.")
+            st.code(f"python station/reef_station.py --fake-image --site {deployment}")
+
+    match = shown_matches.set_index("site_id").loc[deployment]
+    slope_close, distance_close, _ = match_parts(match, row["slope_per_year"], variable)
+    if satellite["slope_per_year"] > 0 and slope_close:
+        priority = "Elevated"
+        action = "Prioritize a field survey within 30 days."
+    elif satellite["slope_per_year"] > 0 or distance_close:
+        priority = "Watch"
+        action = "Review station captures weekly and reassess after the next satellite update."
+    else:
+        priority = "Routine"
+        action = "Maintain monthly satellite and station monitoring."
+    st.subheader("Recommended Action")
+    st.info(f"**{priority} priority** · {action}")
+    st.caption("Prototype triage uses slope direction, slope similarity and proximity. "
+               "Motion captures provide field context. Priority is not a diagnosis of reef damage.")
+    report = {
+        "site_id": deployment, "reef": names[deployment], "reference_site": reference,
+        "reference_reef": names[reference], "variable": variable, "analysis_period": period,
+        "p_value": satellite["p_value"], "slope_per_year": satellite["slope_per_year"],
+        "slope_unit": VARIABLES[variable]["slope_unit"], "distance_km": match["distance_km"],
+        "match_score": match["score"], "priority": priority, "recommended_action": action,
+        "source": "NASA Giovanni / MODIS-Aqua",
+        **{key: (observation or {}).get(key) for key in ("timestamp", "image_filename", "motion_value")},
+    }
+    st.download_button("Export Action Report", pd.DataFrame([report]).to_csv(index=False),
+                       file_name=f"{deployment}_{variable}_action.csv", mime="text/csv")
 
 
 if __name__ == "__main__":

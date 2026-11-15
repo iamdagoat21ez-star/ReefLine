@@ -1,0 +1,23 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+*{box-sizing:border-box}body{margin:0;font:14px system-ui;color:#cbd8e4;background:transparent}
+.scene{position:relative;container-type:inline-size;aspect-ratio:822/343;background:var(--art) center/100% 100% no-repeat;border-radius:1.5cqw;overflow:hidden}
+button{cursor:pointer;font:700 1.25cqw system-ui;border:0;background:transparent;color:transparent;position:absolute;z-index:2;border-radius:.8cqw}
+button:focus-visible{outline:2px solid #fff;outline-offset:-2px}
+#off,#on{top:6.7%;height:7.5%}#off{left:63.8%;width:14.4%}#on{left:78.5%;width:18.8%}
+.off #off{color:#141b2b;background:#ff5767}.off #on{color:#00de91;background:#101d30}
+#spec{right:2.4%;bottom:4.8%;width:15%;height:9%}
+.off .ocean{position:absolute;left:21.3%;width:57.4%;top:18.65%;height:63.15%;background:#091e35}
+.off .ocean::after{content:"";position:absolute;inset:0;background:var(--art) 48.8% 50.6%/174.15% 158.4%;filter:grayscale(1) brightness(1.6);clip-path:polygon(0 88%,18% 86%,20% 65%,29% 61%,30% 86%,39% 78%,43% 88%,40% 61%,50% 60%,51% 86%,52% 68%,61% 67%,62% 88%,68% 88%,68% 68%,78% 68%,78% 88%,82% 88%,82% 71%,89% 71%,89% 88%,100% 87%,100% 100%,0 100%)}
+.off .status{position:absolute;bottom:5.3%;left:2.4%;width:73%;height:9%;background:#032426;color:#ffb5bf;display:flex;align-items:center;padding-left:1.4%;font-size:1.45cqw;font-weight:bold}
+.specs{margin:0;padding:14px 18px;background:#0b2034;border:1px solid #18506a;border-radius:8px}.specs p{margin:.3em 0}.sr{position:absolute;clip-path:inset(50%);width:1px;height:1px;overflow:hidden}
+</style><main>
+<section class="scene" aria-label="Live Interactive Reef Visualizer" style="--art:url('data:image/png;base64,REEF_PNG')">
+<h2 class="sr">Live Interactive Reef Visualizer</h2><button id="off" aria-pressed="false">No Action (Bleached)</button><button id="on" aria-pressed="true">With Solutions (Restored)</button><div class="ocean"></div><div class="status" aria-live="polite"></div><button id="spec" aria-expanded="false" aria-controls="specs">System Specs →</button></section>
+<section id="specs" class="specs" hidden><strong>System Specs</strong><p>Dusk Light Buoy · Surface light directed toward the reef at dusk.</p><p>Bio-Shield Film · Floating surface layer in the restoration scenario.</p><small>Feeding and UV figures are assumptions from the illustrated scenario.</small></section></main>
+<script>
+const scene=document.querySelector('.scene'),off=document.querySelector('#off'),on=document.querySelector('#on'),spec=document.querySelector('#spec'),specs=document.querySelector('#specs');
+function select(bleached){scene.classList.toggle('off',bleached);off.setAttribute('aria-pressed',bleached);on.setAttribute('aria-pressed',!bleached);document.querySelector('.status').textContent=bleached?'○  No Action · Bleached reef':''}
+off.onclick=()=>select(true);on.onclick=()=>select(false);
+spec.onclick=()=>{specs.hidden=!specs.hidden;spec.setAttribute('aria-expanded',!specs.hidden)};
+</script></html>
