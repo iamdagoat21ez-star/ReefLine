@@ -212,6 +212,90 @@ dialog[open] { animation: reveal-dialog .2s cubic-bezier(.2,.8,.2,1); }
 #focus-content #hardware-controls>.section-label { color:#e9f7ff; }
 #focus-content .hardware { background:#e3f2ff; color:#153754; }
 #focus-content .section-label[role="button"]::after { display:none; }
+
+/* Readable type scale and full-height scientific charts. */
+body { font-size:14px; }
+.brand h2 { font-size:17px; }
+.brand p { font-size:12px; }
+.section-label { font-size:12px; letter-spacing:.4px; }
+.field-label { font-size:12px; }
+.control-help,.source-card { font-size:11px; line-height:1.65; }
+.variable strong,.hardware strong { font-size:13px; }
+.variable small,.hardware small { font-size:11px; }
+.layer { font-size:13px; }
+.sidebar-nav button,.pill,.hardware .cost { font-size:11px; }
+select { font-size:12px; }
+.topbar h1 { font-size:clamp(20px,1.5vw,28px); }
+.topbar p { font-size:12px; }
+.panel-heading h2 { font-size:16px; }
+.panel-heading p,.section-kicker { font-size:10px; }
+.tab-button,.chart-mode { font-size:11px; font-weight:750; }
+.scene-header h3 { font-size:14px; }
+.mode-switch button { font-size:10px; }
+.scene-status,.sliders label { font-size:11px; }
+.sim-kpis small { font-size:9px; font-weight:700; }
+.sim-kpis strong { font-size:16px; }
+.workspace-journey b { font-size:12px; }
+.workspace-journey small { font-size:10px; }
+.chart-head h2 { font-size:17px; font-weight:800; cursor:zoom-in; }
+.chart-head p,.chart-footnote { font-size:11px; color:#16455d; }
+.chart-head { flex-wrap:wrap; }
+.chart-modes { flex-wrap:wrap; }
+.banner { background:linear-gradient(115deg,#a6ebfa,#68d7ef 50%,#32bfdc); border-color:#39bcd9; min-height:390px; height:39%; }
+.chart-area { background:rgba(182,243,255,.38); min-height:0; }
+.summary-title { font-size:12px; }
+.kpi .label { font-size:10px; font-weight:750; }
+.kpi strong { font-size:17px; }
+.kpi p { font-size:11px; line-height:1.5; }
+.statistics-readout { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; padding:10px 12px 3px; flex-shrink:0; }
+.statistics-readout div { background:#e7faffb8; border:1px solid #6fc6df; border-radius:8px; padding:9px; }
+.statistics-readout span { font-size:8px; font-weight:800; color:#205c77; display:block; }
+.statistics-readout strong { font-family:"JetBrains Mono",monospace; font-size:12px; color:#0a3c57; display:block; margin:5px 0; }
+.statistics-readout small { font-size:8px; color:#386c81; display:block; }
+#species-pane { min-height:0; }
+#species-pane>.species-pane { height:auto; flex:1; min-height:0; }
+#species-chart { min-height:220px; flex:1; width:100%; height:100%; }
+.species-pane h3 { font-size:17px!important; }
+.species-notice { font-size:12px; }
+#focus-content.focus-species,#focus-content.focus-statistics { display:flex; flex-direction:column; min-height:0; height:calc(100dvh - 140px); }
+#focus-content.focus-species>#restoration-panel { width:100%; height:100%; min-height:0; flex:1; padding:24px; }
+#focus-content.focus-statistics>#banner-panel { width:100%; height:100%; min-height:0; flex:1; }
+#focus-content.focus-species #species-chart { min-height:260px; }
+#focus-content.focus-statistics .statistics-readout strong { font-size:20px; }
+#focus-content.focus-statistics .statistics-readout span { font-size:11px; }
+#focus-content.focus-statistics .statistics-readout small { font-size:11px; }
+#focus-content.focus-statistics .chart-head h2 { font-size:24px; }
+#focus-content.focus-statistics .chart-mode { font-size:13px; padding:10px 12px; }
+#focus-content.focus-statistics .chart-head p { font-size:13px; }
+#focus-content .tab-button { font-size:14px; padding:10px; }
+@media(min-width:1051px){
+ .shell { height:auto; min-height:100dvh; align-items:flex-start; }
+ .sidebar { position:sticky; top:12px; max-height:calc(100dvh - 24px); }
+ .workspace { min-height:calc(100dvh - 24px); }
+ .bento { min-height:460px; flex:none; }
+ .banner { height:490px; }
+ .right-panel { min-height:460px; }
+ .sim-kpis { grid-template-columns:repeat(4,minmax(0,1fr)); }
+}
+@media(max-width:1050px){
+ .banner { min-height:720px; height:auto; }
+ .chart-area { min-height:400px; }
+ .right-panel { min-height:520px; height:auto; }
+ #focus-content.focus-statistics { height:auto; }
+ #focus-content.focus-statistics>#banner-panel { min-height:900px; }
+}
+@media(max-width:650px){
+ .statistics-readout { grid-template-columns:1fr; }
+ .statistics-readout strong { font-size:15px; }
+ .chart-area { min-height:590px; }
+ #focus-content.focus-species { height:calc(100dvh - 170px); min-height:500px; }
+ .workspace-journey b { font-size:12px; }
+}
+
+@media(max-width:1050px){
+ #focus-content.focus-statistics>#banner-panel { grid-template-rows:minmax(0,1fr) auto; }
+ #focus-content.focus-statistics .trend-summary { max-height:185px; overflow:auto; }
+}
 </style>
 </head>
 <body>
@@ -275,7 +359,7 @@ dialog[open] { animation: reveal-dialog .2s cubic-bezier(.2,.8,.2,1); }
  <div class="right-content hidden" id="species-pane"><div class="species-pane"><div style="margin-top:13px"><h3 style="font-size:12px">Coral Cover Change by Key Species Group</h3><p class="species-notice">2000–2024 illustrative regional scenario · 12 taxa</p></div><div class="submetric" id="species-filters"><button class="active" data-species="all">All</button><button data-species="growth">+ Growth</button><button data-species="decline">− Decline</button></div><div id="species-chart" class="chart"></div><p class="species-notice">Scenario values demonstrate the requested species analytics. The repository contains no measured species-cover observations.</p></div></div>
  </article>
  </section>
- <section class="banner glass" id="banner-panel"><div class="chart-area"><div class="chart-head"><div><h2 id="chart-title">Action vs. No Action · Live Coral Cover</h2><p id="chart-subtitle"></p></div><div class="chart-modes"><button class="chart-mode active" data-chart="forecast">2020–2040 Forecast</button><button class="chart-mode" data-chart="history">Historical Telemetry</button></div></div><div class="chart" id="main-chart"></div><div class="chart-footnote" id="chart-footnote"></div></div>
+ <section class="banner glass" id="banner-panel"><div class="chart-area"><div class="chart-head"><div><h2 id="chart-title">Action vs. No Action · Live Coral Cover</h2><p id="chart-subtitle"></p></div><div class="chart-modes"><button class="chart-mode" data-chart="forecast">Coral cover forecast</button><button class="chart-mode active" data-chart="history">History & Sen’s slope</button><button class="chart-mode" data-chart="significance">Mann–Kendall p-values</button></div></div><div class="statistics-readout" id="statistics-readout"></div><div class="chart" id="main-chart"></div><div class="chart-footnote" id="chart-footnote"></div></div>
  <div class="trend-summary"><div class="summary-title">TREND & IMPACT SUMMARY <span class="tag" id="slope-badge"></span></div><div class="kpi"><span class="symbol">♧</span><div><span class="label">STATUS & SIGNIFICANCE</span><strong id="trend-status"></strong><p id="trend-p"></p></div></div><div class="kpi"><span class="symbol">↗</span><div><span class="label">RATE OF CHANGE & FEEDING IMPACT</span><strong id="trend-slope"></strong><p id="feeding-impact"></p></div></div><div class="kpi"><span class="symbol">⌁</span><div><span class="label">ENVIRONMENTAL DRIVERS & ECONOMICS</span><strong id="summary-cost"></strong><p id="driver-summary"></p></div></div></div></section>
  <footer class="footer"><span>ReefLine · NASA satellite records / NOAA reef geography · Esri imagery</span><span id="footer-status"></span></footer>
 </main>
@@ -310,7 +394,7 @@ const COLORS = {red:"#ff334b", orange:"#ff7b00", yellow:"#ffd000", green:"#00e67
 const REGIONS = DATA.regions;
 const TAXA=["Acropora","Porites","Montipora","Pocillopora","Millepora","Faviidae","Goniopora","Fungia","Stylophora","Echinopora","Turbinaria","Others"];
 const state={catalog:"all",region:"world",variable:"sst",period:"2021",tools:{buoy:true,film:true,node:true},coverage:75,units:15,
- pane:"visualizer",chart:"forecast",filter:"all",species:"all",submetric:"mean",layers:{ph:false,disease:false,plumes:false},reference:null,selected:null,deployment:null};
+ pane:"visualizer",chart:"history",filter:"all",species:"all",submetric:"mean",layers:{ph:false,disease:false,plumes:false},reference:null,selected:null,deployment:null};
 const siteById = Object.fromEntries(DATA.sites.map(site=>[site.site_id,site]));
 const escapeHTML = value => String(value??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const money = value=>value.toLocaleString("en-US",{style:"currency",currency:"USD",maximumFractionDigits:0});
@@ -450,7 +534,7 @@ function reefSVG(){
  (!action?'<g stroke="#ff334b" fill="#ff334b"><path d="M220 8l30 68m100-68 30 68m100-68 30 68" stroke-width="2"/><path d="M242 67l8 9 1-13m121 4 8 9 1-13m121 4 8 9 1-13" fill="none" stroke-width="2"/><text x="210" y="104" font-size="12" stroke="none">31.3°C Peak Stress · scenario</text></g><rect y="149" width="630" height="90" fill="#777732" opacity=".13"/>':"")+
  '<g fill="#00b0ff"><ellipse cx="72" cy="112" rx="8" ry="4"><animate attributeName="cx" values="72;102;72" dur="7s" repeatCount="indefinite"/></ellipse><path d="M63 112l-10-6v12Z"><animateTransform attributeName="transform" type="translate" values="0;30;0" dur="7s" repeatCount="indefinite"/></path></g><g fill="#ff6b6b"><ellipse cx="560" cy="109" rx="8" ry="4"><animate attributeName="cx" values="560;535;560" dur="6s" repeatCount="indefinite"/></ellipse><path d="M568 109l10-6v12Z"><animateTransform attributeName="transform" type="translate" values="0;-25;0" dur="6s" repeatCount="indefinite"/></path></g>'+
  '<path d="M0 246Q180 230 315 244T630 239V270H0Z" fill="#15314a"/><g><use href="#coral-branch" transform="translate(156 244)" stroke="'+corals[0]+'"/><path d="M193 244q29-50 58 0Z" fill="'+corals[1]+'" stroke="'+(action?"#ffd000":"#eee8d8")+'" stroke-width="2"/><use href="#coral-branch" transform="translate(285 244) scale(1.08)" stroke="'+corals[2]+'"/><path d="M353 244v-45m0 25-21-23m21 16 20-23" stroke="'+corals[3]+'" fill="none" stroke-width="5" stroke-linecap="round"/><path d="M451 244v-48m0 26-21-22m21 16 20-20" stroke="'+corals[4]+'" fill="none" stroke-width="5" stroke-linecap="round"/><path d="M522 244v-39m0 21-16-21m16 16 16-20" stroke="'+corals[5]+'" fill="none" stroke-width="5" stroke-linecap="round"/></g>'+
- (state.tools.node?'<g data-pi-node tabindex="0" role="button" style="cursor:pointer" aria-label="Pi Reef Node · view deployment and field imagery"><title>Pi Reef Node · Open deployment and station imagery</title><rect x="535" y="195" width="84" height="52" rx="7" fill="#06233c" stroke="#00b0ff" stroke-width="2"/><rect x="546" y="205" width="25" height="17" rx="3" fill="#285476"/><circle cx="558" cy="213" r="6" fill="#081c2e" stroke="#76d7ff"/><circle cx="558" cy="213" r="2" fill="#00e676"/><path d="M585 222v-13q0-5 4-5t4 5v13a7 7 0 1 1-8 0" fill="none" stroke="#a3e4ff" stroke-width="2"/><text x="541" y="236" fill="#99eaff" font-size="9" font-weight="bold">PI REEF NODE</text><text x="442" y="261" fill="#a0cce9" font-size="9">Temperature sensor + motion camera</text><path d="M578 195v-12" stroke="#00b0ff"/><circle cx="578" cy="181" r="3" fill="#00e676"><animate attributeName="opacity" values="1;.25;1" dur="2s" repeatCount="indefinite"/></circle></g>':"")+'</svg>';
+ (state.tools.node?'<g transform="translate(0,-80)" data-pi-node tabindex="0" role="button" style="cursor:pointer" aria-label="Pi Reef Node · view deployment and field imagery"><title>Pi Reef Node · Open deployment and station imagery</title><rect x="535" y="195" width="84" height="52" rx="7" fill="#06233c" stroke="#00b0ff" stroke-width="2"/><rect x="546" y="205" width="25" height="17" rx="3" fill="#285476"/><circle cx="558" cy="213" r="6" fill="#081c2e" stroke="#76d7ff"/><circle cx="558" cy="213" r="2" fill="#00e676"/><path d="M585 222v-13q0-5 4-5t4 5v13a7 7 0 1 1-8 0" fill="none" stroke="#a3e4ff" stroke-width="2"/><text x="541" y="236" fill="#99eaff" font-size="9" font-weight="bold">PI REEF NODE</text><text x="442" y="261" fill="#a0cce9" font-size="9">Temperature sensor + motion camera</text><path d="M578 195v-12" stroke="#00b0ff"/><circle cx="578" cy="181" r="3" fill="#00e676"><animate attributeName="opacity" values="1;.25;1" dur="2s" repeatCount="indefinite"/></circle></g>':"")+'</svg>';
 }
 function renderSimulator(rebuild=true){
  const effect=intervention(), active=Object.values(state.tools).filter(Boolean).length;
@@ -491,9 +575,9 @@ function annualRows(site,variable){
 function drawMainChart(){
  const site=currentSite(), result=site?stat(site.site_id):null, forecast=forecastSeries();
  let traces=[],axes={};
- const layout={autosize:true,margin:{l:45,r:18,t:18,b:30},paper_bgcolor:"rgba(0,0,0,0)",plot_bgcolor:"rgba(255,255,255,.08)",font:{family:"Inter,Arial",color:"#204f70",size:9},
- legend:{orientation:"h",x:0,y:1.13,font:{size:8}},xaxis:{gridcolor:"#609ac530",tickfont:{size:8},zeroline:false},
- yaxis:{gridcolor:"#609ac540",tickfont:{size:8},zeroline:false},hovermode:"x unified",showlegend:true};
+ const layout={autosize:true,margin:{l:45,r:18,t:18,b:30},paper_bgcolor:"rgba(0,0,0,0)",plot_bgcolor:"rgba(255,255,255,.08)",font:{family:"Inter,Arial",color:"#164e68",size:12},
+ legend:{orientation:"h",x:0,y:1.17,font:{size:11}},xaxis:{gridcolor:"#609ac530",tickfont:{size:11},zeroline:false},
+ yaxis:{gridcolor:"#609ac540",tickfont:{size:11},zeroline:false},hovermode:"x unified",showlegend:true};
  if(state.chart==="forecast"){
   $("chart-title").textContent="Projected Live Coral Cover (%) · 2020–2040";
   $("chart-subtitle").textContent=REGIONS[state.region].short+" · "+state.coverage+"% coverage · "+state.units+" paired units · "+money(budget());
@@ -502,6 +586,28 @@ function drawMainChart(){
   });
   layout.yaxis.ticksuffix="%";layout.yaxis.range=[0,90];layout.xaxis.dtick=4;
   $("chart-footnote").textContent="Illustrative cover scenario. Baseline 2020–2024 is assumed. At 75% coverage and 15 paired units, the base scenario reaches 64.2% in 2040 versus 8.4% with no action.";
+ }else if(state.chart==="significance"){
+  $("chart-title").textContent="Mann–Kendall significance · p-value comparison";
+  $("chart-subtitle").textContent="Mann–Kendall p-values (dimensionless) · reference + 3 early-detection matches";
+  const ids=[...new Set([state.reference,...matches().map(row=>row.site_id)].filter(Boolean))];
+  const rows=ids.map(id=>({site:siteById[id],result:stat(id)}));
+  traces=[{
+   x:rows.map(row=>Math.max(row.result.p_value,1e-12)),
+   y:rows.map(row=>row.site.name),type:"bar",orientation:"h",
+   marker:{color:rows.map(row=>row.result.significant?COLORS.red:COLORS.blue)},
+   customdata:rows.map(row=>pformat(row.result.p_value)),
+   hovertemplate:"%{y}<br>Mann–Kendall p %{customdata}<extra></extra>",
+   text:rows.map(row=>"p "+pformat(row.result.p_value)),textposition:"auto",
+   name:"Mann–Kendall p-value"
+  }];
+  const minP=Math.min(.001,...rows.map(row=>Math.max(row.result.p_value,1e-12)));
+  layout.margin.l=25;layout.margin.r=35;
+  layout.xaxis={type:"log",dtick:1,tickformat:".0e",range:[Math.floor(Math.log10(minP))-1,.1],title:{text:"Mann–Kendall p-value · logarithmic scale"},gridcolor:"#3192b533",tickfont:{size:12}};
+  layout.yaxis={automargin:true,autorange:"reversed",tickfont:{size:13},showgrid:false};
+  layout.shapes=[{type:"line",xref:"x",yref:"paper",x0:.05,x1:.05,y0:0,y1:1,line:{color:"#d32745",width:2,dash:"dash"}}];
+  layout.annotations=[{xref:"x",yref:"paper",x:.05,y:1.08,text:"p = 0.05 significance threshold",xanchor:"right",showarrow:false,font:{size:11,color:"#8c1733"}}];
+  layout.showlegend=false;
+  $("chart-footnote").textContent="Values left of p = 0.05 are statistically significant. Red identifies the significant reference; blue identifies non-significant candidates. Values use the selected variable and period.";
  }else{
   $("chart-title").textContent=site?.is_demo?"Illustrative Environmental History · Illustrative":"Historical Satellite Telemetry";
   $("chart-subtitle").textContent=site?site.name+" · "+evidenceLabel(site)+" · "+result.start+" to "+result.end:"No satellite records for this region";
@@ -516,7 +622,7 @@ function drawMainChart(){
    traces.push({x:temp.map(row=>row[0]),y:temp.map(row=>row[1]),name:"Sea Surface Temperature",type:"scatter",line:{color:COLORS.red,width:2},yaxis:"y"});
    traces.push({x:chl.map(row=>row[0]),y:chl.map(row=>row[1]),name:"Chlorophyll-a",type:"scatter",line:{color:"#009d87",width:2},yaxis:"y2"});
    traces.push({x,y:x.map(year=>mean+result.slope_per_year*(year-meanYear)),name:"Sen’s slope",type:"scatter",line:{color:"#8b3a72",width:2,dash:"dash"},yaxis});
-   layout.margin.r=45;layout.yaxis.title={text:"SST (°C)",font:{size:9}};layout.yaxis2={overlaying:"y",side:"right",title:{text:"Chl-a (mg/m³)",font:{size:9}},showgrid:false,tickfont:{size:8}};
+   layout.margin.r=45;layout.yaxis.title={text:"SST (°C)",font:{size:11}};layout.yaxis2={overlaying:"y",side:"right",title:{text:"Chl-a (mg/m³)",font:{size:11}},showgrid:false,tickfont:{size:11}};
   }else{layout.annotations=[{text:"No local telemetry in the repository",xref:"paper",yref:"paper",x:.5,y:.5,showarrow:false}]}
   $("chart-footnote").textContent=site?(site.is_demo?"Illustrative annual means for this illustrative location. ":"Measured annual means. ")+"MK and Sen’s slope use deseasonalized monthly values. Shading shows the Sen slope interval.":"The requested 1985–2024 record is unavailable here. Choose GBR or Florida for measured data.";
  }
@@ -530,7 +636,7 @@ function drawSpecies(){
  Plotly.react("species-chart",[
  {x:filtered.map(row=>row.name),y:filtered.map(row=>row.value),type:"bar",name:"Baseline change",marker:{color:filtered.map(row=>row.value>=0?COLORS.green:COLORS.red)}},
  {x:filtered.map(row=>row.name),y:filtered.map(row=>row.projected),type:"bar",name:"With active tools",marker:{color:"rgba(0,230,118,.12)",line:{color:COLORS.green,width:1}}}
- ],{margin:{l:35,r:10,t:20,b:65},paper_bgcolor:"transparent",plot_bgcolor:"transparent",font:{family:"Inter",color:"#abc6dc",size:8},legend:{orientation:"h",y:1.13,font:{size:8}},barmode:"group",xaxis:{tickangle:-45,tickfont:{size:8}},yaxis:{ticksuffix:"%",gridcolor:"#24405a",zerolinecolor:"#406078"}},config);
+ ],{autosize:true,margin:{l:60,r:25,t:45,b:100},paper_bgcolor:"transparent",plot_bgcolor:"transparent",font:{family:"Inter",color:"#abc6dc",size:12},legend:{orientation:"h",y:1.14,font:{size:11}},barmode:"group",xaxis:{tickangle:-35,tickfont:{size:12}},yaxis:{ticksuffix:"%",gridcolor:"#24405a",zerolinecolor:"#406078"}},config);
 }
 function renderSummary(){
  const site=currentSite(),result=site?stat(site.site_id):null,effect=intervention();
@@ -543,6 +649,11 @@ function renderSummary(){
  $("trend-status").style.color=effect>0?COLORS.green:result?.worsening?COLORS.red:"#afc8d9";
  $("trend-p").textContent=result?"Mann–Kendall p "+pformat(result.p_value)+" · "+(result.significant?"Statistically significant":"Not significant")+" · "+site.name:"No local monthly observations in this region.";
  $("trend-slope").textContent=result?slopeFormat(result.slope_per_year)+" "+slopeUnit():"No measured slope";
+ $("statistics-readout").innerHTML=result
+  ? '<div><span>MANN–KENDALL P-VALUE</span><strong>'+pformat(result.p_value)+'</strong><small>'+(result.significant?'Significant · p < 0.05':'Not significant · p ≥ 0.05')+'</small></div>'+
+    '<div><span>SEN’S SLOPE</span><strong>'+slopeFormat(result.slope_per_year)+' '+slopeUnit()+'</strong><small>Deseasonalized monthly trend</small></div>'+
+    '<div><span>95% SLOPE INTERVAL</span><strong>'+slopeFormat(result.low_slope)+' to '+slopeFormat(result.high_slope)+'</strong><small>'+slopeUnit()+' · '+evidenceLabel(site)+'</small></div>'
+  : '<p>No local statistics available</p>';
  $("slope-badge").textContent=result?"95% CI "+slopeFormat(result.low_slope)+" to "+slopeFormat(result.high_slope):"No local record";
  $("feeding-impact").textContent=state.tools.buoy?"Dusk Light Buoy · 1 hr dusk zooplankton concentration":"Dusk light buoy inactive";
  $("summary-cost").textContent=money(budget())+" sector cost";
@@ -744,7 +855,7 @@ function switchPane(pane){
  state.pane=pane;$("visualizer-pane").classList.toggle("hidden",pane!=="visualizer");$("species-pane").classList.toggle("hidden",pane!=="species");
  document.querySelectorAll("[data-pane]").forEach(button=>button.classList.toggle("active",button.dataset.pane===pane));
  document.querySelectorAll("[data-pane]").forEach(button=>button.setAttribute("aria-pressed",button.dataset.pane===pane));
- if(pane==="species")drawSpecies();
+ if(pane==="species"){drawSpecies();openFocus("species")}
 }
 $("region").onchange=event=>{state.region=event.target.value;chooseRegion()};
 document.querySelectorAll('[name="variable"]').forEach(input=>input.onchange=()=>{state.variable=input.value;state.reference=null;chooseReference();render()});
@@ -802,6 +913,8 @@ const focusSections={
  "locations-controls":{title:"Explore reef locations",description:"Select a reef and explore its environmental profile.",nodes:["locations-controls","map-panel"]},
  "variables-controls":{title:"Environmental data & trends",description:"Choose a variable and period to inspect measured records or illustrative scenarios.",nodes:["variables-controls","banner-panel"]},
  "layers-controls":{title:"Map layers & reef context",description:"Explore overlays, inspect a reef, and compare its three matches.",nodes:["layers-controls","map-panel"]},
+ species:{title:"Species cover change · full-screen analytics",description:"Explore all 12 coral taxa, filter growth or decline, and compare intervention scenarios.",nodes:["restoration-panel"]},
+ statistics:{title:"Historical telemetry & statistical evidence",description:"Measured or illustrative records are labeled. Inspect Mann–Kendall significance, Sen’s slope and its 95% interval.",nodes:["banner-panel"]},
  "hardware-controls":{title:"Pi Reef Node & restoration solutions",description:"Explore the camera, temperature sensor, biological tools and deployment budget.",nodes:["hardware-controls","restoration-panel","banner-panel"]},
  map:{title:"Reef map · interactive exploration",description:"Click a reef to highlight its location, view statistics and compare matching reefs.",nodes:["map-panel"]}
 };
@@ -810,7 +923,7 @@ function resizeWorkspace(){
  map.invalidateSize();
  requestAnimationFrame(()=>{
   Plotly.Plots.resize("main-chart");
-  if(state.pane==="species")Plotly.Plots.resize("species-chart");
+  if(state.pane==="species")drawSpecies();
  });
 }
 function restoreFocus(){
@@ -820,7 +933,11 @@ function restoreFocus(){
  resizeWorkspace();
 }
 function openFocus(key){
- if($("focus-dialog").open)return;
+ if($("focus-dialog").open){
+  if($("focus-content").className==="focus-"+key)return;
+  $("focus-dialog").addEventListener("close",()=>openFocus(key),{once:true});
+  $("focus-dialog").close();return;
+ }
  const definition=focusSections[key];
  $("focus-title").textContent=definition.title;
  $("focus-description").textContent=definition.description;
@@ -836,14 +953,31 @@ function openFocus(key){
 $("focus-dialog").addEventListener("close",restoreFocus);
 document.querySelectorAll("[data-jump]").forEach(button=>button.onclick=()=>openFocus(button.dataset.jump));
 for(const key of Object.keys(focusSections)){
- if(key==="map")continue;
+ if(["map","species","statistics"].includes(key))continue;
  const heading=$(key).querySelector(".section-label");
  heading.tabIndex=0;heading.setAttribute("role","button");heading.title="Open full-screen section";
  heading.onclick=()=>openFocus(key);
  heading.onkeydown=event=>{if(event.key==="Enter"||event.key===" "){event.preventDefault();openFocus(key)}};
 }
 $("full-map").onclick=()=>openFocus("map");
+$("chart-title").tabIndex=0;$("chart-title").setAttribute("role","button");
+$("chart-title").title="Expand statistical charts";
+$("chart-title").onclick=()=>openFocus("statistics");
+$("chart-title").onkeydown=event=>{if(event.key==="Enter"||event.key===" "){event.preventDefault();openFocus("statistics")}};
 document.querySelectorAll("button").forEach(button=>{if(!button.title)button.title=button.textContent.trim()});
+for(const id of ["main-chart","species-chart"]){
+ const chart=$(id);
+ let previousWidth=0,previousHeight=0;
+ new ResizeObserver(entries=>{
+  const {width,height}=entries[0].contentRect;
+  if(width<=0||height<=0||width===previousWidth&&height===previousHeight)return;
+  previousWidth=width;previousHeight=height;
+  requestAnimationFrame(()=>{
+   if(chart.clientWidth&&chart.clientHeight&&chart.classList.contains("js-plotly-plot"))
+    Plotly.Plots.resize(chart);
+  });
+ }).observe(chart);
+}
 initMap();chooseReference();render(true);
 </script>
 </body>
