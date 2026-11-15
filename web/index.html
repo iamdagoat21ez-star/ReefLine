@@ -21,48 +21,183 @@
 .chart-head{padding:8px 10px 0}.chart-head h2{font-size:11px}.chart-footnote{font-size:7px}
 }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+
+/* Coral navigation surfaces and accessible interaction feedback. */
+html { scroll-behavior: smooth; }
+.sidebar {
+ background: linear-gradient(155deg, rgba(255,247,249,.98) 0%, rgba(255,230,236,.96) 32%, rgba(250,198,212,.94) 70%, rgba(246,172,194,.92) 100%);
+ border-color: rgba(244,93,121,.38);
+ box-shadow: inset 0 1px 0 #fff9, 0 10px 35px #b44b6520;
+ scrollbar-color: #dc7c98 transparent;
+}
+.brand { margin-bottom: 16px; }
+.sidebar .section-label { color: #74394f; }
+.sidebar select, .sidebar .variable, .sidebar .hardware {
+ background: rgba(255,251,253,.80); border-color: #daa8b9;
+ box-shadow: 0 3px 8px #a95b7010;
+}
+.sidebar select:hover, .sidebar .variable:hover, .sidebar .hardware:hover {
+ border-color: #e77796; box-shadow: 0 4px 15px #b33f6820;
+}
+.sidebar .source-card { background: #fff8fbb8; border-color: #dda2b4; }
+.sidebar .pill { background: #ffedf3; color: #ae3e66; }
+.sidebar .pill.green { background: #dcf9e9; color: #16724e; }
+.field-label { display: block; font-size: 10px; color: #693b50; font-weight: 700; margin: 10px 0 6px; }
+.field-pair { display: flex; align-items: center; justify-content: space-between; }
+.text-link { border: 0; background: none; color: #a13d61; font-weight: 700; font-size: 10px; padding: 7px 0 0; }
+.control-help { font-size: 9px; color: #77546a; line-height: 1.6; margin: 7px 0; }
+.sidebar .control-section { padding-bottom: 12px; margin-bottom: 12px; border-bottom: 1px solid #d99db145; }
+.sidebar .control-section:last-of-type { border: 0; }
+.workspace-journey { display: flex; gap: 6px; align-items: center; flex-shrink: 0; }
+.workspace-journey button {
+ display: flex; align-items: center; gap: 8px; min-width: 0; flex: 1;
+ padding: 9px 11px; border: 1px solid #caa8ba55; border-radius: 10px;
+ background: #102c46bd; text-align: left; box-shadow: inset 0 1px 0 #ffffff10;
+}
+.workspace-journey b { display: block; color: #f4dbe4; font-size: 10px; }
+.workspace-journey small { display: block; color: #a0b8d0; font-size: 8px; margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.workspace-journey button>span:last-child { min-width: 0; }
+.step-number { border: 1px solid #f591af70; background: #ff6b8f15; color: #ffb6ce; width: 23px; height: 23px; border-radius: 50%; display: grid; place-items: center; flex-shrink: 0; font-size: 10px; }
+.complete .step-number { background: #00e67622; border-color: #00c87a99; color: #69f6b0; }
+.data-context { display: none; }
+.data-context.demo-context { display: block; font-size: 8px; padding: 8px; border-radius: 7px; color: #ffd1e1; border: 1px solid #c57b98; background: #4b2649; max-width: 130px; }
+.section-kicker { font-size: 7px; letter-spacing: .8px; color: #93aec5; display: block; margin-top: 4px; font-weight: 500; }
+.help-button { color: #ffd2df; border-color: #b77591; white-space: nowrap; padding: 9px; }
+.head-actions { flex-wrap: wrap; justify-content: flex-end; }
+.map-reset { position: absolute; left: 10px; top: 47px; z-index: 500; color: #ddeaf5; background: #081d32dd; border: 1px solid #456078; border-radius: 6px; padding: 6px 8px; font-size: 8px; }
+.evidence-label { display: inline-block; color: #ffc5db; background: #b35d801a; border: 1px solid #c7809b66; padding: 4px 6px; border-radius: 5px; font-size: 8px; margin-top: 6px; }
+.demo-source { border-color: #e797b5!important; }
+.inspector { transition: opacity .22s ease, transform .22s ease; }
+.inspector .coords { line-height: 1.5; }
+.directory-search { width: 100%; padding: 12px; color: #f3e8ef; border: 1px solid #65728c; border-radius: 9px; background: #102b43; }
+.directory-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 14px; }
+.directory-card { padding: 15px; border: 1px solid #5c526f; border-radius: 11px; background: linear-gradient(135deg,#24344c,#18273f); text-align: left; }
+.directory-card>span { color: #ffa8c5; font-size: 20px; }
+.directory-card b { display: block; font-size: 12px; line-height: 1.6; color: #ffe2ed; margin-top: 8px; }
+.directory-card small { display: block; font-size: 9px; color: #aac2da; margin-top: 6px; }
+.guide-list { padding-left: 24px; }
+.guide-list li { padding: 7px 0 7px 7px; color: #ffd6e4; }
+.guide-list li p { margin: 5px 0; }
+button, input, select, label { -webkit-tap-highlight-color: #f45d7922; }
+button:active { transform: translateY(0) scale(.98); }
+dialog[open] { animation: reveal-dialog .2s cubic-bezier(.2,.8,.2,1); }
+@keyframes reveal-dialog { from { opacity: 0; transform: translateY(10px) scale(.99); } to { opacity: 1; transform: translateY(0) scale(1); } }
+.search-results button:hover, .search-results button:focus-visible { background: #30405a; }
+[aria-pressed="true"] { box-shadow: inset 0 0 0 1px #ffffff25; }
+@media (min-width:1051px) and (max-height:850px) {
+ .workspace { gap: 8px; } .workspace-journey button { padding: 6px 8px; }
+ .bento { min-height: 245px; } .scene-frame { min-height: 70px; }
+ .topbar { padding: 8px 12px; } .banner { min-height: 210px; height: 31%; }
+ .map-wrap, .map { min-height: 190px; }
+ .panel-heading { padding: 9px 12px 7px; } .map-bottom { padding: 7px 10px; }
+}
+@media (max-width:1300px) {
+ .head-actions { flex-direction: row; } .head-actions .search { width: 170px; }
+ .head-actions .solution-button { font-size: 8px; padding: 7px; }
+ .help-button { padding: 7px; font-size: 8px; }
+ .workspace-journey b { font-size: 9px; }
+ .data-context.demo-context { max-width: 100px; font-size: 7px; }
+}
+@media (max-width:1050px) {
+ .workspace-journey { flex-wrap: wrap; } .data-context.demo-context { max-width: none; width: 100%; }
+ .workspace-journey button { min-width: 120px; }
+}
+@media (max-width:650px) {
+ .directory-grid { grid-template-columns: 1fr 1fr; }
+ .workspace-journey { display: grid; grid-template-columns: 1fr; }
+ .workspace-journey button { padding: 10px 12px; }
+ .data-context.demo-context { max-width: none; width: auto; }
+ .head-actions .search { width: 100%; flex-basis: 100%; }
+ .directory-card { padding: 12px; } .directory-card b { font-size: 10px; }
+ .field-label, .control-help { font-size: 11px; }
+ .sidebar .control-section { padding-bottom: 14px; margin-bottom: 14px; }
+}
+@media (prefers-reduced-motion:reduce) { html { scroll-behavior: auto; } }
+
+@media(min-width:1051px) {
+ .help-button { font-size: 9px; }
+ .head-actions .search { width: clamp(120px,12vw,210px); }
+ .workspace-journey { min-height: 43px; }
+ .panel-heading .reference-row { max-width: 100%; }
+ .reference-row label { white-space: normal; font-size: 8px; }
+ .map-actions { gap: 4px; }
+ .map-actions .outline, .map-actions .deploy-action { font-size: 8px; }
+ .map-bottom .legend { max-width: 46%; font-size: 7px; }
+}
+@media(min-width:1051px) and (max-height:850px) {
+ .head-actions .search { width: 145px; }
+ .topbar h1 { font-size: 15px; }
+ .topbar .head-actions { flex-wrap: nowrap; }
+ .topbar .solution-button { font-size: 8px; }
+ .workspace-journey { min-height: 39px; }
+ .panel-heading h2 { font-size: 11px; }
+ .scene-header h3 { font-size: 9px; }
+ .scene-header .section-kicker { display: none; }
+ .right-panel { overflow-y: auto; scrollbar-width: thin; }
+}
+
+.sidebar-nav { position: sticky; top: -1px; z-index: 5; display: flex; padding: 5px; gap: 3px; background: #fff1f5f2; border: 1px solid #e4a9bd; border-radius: 9px; margin: 0 0 14px; backdrop-filter: blur(12px); }
+.sidebar-nav button { flex: 1; padding: 7px 4px; color: #8a3c5b; background: none; border: 0; border-radius: 5px; font-size: 9px; font-weight: 700; }
+.sidebar-nav button:hover { background: #fbd2df; }
+.control-section { scroll-margin-top: 50px; }
 </style>
 </head>
 <body>
 <div class="shell">
 <aside class="sidebar glass">
  <div class="brand"><svg viewBox="0 0 50 50" aria-hidden="true"><rect x="1" y="1" width="48" height="48" rx="16" fill="#08263e" stroke="#ff6b6b" stroke-width="2"/><circle cx="25" cy="25" r="16" fill="none" stroke="#00b0ff" stroke-dasharray="2 2"/><ellipse cx="25" cy="25" rx="8" ry="16" fill="none" stroke="#00b0ff" opacity=".5"/><path d="M10 25h30M25 40V17m0 12-8-9m8 4 8-9m-8 9-2-10m9 4 2-5" stroke="#ff6b6b" stroke-width="2" fill="none" stroke-linecap="round"/></svg><div><h2>Coral Reef Trend Analysis</h2><p>Satellite Data & Reef Rescue Tool</p></div></div>
- <section class="control-section"><div class="section-label">1. SELECT REGION <span class="pill">4 sectors</span></div><select id="region" aria-label="Select region"><option value="gbr">Great Barrier Reef - Northern Sector</option><option value="triangle">Coral Triangle - Indonesia</option><option value="florida">Florida Keys & Caribbean</option><option value="africa">East African Coastal Reef</option></select></section>
- <section class="control-section"><div class="section-label">2. SELECT VARIABLE <span class="pill" id="variable-pill">Primary · SST</span></div>
- <label class="variable"><span class="tile-icon">♨</span><span><strong>Sea Surface Temperature (°C)</strong><small>NASA MODIS-Aqua · thermal trend</small></span><input type="radio" name="variable" value="sst" checked></label>
- <label class="variable"><span class="tile-icon blue">♧</span><span><strong>Chlorophyll-a Concentration</strong><small>Ocean color · mg/m³</small></span><input type="radio" name="variable" value="chlorophyll"></label>
- <div class="submetric hidden" id="submetrics"><button class="active" data-submetric="mean">Mean Chlorophyll-a</button><button data-submetric="bloom">Algal Bloom Risk Index</button><button data-submetric="runoff">Eutrophication & Runoff Index</button></div>
- <select id="period" aria-label="Analysis period" style="padding:7px;font-size:10px"><option value="2016">Analysis period · 2016 onward</option><option value="2021" selected>Analysis period · 2021 onward</option><option value="full">Analysis period · Full record</option></select>
+ <nav class="sidebar-nav" aria-label="Sidebar sections"><button data-jump="locations-controls">Locations</button><button data-jump="variables-controls">Data</button><button data-jump="layers-controls">Layers</button><button data-jump="hardware-controls">Hardware</button></nav>
+ <section class="control-section" id="locations-controls">
+ <div class="section-label">1. EXPLORE LOCATIONS <span class="pill">36 regions</span></div>
+ <label class="field-label" for="region">Region & reef network</label>
+ <select id="region" aria-label="Select region"></select>
+ <div class="field-pair"><label class="field-label" for="catalog-filter">Location data</label><button class="text-link" id="browse-locations">Browse all →</button></div>
+ <select id="catalog-filter" aria-label="Filter location data"><option value="all">All locations · measured + demo</option><option value="measured">Measured NASA locations only</option><option value="demo">Demo locations · synthetic data</option></select>
+ <label class="field-label" for="station-selector">Inspect a reef location</label>
+ <select id="station-selector" aria-label="Inspect a reef location"></select>
+ <p class="control-help"><b id="location-count">300 reef locations</b> · Dashed pink markers identify fictional demo locations.</p>
  </section>
- <section class="control-section"><div class="section-label">3. LAYER OPTIONS <span class="pill">Scenario overlays</span></div>
- <label class="layer"><input type="checkbox" data-layer="ph">Acidification (pH)<i class="dot" style="background:#ff7b00;color:#ff7b00"></i></label>
+ <section class="control-section" id="variables-controls"><div class="section-label">2. SELECT VARIABLE <span class="pill" id="variable-pill">Primary · SST</span></div>
+ <label class="variable"><span class="tile-icon">♨</span><span><strong>Sea Surface Temperature (°C)</strong><small id="sst-source">NASA MODIS-Aqua · thermal trend</small></span><input type="radio" name="variable" value="sst" checked></label>
+ <label class="variable"><span class="tile-icon blue">♧</span><span><strong>Chlorophyll-a Concentration</strong><small id="chl-source">Ocean color · mg/m³</small></span><input type="radio" name="variable" value="chlorophyll"></label>
+ <div class="submetric hidden" id="submetrics"><button class="active" data-submetric="mean">Mean Chlorophyll-a</button><button data-submetric="bloom">Algal Bloom Risk Index</button><button data-submetric="runoff">Eutrophication & Runoff Index</button></div>
+ <label class="field-label" for="period">Trend analysis period</label><select id="period" aria-label="Analysis period" style="padding:7px;font-size:10px"><option value="2016">Analysis period · 2016 onward</option><option value="2021" selected>Analysis period · 2021 onward</option><option value="full">Analysis period · Full record</option></select>
+ </section>
+ <section class="control-section" id="layers-controls"><div class="section-label">3. LAYER OPTIONS <span class="pill">Illustrative overlays</span></div>
+ <p class="control-help">Optional illustrative zones on the satellite map.</p><label class="layer"><input type="checkbox" data-layer="ph">Acidification (pH)<i class="dot" style="background:#ff7b00;color:#ff7b00"></i></label>
  <label class="layer"><input type="checkbox" data-layer="disease">Disease Risk<i class="dot" style="background:#ff334b;color:#ff334b"></i></label>
  <label class="layer"><input type="checkbox" data-layer="plumes">Chlorophyll Plumes<i class="dot"></i></label>
  </section>
- <section class="control-section"><div class="section-label">4. LOW-COST REEF SOLUTIONS <span class="pill green" id="active-badge">3 ACTIVE</span></div>
+ <section class="control-section" id="hardware-controls"><div class="section-label">4. LOW-COST REEF SOLUTIONS <span class="pill green" id="active-badge">3 ACTIVE</span></div>
  <label class="hardware"><input type="checkbox" data-tool="buoy" checked><span class="details"><strong>Dusk Light Buoy</strong><small>1 hr at dusk · concentrates wild zooplankton<br><b>2.6x growth scenario</b></small></span><span class="cost">$145/unit</span></label>
  <label class="hardware film"><input type="checkbox" data-tool="film" checked><span class="details"><strong>Bio-Shield Film</strong><small>Localized floating nutrient & UV film<br><b>−30% UV scenario</b></small></span><span class="cost">$65/unit</span></label>
  <label class="hardware node"><input type="checkbox" data-tool="node" checked><span class="details"><strong>Pi Reef Node</strong><small>Temperature sensor + field camera<br><b>Early alert & image log</b></small></span><span class="cost">$185/unit</span></label>
  <button class="deploy" id="deploy-all">✓ All solutions deployed · Turn off</button>
  </section>
- <div class="source-card"><b><i class="dot pulse"></i> NASA Giovanni · MODIS-Aqua</b><br>Measured monthly SST & chlorophyll-a<br><span id="source-dates"></span><br>MK + Sen’s slope · deseasonalized series<br><small>NOAA CRW & GBRMPA are contextual references. Local dataset source is NASA.</small></div>
+ <div class="source-card" id="source-card"><b><i class="dot pulse"></i> <span id="source-title">NASA Giovanni · MODIS-Aqua</span></b><br><span id="source-kind">Measured monthly SST & chlorophyll-a</span><br><span id="source-dates"></span><br>MK + Sen’s slope · deseasonalized series<br><small>Measured stations use NASA Giovanni. Demo stations use labeled synthetic fixtures.</small></div>
 </aside>
 <main class="workspace">
- <header class="topbar glass"><div><div class="eyebrow">REEFLINE / DETECTION TO ACTION</div><h1 id="region-title">Coral Reef Trend Analysis</h1><p>Satellite environmental telemetry & active biological intervention platform</p></div><div class="head-actions"><button class="solution-button" id="how-button">⌘ How Our Solution Works</button><div class="search"><input id="search" aria-label="Search reefs, variables, or studies" placeholder="⌕ Search reefs, variables, or studies…" autocomplete="off"><div class="search-results" id="search-results"></div></div><button class="profile" id="about-button" aria-label="About this workspace">♙</button></div></header>
+ <header class="topbar glass"><div><div class="eyebrow">REEFLINE / DETECTION TO ACTION</div><h1 id="region-title">Coral Reef Trend Analysis</h1><p>Satellite environmental telemetry & active biological intervention platform</p></div><div class="head-actions"><button class="outline help-button" id="help-button">? Quick guide</button><button class="solution-button" id="how-button">⌘ How Our Solution Works</button><div class="search"><input id="search" aria-label="Search reefs, variables, or studies" placeholder="⌕ Search reefs, variables, or studies…" autocomplete="off"><div class="search-results" id="search-results"></div></div><button class="profile" id="about-button" aria-label="About this workspace">♙</button></div></header>
+ <nav class="workspace-journey" aria-label="Reef assessment steps">
+ <button id="journey-step-1"><span class="step-number">1</span><span><b>Select worsening reef</b><small id="journey-reference"></small></span></button>
+ <button id="journey-step-2"><span class="step-number">2</span><span><b>Compare 3 at-risk reefs</b><small id="journey-matches"></small></span></button>
+ <button id="journey-step-3"><span class="step-number">3</span><span><b>Deploy & export action</b><small id="journey-deploy"></small></span></button>
+ <span class="data-context" id="data-context"></span>
+ </nav>
  <section class="bento">
- <article class="panel glass map-panel" id="map-panel"><div class="panel-heading"><div><h2>Satellite Reef Observatory</h2><p id="map-subtitle">Measured monthly records · NASA Giovanni</p></div><div class="reference-row"><label for="reference">Worsening reef</label><select id="reference"></select></div></div>
+ <article class="panel glass map-panel" id="map-panel"><div class="panel-heading"><div><h2>Satellite Reef Observatory <span class="section-kicker">EXPLORE & COMPARE</span></h2><p id="map-subtitle">Measured monthly records · NASA Giovanni</p></div><div class="reference-row"><label for="reference">Reference reef · p &lt; .05</label><select id="reference"></select></div></div>
  <div class="map-wrap"><div class="map" id="map" aria-label="Interactive satellite reef map"></div>
  <div class="map-hud quick-filters" id="map-filters"><button class="active" data-filter="all">All Sites</button><button data-filter="critical">Critical</button><button data-filter="moderate">Moderate</button><button data-filter="stable">Stable</button></div>
  <div class="map-hud risk-legend"><b>COMBINED RISK INDEX</b><div class="scale-gradient"></div><div class="range"><span>0.05</span><span>0.84</span></div><p style="margin-top:6px;color:#9ab9d2;line-height:1.4">Illustrative overlay scale.<br>Markers use MK trends.</p><div class="north">N ↑</div></div>
- <div class="map-note" id="map-note"></div><div class="map-hud inspector" id="inspector"></div></div>
- <div class="map-bottom"><div class="legend"><span><i style="background:#ff334b"></i>Significant worsening · p &lt; .05</span><span><i style="background:#ffd000"></i>3 at-risk matches</span><span><i style="background:#ff7b00"></i>Rising, p ≥ .05</span><span><i style="background:#00e676"></i>Solution halo</span></div><div class="map-actions"><button class="outline" id="fit-matches">Fit matches</button><button class="outline" id="full-map">⛶ Full map</button><button class="outline" id="export-data">↓ CSV</button><button class="deploy-action" id="assessment-button">3 reefs → Deploy</button></div></div>
+ <button class="map-reset" id="reset-view" title="Reset map to this region and clear the risk filter">⌖ Reset region view</button><div class="map-note" id="map-note"></div><div class="map-hud inspector" id="inspector"></div></div>
+ <div class="map-bottom"><div class="legend"><span><i style="background:#ff334b"></i>Significant worsening · p &lt; .05</span><span><i style="background:#ffd000"></i>3 at-risk matches</span><span><i style="background:#ff7b00"></i>Rising, p ≥ .05</span><span><i style="background:#00e676"></i>Solution halo</span></div><div class="map-actions"><button class="outline" id="fit-matches" title="Zoom the map to the reference reef and its three candidate matches">Show 3 matches</button><button class="outline" id="full-map">⛶ Expand map</button><button class="outline" id="export-data">↓ Export data</button><button class="deploy-action" id="assessment-button">3 reefs → Deploy</button></div></div>
  </article>
  <article class="panel glass right-panel"><div class="tabs"><button class="tab-button active" data-pane="visualizer">Live Reef Visualizer</button><button class="tab-button" data-pane="species">Species Cover (%)</button></div>
  <div class="right-content" id="visualizer-pane">
- <div class="scene-header"><h3>Live Interactive Reef Visualizer</h3><div class="mode-switch"><button data-mode="off">No Action (Bleached)</button><button class="active" data-mode="on">With Our Solution (Restored)</button></div></div>
+ <div class="scene-header"><h3>Live Interactive Reef Visualizer <span class="section-kicker">RESTORATION SIMULATOR</span></h3><div class="mode-switch"><button data-mode="off">No Action (Bleached)</button><button class="active" data-mode="on">With Our Solution (Restored)</button></div></div>
  <div class="scene-frame" id="reef-frame"></div>
  <div class="scene-status"><span id="scene-status"></span><button id="spec-button">System Specs →</button></div>
- <div class="sliders"><label>Deployment Coverage <span id="coverage-label">75%</span><input type="range" id="coverage" min="10" max="100" value="75"></label><label>Buoy & Film Units <span id="units-label">15 units</span><input type="range" id="units" min="5" max="50" value="15"></label></div>
+ <div class="sliders"><label title="Share of the illustrative 672 m² sector protected by the selected hardware">Deployment coverage (%) <span id="coverage-label">75%</span><input type="range" id="coverage" min="10" max="100" value="75"></label><label title="Each paired unit contains one buoy and one film. One Pi node supports every four pairs.">Buoy + film pairs (units) <span id="units-label">15 units</span><input type="range" id="units" min="5" max="50" value="15"></label></div>
  <div class="sim-kpis"><div><small>CORAL SURVIVAL</small><strong id="survival"></strong></div><div><small>GROWTH RATE</small><strong id="growth"></strong></div><div><small>EST. SECTOR COST</small><strong id="cost"></strong></div><div><small>COST / m²</small><strong id="cost-area"></strong></div></div><p class="sim-label">Illustrative intervention model · 15 paired units + 4 Pi nodes cost $3,890. Field validation required.</p>
  </div>
  <div class="right-content hidden" id="species-pane"><div class="species-pane"><div style="margin-top:13px"><h3 style="font-size:12px">Coral Cover Change by Key Species Group</h3><p class="species-notice">2000–2024 illustrative regional scenario · 12 taxa</p></div><div class="submetric" id="species-filters"><button class="active" data-species="all">All</button><button data-species="growth">+ Growth</button><button data-species="decline">− Decline</button></div><div id="species-chart" class="chart"></div><p class="species-notice">Scenario values demonstrate the requested species analytics. The repository contains no measured species-cover observations.</p></div></div>
@@ -76,6 +211,17 @@
 <dialog id="how-dialog"><div class="dialog-head"><h2>From satellite signal to field action</h2><button class="close" aria-label="Close">×</button></div><p>Choose a statistically worsening reef, compare exactly three non-significant matches, deploy a Pi station and review its imagery alongside satellite trends.</p><h3>Satellite analysis</h3><p>Mann–Kendall and Sen’s slope use deseasonalized monthly data. Significant means p &lt; 0.05. Candidate ranking uses 60% normalized slope difference and 40% distance. Candidates may lie outside the selected region.</p><h3>Hardware architecture & unit economics</h3><p>Dusk Light Buoy ($145) → downward light at dusk → modeled zooplankton concentration. Bio-Shield Film ($65) → modeled surface shielding and nutrient release. Pi Reef Node ($185) → field temperature and motion-triggered camera records.</p><p class="modal-note">Each unit on the slider represents one buoy and one film canister. Pi nodes = ceil(units ÷ 4). At 15 paired units, 15 × $145 + 15 × $65 + 4 × $185 = $3,890. Cost per m² uses a 672 m² sector × selected coverage. The $4,650 reference configuration uses 18 buoys, 20 films and 4 Pi nodes.</p><p>The 2.6x growth, 30% UV reduction, 88% survival, species bars, pH/disease overlays and cover forecasts are illustrative model assumptions. Satellite records support the measured trend cards. Unavailable geography or dates are labeled.</p></dialog>
 <dialog id="assessment-dialog"><div class="dialog-head"><h2>Reefs at risk → Pi deployment</h2><button class="close" aria-label="Close">×</button></div><p id="reference-summary"></p><div id="candidate-grid" class="candidate-grid"></div><div id="deployment-details"></div></dialog>
 <dialog id="spec-dialog"><div class="dialog-head"><h2>Live system specifications</h2><button class="close" aria-label="Close">×</button></div><div id="spec-content"></div></dialog>
+<dialog id="locations-dialog"><div class="dialog-head"><div><h2>Explore the reef network</h2><p>300 locations · 36 regions · 12 measured stations + 288 fictional demo reefs</p></div><button class="close" aria-label="Close">×</button></div>
+<label class="field-label" for="directory-search">Find a region or reef</label><input id="directory-search" class="directory-search" type="search" placeholder="Search by region or reef name…">
+<p class="modal-note">Demo locations include synthetic monthly records so you can rehearse the complete assessment workflow. Their names, coordinates and trends are fictional and are labeled throughout the app.</p>
+<div class="directory-grid" id="directory-grid"></div></dialog>
+<dialog id="guide-dialog"><div class="dialog-head"><h2>Your guide to ReefLine</h2><button class="close" aria-label="Close">×</button></div>
+<ol class="guide-list"><li><b>Choose where to explore.</b><p>Select one of 36 regions, then choose measured or demo locations. Use “Inspect a reef location” or click a map marker to see its statistics.</p></li>
+<li><b>Find an early warning.</b><p>Choose SST or chlorophyll-a and an analysis period. The reference selector lists worsening reefs with p &lt; 0.05.</p></li>
+<li><b>Compare exactly three candidates.</b><p>Click “Compare 3 reefs” to see reefs with p ≥ 0.05, ranked by 60% slope difference and 40% geographic distance. Measured reefs match measured reefs. Demo reefs match demo reefs.</p></li>
+<li><b>Select a Pi deployment site.</b><p>Choose one candidate to view satellite statistics beside the latest station image, receive a Recommended Action, and download the Action Report.</p></li>
+<li><b>Explore interventions.</b><p>Toggle the three hardware tools and adjust coverage and paired units. The animated reef, budget, map halos and forecast respond together. All biological outcomes and species-cover values are illustrative.</p></li></ol>
+<p class="modal-note">Navigation shortcuts · Ctrl/⌘ K focuses search. Escape closes dialogs. “Reset region view” returns to the current region. Pink dashed map markers and DEMO badges identify synthetic locations.</p></dialog>
 <div id="toast" class="status-toast hidden" role="status"></div>
 <script id="reef-data" type="application/json">__REEF_DATA__</script>
 <script src="vendor/leaflet.js"></script>
@@ -85,14 +231,9 @@
 const DATA = JSON.parse(document.getElementById("reef-data").textContent);
 const $ = id => document.getElementById(id);
 const COLORS = {red:"#ff334b", orange:"#ff7b00", yellow:"#ffd000", green:"#00e676", blue:"#00b0ff"};
-const REGIONS = {
- gbr:{short:"Great Barrier Reef", center:[-16.8,147.4], zoom:5, sites:["reef_005","reef_006","reef_007"], base:38, factor:1},
- triangle:{short:"Coral Triangle · Indonesia", center:[-3.3,121.5],zoom:5,sites:[],base:41,factor:1.04},
- florida:{short:"Florida Keys & Caribbean",center:[23,-82.7],zoom:5,sites:["reef_001","reef_002","reef_003","reef_004"],base:34,factor:.9},
- africa:{short:"East African Coastal Reef",center:[-7.3,40.3],zoom:5,sites:[],base:36,factor:.95}
-};
+const REGIONS = DATA.regions;
 const TAXA=["Acropora","Porites","Montipora","Pocillopora","Millepora","Faviidae","Goniopora","Fungia","Stylophora","Echinopora","Turbinaria","Others"];
-const state={region:"gbr",variable:"sst",period:"2021",tools:{buoy:true,film:true,node:true},coverage:75,units:15,
+const state={catalog:"all",region:"gbr",variable:"sst",period:"2021",tools:{buoy:true,film:true,node:true},coverage:75,units:15,
  pane:"visualizer",chart:"forecast",filter:"all",species:"all",submetric:"mean",layers:{ph:false,disease:false,plumes:false},reference:null,selected:null,deployment:null};
 const siteById = Object.fromEntries(DATA.sites.map(site=>[site.site_id,site]));
 const escapeHTML = value => String(value??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -101,7 +242,10 @@ const pformat = p=>p<.001?"< 0.001":p.toFixed(3);
 const stat = (id,variable=state.variable)=>siteById[id]?.measurements[variable].analysis[state.period];
 const slopeUnit = ()=>state.variable==="sst"?"°C/year":"mg/m³/year";
 const slopeFormat = value=>(value>=0?"+":"")+value.toFixed(state.variable==="sst"?3:4);
-const regionSites = ()=>REGIONS[state.region].sites.map(id=>siteById[id]);
+const regionSites = ()=>REGIONS[state.region].sites.map(id=>siteById[id]).filter(site=>
+ state.catalog === "all" || (state.catalog === "demo" ? site.is_demo : !site.is_demo));
+const evidenceLabel = site => !site ? "NO MATCHING LOCATION DATA" : site.is_demo ? "DEMO · synthetic data" : "MEASURED · NASA Giovanni";
+const sourceLabel = site => site?.is_demo ? "Synthetic demo fixture · no live backend" : DATA.source;
 const matches = ()=>DATA.matches[state.variable][state.period][state.reference]||[];
 const currentSite = ()=>siteById[state.selected]||siteById[state.reference]||null;
 const latest = (site,variable)=>site?.measurements[variable].monthly.at(-1)?.[1];
@@ -109,15 +253,17 @@ const unitNodes = ()=>Math.ceil(state.units/4);
 const budget = ()=>state.units*(Number(state.tools.buoy)*145+Number(state.tools.film)*65)+Number(state.tools.node)*unitNodes()*185;
 const intervention = ()=>Math.min(1.28,(state.coverage/75)*Math.min(1.15,state.units/15))*(Number(state.tools.buoy)*.6+Number(state.tools.film)*.4);
 const config={responsive:true,displayModeBar:false,displaylogo:false};
+const reducedMotion=matchMedia("(prefers-reduced-motion: reduce)");
 let toastTimer, map, markers, layers, halos;
 function toast(message){$("toast").textContent=message;$("toast").classList.remove("hidden");clearTimeout(toastTimer);toastTimer=setTimeout(()=>$("toast").classList.add("hidden"),4500)}
 function chooseReference(){
  const possible=regionSites().filter(site=>stat(site.site_id).worsening);
  const old=state.reference;
  if(!possible.some(site=>site.site_id===state.reference))state.reference=possible[0]?.site_id||null;
- if(!REGIONS[state.region].sites.includes(state.selected)||old!==state.reference)state.selected=state.reference||REGIONS[state.region].sites[0]||null;
+ if(!regionSites().some(site=>site.site_id===state.selected)||old!==state.reference)
+  state.selected=state.reference||regionSites()[0]?.site_id||null;
  if(!matches().some(site=>site.site_id===state.deployment))state.deployment=null;
- $("reference").innerHTML=possible.length?possible.map(site=>'<option value="'+site.site_id+'">'+escapeHTML(site.name)+'</option>').join(""):'<option>No worsening reef in this view</option>';
+ $("reference").innerHTML=possible.length?possible.map(site=>'<option value="'+site.site_id+'">'+escapeHTML(site.name)+(site.is_demo?" · DEMO":" · Measured")+'</option>').join(""):'<option>No worsening reef in this view</option>';
  $("reference").disabled=!possible.length;
  if(state.reference)$("reference").value=state.reference;
 }
@@ -158,9 +304,9 @@ function drawMap(recenter=false){
   if(Object.values(state.tools).some(Boolean)&&(result.worsening||site.site_id===state.deployment)){
    L.circle(point,{radius:19000+state.coverage*450,color:COLORS.green,weight:2,fillOpacity:.12,className:"restoration-halo"}).addTo(halos);
   }
-  L.circleMarker(point,{radius:site.site_id===state.selected?9:6,color:"#071d2f",weight:2,fillColor:colorFor(site),fillOpacity:1})
-   .bindTooltip(escapeHTML(site.name)+" · p "+pformat(result.p_value),{direction:"top"})
-   .on("click",()=>{state.selected=site.site_id;render(false)}).addTo(markers);
+  L.circleMarker(point,{radius:site.site_id===state.selected?9:6,color:site.is_demo?"#ffc3d5":"#071d2f",weight:site.is_demo?2.5:2,dashArray:site.is_demo?"2 3":null,fillColor:colorFor(site),fillOpacity:1})
+   .bindTooltip(escapeHTML(site.name)+" · "+evidenceLabel(site)+" · p "+pformat(result.p_value),{direction:"top"})
+   .on("click",()=>inspectSite(site.site_id)).addTo(markers);
   if(state.reference&&candidate){
    const reference=siteById[state.reference];
    L.polyline([[reference.lat,reference.lon],point],{color:COLORS.yellow,weight:1,dashArray:"5 8",opacity:.5}).addTo(markers);
@@ -172,15 +318,22 @@ function drawMap(recenter=false){
     {color,weight:1,fillOpacity:.2,dashArray:"4 3"}).bindTooltip(escapeHTML(layer)+" · illustrative scenario zone").addTo(layers);
   }
  });
- if(recenter){map.setView(REGIONS[state.region].center,REGIONS[state.region].zoom,{animate:false})}
- $("map-note").textContent=local.length?matches().length===3?"Three globally ranked candidates linked in yellow.":"Fewer than three eligible matches in this period.":"No local satellite records in this repository. Select GBR or Florida for the measured deployment workflow.";
- $("map-subtitle").textContent=local.length?local.length+" regional stations · "+(state.period==="full"?"full available record":state.period+" onward"):"Region view · no local telemetry";
- $("assessment-button").textContent=matches().length===3?"3 reefs → Deploy":"Review eligibility";
+ if(recenter){map.flyTo(REGIONS[state.region].center,REGIONS[state.region].zoom,{duration:.8,animate:!reducedMotion.matches})}
+ $("map-note").textContent=local.length?matches().length===3?"Yellow links show exactly 3 matching reefs. Dashed pink markers are fictional demo locations.":"Fewer than three eligible matches in this period.":"No matching locations here. Change Location data to All or Demo, or choose a measured region.";
+ const realCount = local.filter(site=>!site.is_demo).length;
+ $("map-subtitle").textContent=realCount+" measured + "+(local.length-realCount)+" demo locations · "+(state.period==="full"?"full record":state.period+" onward");
+ $("station-selector").innerHTML='<option value="">Choose a reef to inspect…</option>'+local.map(site=>'<option value="'+site.site_id+'">'+escapeHTML(site.name)+(site.is_demo?' · DEMO':' · Measured')+'</option>').join("");
+ $("station-selector").value=local.some(site=>site.site_id===state.selected)?state.selected:"";
+ $("location-count").textContent=DATA.sites.length+" reef locations";
+ $("data-context").textContent=evidenceLabel(currentSite())+" · "+(state.period==="full"?"full available record":state.period+" onward");
+ $("data-context").classList.toggle("demo-context",Boolean(currentSite()?.is_demo));
+ $("assessment-button").textContent=matches().length===3?"Compare 3 reefs →":"Review eligibility";
+
  renderInspector();
 }
 function renderInspector(){
  const site=currentSite();
- if(!site){$("inspector").innerHTML="<h3>Click a station for details</h3><p class='coords'>No measured local stations available.</p>";return}
+ if(!site){$("inspector").innerHTML="<h3>Click a station for details</h3><p class='coords'>No locations match the current data filter.</p>";return}
  const sst=latest(site,"sst"),chlor=latest(site,"chlorophyll");
  const month=site.measurements.sst.monthly.at(-1)[0].slice(5,7);
  const baseline=site.measurements.sst.monthly.filter(row=>row[0].slice(5,7)===month);
@@ -191,7 +344,7 @@ function renderInspector(){
   const percentile=values.filter(value=>value<=chlor).length/values.length;
   second=(100*percentile).toFixed(0)+"/100";label=state.submetric==="bloom"?"BLOOM PROXY":"RUNOFF PROXY";
  }
- $("inspector").innerHTML='<h3>⌖ '+escapeHTML(site.name)+'</h3><p class="coords mono">'+site.lat.toFixed(3)+'°, '+site.lon.toFixed(3)+'° · '+site.measurements.sst.monthly.at(-1)[0].slice(0,7)+'</p><div class="inspector-grid"><div>SST ANOMALY<strong>'+(anomaly>=0?"+":"")+anomaly.toFixed(2)+' °C</strong></div><div>'+label+'<strong>'+second+'</strong></div><div>HARDWARE<strong>'+Object.values(state.tools).filter(Boolean).length+' / 3</strong></div></div>';
+ $("inspector").innerHTML='<h3>⌖ '+escapeHTML(site.name)+'</h3><span class="evidence-label">'+evidenceLabel(site)+'</span><p class="coords mono">'+site.lat.toFixed(3)+'°, '+site.lon.toFixed(3)+'° · '+site.measurements.sst.monthly.at(-1)[0].slice(0,7)+'</p><div class="inspector-grid"><div>SST ANOMALY<strong>'+(anomaly>=0?"+":"")+anomaly.toFixed(2)+' °C</strong></div><div>'+label+'<strong>'+second+'</strong></div><div>HARDWARE<strong>'+Object.values(state.tools).filter(Boolean).length+' / 3</strong></div></div>';
 }
 function reefSVG(){
  const action=state.tools.buoy||state.tools.film;
@@ -207,9 +360,10 @@ function reefSVG(){
  '<path d="M0 246Q180 230 315 244T630 239V270H0Z" fill="#15314a"/><g><use href="#coral-branch" transform="translate(156 244)" stroke="'+corals[0]+'"/><path d="M193 244q29-50 58 0Z" fill="'+corals[1]+'" stroke="'+(action?"#ffd000":"#eee8d8")+'" stroke-width="2"/><use href="#coral-branch" transform="translate(285 244) scale(1.08)" stroke="'+corals[2]+'"/><path d="M353 244v-45m0 25-21-23m21 16 20-23" stroke="'+corals[3]+'" fill="none" stroke-width="5" stroke-linecap="round"/><path d="M451 244v-48m0 26-21-22m21 16 20-20" stroke="'+corals[4]+'" fill="none" stroke-width="5" stroke-linecap="round"/><path d="M522 244v-39m0 21-16-21m16 16 16-20" stroke="'+corals[5]+'" fill="none" stroke-width="5" stroke-linecap="round"/></g>'+
  (state.tools.node?'<g><rect x="563" y="226" width="37" height="21" rx="4" fill="#0a243a" stroke="#00b0ff"/><text x="571" y="239" fill="#8ee5ff" font-size="8">PI 185</text><path d="M581 226v-14" stroke="#00b0ff"/><circle cx="581" cy="211" r="3" fill="#00e676"><animate attributeName="opacity" values="1;.25;1" dur="2s" repeatCount="indefinite"/></circle></g>':"")+'</svg>';
 }
-function renderSimulator(){
+function renderSimulator(rebuild=true){
  const effect=intervention(), active=Object.values(state.tools).filter(Boolean).length;
- $("reef-frame").innerHTML=reefSVG();
+ if(rebuild)$("reef-frame").innerHTML=reefSVG();
+ else $("reef-frame").querySelector('polygon[fill="url(#light)"]')?.setAttribute("opacity",Math.min(1,intervention()));
  $("scene-status").textContent=effect>0?"✓ "+(state.tools.buoy?"Dusk Light Buoy":"")+(state.tools.buoy&&state.tools.film?" + ":"")+(state.tools.film?"Bio-Shield":"")+" active":"○ No biological intervention · bleaching scenario";
  $("active-badge").textContent=active+" ACTIVE";
  $("deploy-all").textContent=active===3?"✓ All solutions deployed · Turn off":"✓ Deploy All Solutions";
@@ -218,8 +372,11 @@ function renderSimulator(){
  $("growth").textContent=(.3+2.3*effect).toFixed(1)+"x";
  $("cost").textContent=money(budget());$("cost-area").textContent="$"+(budget()/(672*state.coverage/100)).toFixed(2);
  document.querySelectorAll("[data-tool]").forEach(input=>input.checked=state.tools[input.dataset.tool]);
- document.querySelectorAll("[data-mode]").forEach(button=>button.classList.toggle("active",button.dataset.mode===(active?"on":"off")));
- const svg=$("reef-frame").querySelector("svg");if(matchMedia("(prefers-reduced-motion: reduce)").matches)svg.pauseAnimations();
+ document.querySelectorAll("[data-mode]").forEach(button=>{
+  const pressed = button.dataset.mode===(active?"on":"off");
+  button.classList.toggle("active",pressed); button.setAttribute("aria-pressed",pressed);
+ });
+ const svg=$("reef-frame").querySelector("svg");if(reducedMotion.matches)svg.pauseAnimations();
 }
 function forecastSeries(){
  const base=REGIONS[state.region].base, effect=intervention(), region=REGIONS[state.region].factor;
@@ -249,8 +406,8 @@ function drawMainChart(){
   layout.yaxis.ticksuffix="%";layout.yaxis.range=[0,90];layout.xaxis.dtick=4;
   $("chart-footnote").textContent="Illustrative cover scenario. Baseline 2020–2024 is assumed. Default GBR intervention reaches 64.2% in 2040 versus 8.4% with no action.";
  }else{
-  $("chart-title").textContent="Historical Satellite Telemetry";
-  $("chart-subtitle").textContent=site?site.name+" · "+result.start+" to "+result.end:"No satellite records for this region";
+  $("chart-title").textContent=site?.is_demo?"Demo Environmental History · Synthetic":"Historical Satellite Telemetry";
+  $("chart-subtitle").textContent=site?site.name+" · "+evidenceLabel(site)+" · "+result.start+" to "+result.end:"No satellite records for this region";
   if(site){
    const temp=annualRows(site,"sst"),chl=annualRows(site,"chlorophyll");
    const variableAnnual=state.variable==="sst"?temp:chl;
@@ -264,7 +421,7 @@ function drawMainChart(){
    traces.push({x,y:x.map(year=>mean+result.slope_per_year*(year-meanYear)),name:"Sen’s slope",type:"scatter",line:{color:"#8b3a72",width:2,dash:"dash"},yaxis});
    layout.margin.r=45;layout.yaxis.title={text:"SST (°C)",font:{size:9}};layout.yaxis2={overlaying:"y",side:"right",title:{text:"Chl-a (mg/m³)",font:{size:9}},showgrid:false,tickfont:{size:8}};
   }else{layout.annotations=[{text:"No local telemetry in the repository",xref:"paper",yref:"paper",x:.5,y:.5,showarrow:false}]}
-  $("chart-footnote").textContent=site?"Measured annual means. MK and Sen’s slope use deseasonalized monthly values. Shading shows the Sen slope interval centered on the annual mean.":"The requested 1985–2024 record is unavailable here. Choose GBR or Florida for measured data.";
+  $("chart-footnote").textContent=site?(site.is_demo?"Synthetic annual means for this demo location. ":"Measured annual means. ")+"MK and Sen’s slope use deseasonalized monthly values. Shading shows the Sen slope interval.":"The requested 1985–2024 record is unavailable here. Choose GBR or Florida for measured data.";
  }
  Plotly.react("main-chart",traces,layout,config);
 }
@@ -281,6 +438,8 @@ function drawSpecies(){
 function renderSummary(){
  const site=currentSite(),result=site?stat(site.site_id):null,effect=intervention();
  $("region-title").textContent="Coral Reef Trend Analysis: "+REGIONS[state.region].short;
+ $("sst-source").textContent=site?.is_demo?"Synthetic SST · demo fixture":"NASA MODIS-Aqua · thermal trend";
+ $("chl-source").textContent=site?.is_demo?"Synthetic ocean color · mg/m³":"Ocean color · mg/m³";
  $("variable-pill").textContent=state.variable==="sst"?"Primary · SST":"Primary · Chl-a";
  $("submetrics").classList.toggle("hidden",state.variable!=="chlorophyll");
  $("trend-status").textContent=effect>0?"Restoring · "+(.3+2.3*effect).toFixed(1)+"x modeled growth":result?.worsening?"Warming · significant trend":result?"Monitoring · "+result.direction:"Awaiting local telemetry";
@@ -294,9 +453,57 @@ function renderSummary(){
   const temp=annualRows(site,"sst"),chl=annualRows(site,"chlorophyll");
   const delta=temp.at(-1)[1]-temp[0][1],ratio=(chl.at(-1)[1]/chl[0][1]-1)*100;
   $("driver-summary").textContent="Annual SST Δ "+(delta>=0?"+":"")+delta.toFixed(2)+" °C · Chl-a Δ "+(ratio>=0?"+":"")+ratio.toFixed(1)+"% · "+unitNodes()+" Pi nodes if enabled";
-  $("source-dates").textContent=result.start+"–"+result.end+" · available record";
+  $("source-dates").textContent=result.start+"–"+result.end+" · "+(site.is_demo?"synthetic demo series":"measured record");
  }else{$("driver-summary").textContent="Scenario hardware budget · measured environmental drivers unavailable";$("source-dates").textContent="Local observations unavailable"}
- $("footer-status").textContent=(result?"Telemetry through "+result.end+" · ":"")+"Intervention estimates are illustrative";
+ $("footer-status").textContent=(site?.is_demo?"Demo records · ":result?"Measured record through "+result.end+" · ":"")+"Intervention estimates are illustrative";
+ $("source-title").textContent=site?.is_demo?"DEMO EXPLORER · no live backend":"NASA Giovanni · MODIS-Aqua";
+ $("source-kind").textContent=site?.is_demo?"Fictional names, coordinates and monthly series":"Measured monthly SST & chlorophyll-a";
+ $("source-card").classList.toggle("demo-source",Boolean(site?.is_demo));
+ updateJourney();
+}
+function inspectSite(id) {
+ const site=siteById[id];
+ state.selected=id;
+ if(stat(id).worsening)state.reference=id;
+ else if(state.reference && siteById[state.reference].is_demo!==site.is_demo)
+  state.reference=regionSites().find(candidate=>candidate.is_demo===site.is_demo && stat(candidate.site_id).worsening)?.site_id||null;
+ if(!matches().some(candidate=>candidate.site_id===state.deployment))state.deployment=null;
+ if(state.reference)$("reference").value=state.reference;
+ render();
+}
+function updateJourney() {
+ const hasReference=Boolean(state.reference), hasMatches=matches().length===3;
+ $("journey-reference").textContent=hasReference?siteById[state.reference].name:"Choose a worsening reference";
+ $("journey-matches").textContent=hasMatches?"3 non-significant matches ready":"Choose another region or period";
+ $("journey-deploy").textContent=state.deployment?siteById[state.deployment].name:"Select a Pi deployment site";
+ $("journey-step-1").classList.toggle("complete",hasReference);
+ $("journey-step-2").classList.toggle("complete",hasMatches);
+ $("journey-step-3").classList.toggle("complete",Boolean(state.deployment));
+}
+let interventionFrame;
+function scheduleIntervention() {
+ cancelAnimationFrame(interventionFrame);
+ interventionFrame=requestAnimationFrame(()=>{
+  renderSimulator(false);renderSummary();drawMainChart();
+  halos.eachLayer(layer=>layer.setRadius(19000+state.coverage*450));
+  if(state.pane==="species")drawSpecies();
+ });
+}
+function openDirectory() {
+ renderDirectory();openDialog("locations-dialog");
+}
+function renderDirectory() {
+ const query=$("directory-search").value.trim().toLowerCase();
+ $("directory-grid").innerHTML=Object.entries(REGIONS).filter(([key,region])=>
+  region.short.toLowerCase().includes(query)||region.sites.some(id=>siteById[id].name.toLowerCase().includes(query))
+ ).map(([key,region])=>{
+  const real=region.sites.filter(id=>!siteById[id].is_demo).length;
+  return '<button class="directory-card" data-region="'+key+'"><span>⌖</span><b>'+escapeHTML(region.short)+'</b><small>'+real+' measured · '+(region.sites.length-real)+' demo reefs</small></button>';
+ }).join("")||'<p class="empty-directory">No matching regions. Try a reef name or another region.</p>';
+ $("directory-grid").querySelectorAll("[data-region]").forEach(button=>button.onclick=()=>{
+  state.region=button.dataset.region;$("region").value=state.region;state.catalog="all";$("catalog-filter").value="all";
+  chooseRegion();$("locations-dialog").close();toast("Exploring "+REGIONS[state.region].short);
+ });
 }
 function render(recenter=false){
  renderSummary();renderSimulator();drawMap(recenter);drawMainChart();
@@ -304,6 +511,7 @@ function render(recenter=false){
  if($("assessment-dialog").open)renderAssessment();
 }
 function chooseRegion(){
+ state.filter="all";document.querySelectorAll("[data-filter]").forEach(button=>button.classList.toggle("active",button.dataset.filter==="all"));
  state.selected=null;state.reference=null;state.deployment=null;chooseReference();render(true);
 }
 function openDialog(id){const dialog=$(id);if(!dialog.open)dialog.showModal()}
@@ -314,22 +522,73 @@ function recommendation(site,match){
  if(result.slope_per_year>0||match.distance_km<=1000)return {priority:"Watch",action:"Review station captures weekly and reassess after the next satellite update."};
  return {priority:"Routine",action:"Maintain monthly satellite and station monitoring."};
 }
-function renderAssessment(){
- const candidates=matches();
- const result=state.reference?stat(state.reference):null;
- $("reference-summary").textContent=result?siteById[state.reference].name+" · p "+pformat(result.p_value)+" · "+slopeFormat(result.slope_per_year)+" "+slopeUnit()+". Ranked by 60% slope difference + 40% geographic distance.":"No significantly worsening reference is available in this region and period. Choose GBR or Florida.";
- $("candidate-grid").innerHTML=candidates.length===3?candidates.map((match,index)=>'<button class="candidate '+(state.deployment===match.site_id?"selected":"")+'" data-candidate="'+match.site_id+'"><small>MATCH '+(index+1)+' · '+escapeHTML(match.region)+'</small><b>'+escapeHTML(match.name)+'</b><p>p '+pformat(match.p_value)+'<br>'+slopeFormat(match.slope_per_year)+' '+slopeUnit()+'<br>'+Math.round(match.distance_km).toLocaleString()+' km away</p><small>Score '+match.score.toFixed(3)+' · Click to deploy</small></button>').join(""):'<div class="modal-note" style="grid-column:1/-1">Exactly three non-significant candidates are required. This region/period has insufficient eligible records. Try SST, 2016 onward, Great Barrier Reef.</div>';
- $("candidate-grid").querySelectorAll("[data-candidate]").forEach(button=>button.onclick=()=>{state.deployment=button.dataset.candidate;state.selected=state.deployment;render(false);map.setView([siteById[state.deployment].lat,siteById[state.deployment].lon],7)});
- const site=siteById[state.deployment],match=candidates.find(row=>row.site_id===state.deployment);
- if(!site||!match){$("deployment-details").innerHTML="<p>Select one of the three candidates as the Pi deployment site.</p>";return}
- const stats=stat(site.site_id), decision=recommendation(site,match),observation=DATA.observations[site.site_id];
- $("deployment-details").innerHTML='<h3>Deployment · '+escapeHTML(site.name)+'</h3><div class="deployment-grid"><div class="modal-note"><h3>Satellite statistics</h3><p class="statline">Mann–Kendall p '+pformat(stats.p_value)+'<br>Sen’s slope '+slopeFormat(stats.slope_per_year)+' '+slopeUnit()+'<br>Direction · '+escapeHTML(stats.direction)+'<br>Not significant · p ≥ 0.05<br>Monthly observations · '+stats.months+'</p></div><div class="modal-note"><h3>Latest Pi observation</h3>'+
- (observation?.image?'<img class="observation" src="'+observation.image+'" alt="Latest field station image">':"<p>No Pi image logged for this site yet.</p>")+
- (observation?'<p>'+escapeHTML(observation.timestamp)+'<br>Motion '+Number(observation.motion_value).toFixed(3)+'</p>':"")+
- '</div></div><h3>Recommended Action · '+decision.priority+' priority</h3><div class="action-box">'+decision.action+'</div><p>Prototype priority uses slope direction, slope similarity and distance.</p><details><summary>Connect the Pi station</summary><p>Run on the Pi and sync station/logs, including its images, into this app’s station/logs directory. Reload this dashboard to read the newest snapshot.</p><code>python station/reef_station.py --camera picamera --site '+site.site_id+'</code><p>Camera-free image test</p><code>python station/reef_station.py --fake-image --site '+site.site_id+'</code></details><div class="deployment-footer"><button class="outline" id="refresh-observation">Refresh station snapshot</button><button class="deploy-action" id="export-report">↓ Export Action Report</button></div>';
- $("export-report").onclick=exportReport;
- $("refresh-observation").onclick=()=>{location.reload()};
+function renderAssessment() {
+ const candidates = matches();
+ const reference = siteById[state.reference];
+ const referenceStats = reference ? stat(reference.site_id) : null;
+ $("reference-summary").textContent = referenceStats
+  ? reference.name + " · " + evidenceLabel(reference) + " · p " + pformat(referenceStats.p_value)
+    + " · " + slopeFormat(referenceStats.slope_per_year) + " " + slopeUnit()
+    + ". Ranking uses 60% slope difference + 40% distance."
+  : "Choose a worsening reference with p < 0.05. Try measured GBR SST from 2021 onward, or explore a demo region.";
+
+ $("candidate-grid").innerHTML = candidates.length === 3
+  ? candidates.map((match,index) => `
+   <button class="candidate ${state.deployment===match.site_id?"selected":""}" data-candidate="${match.site_id}">
+    <small>MATCH ${index+1} · ${evidenceLabel(siteById[match.site_id])}</small>
+    <b>${escapeHTML(match.name)}</b>
+    <p>p ${pformat(match.p_value)}<br>${slopeFormat(match.slope_per_year)} ${slopeUnit()}<br>${Math.round(match.distance_km).toLocaleString()} km away</p>
+    <small>Score ${match.score.toFixed(3)} · Select deployment site</small>
+   </button>`).join("")
+  : '<div class="modal-note" style="grid-column:1/-1">Exactly three non-significant candidates are required. Try SST, 2021 onward, Great Barrier Reef, or a demo region.</div>';
+
+ $("candidate-grid").querySelectorAll("[data-candidate]").forEach(button => {
+  button.onclick = () => {
+   state.deployment = button.dataset.candidate;
+   state.selected = state.deployment;
+   render(false);
+   const site = siteById[state.deployment];
+   map.flyTo([site.lat,site.lon],7,{duration:.8,animate:!reducedMotion.matches});
+  };
+ });
+ const site = siteById[state.deployment];
+ const match = candidates.find(row => row.site_id === state.deployment);
+ if(!site || !match) {
+  $("deployment-details").innerHTML = "<p>Step 3 · Select one of the three candidates as the Pi deployment site.</p>";
+  return;
+ }
+ const stats = stat(site.site_id);
+ const decision = recommendation(site,match);
+ const observation = site.is_demo ? null : DATA.observations[site.site_id];
+ const observationHTML = observation?.image
+  ? '<img class="observation" src="'+observation.image+'" alt="Latest Pi station capture at '+escapeHTML(site.name)+'">'
+  : '<p>'+(site.is_demo?"Demo location · no physical station or live image feed.":"No Pi image logged for this deployment site yet.")+'</p>';
+ const stationHelp = site.is_demo
+  ? '<p class="modal-note">Demo deployment rehearsal · the recommendation and site statistics use synthetic data. Connect a real registry location and measured series before field deployment.</p>'
+  : `<details><summary>Connect the Pi station</summary><p>Run on the Pi, then sync station/logs and its images into this app’s station/logs directory. Refresh to read the latest event.</p>
+     <code>python station/reef_station.py --camera picamera --site ${site.site_id}</code>
+     <p>Camera-free image test</p><code>python station/reef_station.py --fake-image --site ${site.site_id}</code></details>`;
+ $("deployment-details").innerHTML = `
+  <p class="evidence-label">${evidenceLabel(site)}</p><h3>Deployment site · ${escapeHTML(site.name)}</h3>
+  <div class="deployment-grid">
+   <div class="modal-note"><h3>${site.is_demo?"Synthetic demo statistics":"Satellite statistics"}</h3>
+    <p class="statline">Mann–Kendall p ${pformat(stats.p_value)}<br>Sen’s slope ${slopeFormat(stats.slope_per_year)} ${slopeUnit()}<br>
+    Direction · ${escapeHTML(stats.direction)}<br>Not significant · p ≥ 0.05<br>Monthly values · ${stats.months}</p></div>
+   <div class="modal-note"><h3>Pi station · latest observation</h3>${observationHTML}
+    ${observation?'<p>'+escapeHTML(observation.timestamp)+'<br>Motion '+Number(observation.motion_value).toFixed(3)+'</p>':""}</div>
+  </div>
+  <h3>Recommended Action · ${site.is_demo?"Demo · ":""}${decision.priority} priority</h3>
+  <div class="action-box">${decision.action}</div><p>Priority uses slope direction, slope similarity and geographic distance.</p>
+  ${stationHelp}
+  <div class="deployment-footer">
+   ${site.is_demo?"":'<button class="outline" id="refresh-observation">Refresh station snapshot</button>'}
+   <button class="deploy-action" id="export-report">↓ Export ${site.is_demo?"Demo ":""}Action Report</button>
+  </div>`;
+ $("export-report").onclick = exportReport;
+ const refresh = $("refresh-observation");
+ if(refresh) refresh.onclick = () => location.reload();
 }
+
 function renderSpecs(){
  $("spec-content").innerHTML="<h3>Current hardware configuration</h3><p>"+state.units+" buoys × $145 "+(state.tools.buoy?"enabled":"disabled")+"<br>"+state.units+" film units × $65 "+(state.tools.film?"enabled":"disabled")+"<br>"+unitNodes()+" Pi nodes × $185 "+(state.tools.node?"enabled":"disabled")+"</p><p class='modal-note'>Total "+money(budget())+" · "+state.coverage+"% of a 672 m² scenario sector · $"+(budget()/(672*state.coverage/100)).toFixed(2)+" / m² protected</p><h3>Modeled action</h3><p>Surface buoy shines toward the bottom reef for one hour at dusk. Yellow particles represent concentrated wild zooplankton. The localized surface film deflects incoming UV and releases slow-sinking nutrient droplets. The Pi node logs field imagery and temperature.</p><p>Restored mode displays colored coral, fish, light cone and active hardware. No Action hides the buoy and film, displays red radiation arrows, pale coral skeletons and an algal haze. Hardware claims and ecological responses require field validation.</p>";
 }
@@ -338,14 +597,16 @@ function downloadCSV(filename,rows){
  const cell=value=>'"'+String(value??"").replace(/"/g,'""')+'"';
  const csv=keys.map(cell).join(",")+"\r\n"+rows.map(row=>keys.map(key=>cell(row[key])).join(",")).join("\r\n");
  const url=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8"})),a=document.createElement("a");
- a.href=url;a.download=filename;a.click();setTimeout(()=>URL.revokeObjectURL(url),2000);
- toast("Downloaded "+filename);
+ a.href=url;a.download=filename;a.style.display="none";
+ document.body.appendChild(a);a.click();
+ setTimeout(()=>{URL.revokeObjectURL(url);a.remove()},30000);
+ toast("Export prepared · "+filename);
 }
 function exportData(){
  const rows=[];
  regionSites().forEach(site=>{
   const temp=new Map(selectedMonthly(site,"sst")),chl=new Map(selectedMonthly(site,"chlorophyll"));
-  [...new Set([...temp.keys(),...chl.keys()])].sort().forEach(date=>rows.push({record_type:"measured_monthly",region:REGIONS[state.region].short,site_id:site.site_id,reef:site.name,date,sst_c:temp.get(date),chlorophyll_mg_m3:chl.get(date),source:DATA.source}));
+  [...new Set([...temp.keys(),...chl.keys()])].sort().forEach(date=>rows.push({record_type:site.is_demo?"synthetic_demo_monthly":"measured_monthly",is_demo:site.is_demo,region:REGIONS[state.region].short,site_id:site.site_id,reef:site.name,date,sst_c:temp.get(date),chlorophyll_mg_m3:chl.get(date),source:sourceLabel(site)}));
  });
  const forecast=forecastSeries();
  forecast.years.forEach((year,i)=>rows.push({record_type:"illustrative_cover_scenario",region:REGIONS[state.region].short,date:year,
@@ -361,11 +622,11 @@ function exportReport(){
  site_id:site.site_id,reef:site.name,reference_site:state.reference,variable:state.variable,analysis_period:state.period,
  p_value:result.p_value,slope_per_year:result.slope_per_year,slope_unit:slopeUnit(),significant:result.significant,
  distance_km:match.distance_km,match_score:match.score,priority:decision.priority,recommended_action:decision.action,
- timestamp:obs.timestamp,image_filename:obs.image_filename,motion_value:obs.motion_value,source:DATA.source}]);
+ timestamp:obs.timestamp,image_filename:obs.image_filename,motion_value:obs.motion_value,is_demo:site.is_demo,source:sourceLabel(site)}]);
 }
 function search(){
  const query=$("search").value.trim().toLowerCase();if(!query){$("search-results").replaceChildren();return}
- const reefs=DATA.sites.filter(site=>(site.name+" "+site.region).toLowerCase().includes(query)).slice(0,6).map(site=>({label:site.name,detail:site.region,type:"reef",id:site.site_id}));
+ const reefs=DATA.sites.filter(site=>(site.name+" "+site.region).toLowerCase().includes(query)).slice(0,6).map(site=>({label:site.name,detail:site.region+" · "+evidenceLabel(site),type:"reef",id:site.site_id}));
  const taxa=TAXA.filter(taxon=>taxon.toLowerCase().includes(query)).map(taxon=>({label:taxon,detail:"Illustrative species scenario",type:"species"}));
  const other=[{label:"Sea Surface Temperature",detail:"Measured SST",type:"variable",id:"sst"},{label:"Chlorophyll-a",detail:"Measured ocean color",type:"variable",id:"chlorophyll"},{label:"Mann–Kendall and Sen’s slope",detail:"Method & model documentation",type:"method"},{label:"NASA Giovanni",detail:"Satellite data provenance",type:"method"}].filter(item=>item.label.toLowerCase().includes(query));
  const results=[...reefs,...taxa,...other].slice(0,9);
@@ -374,8 +635,8 @@ function search(){
   const item=results[Number(button.dataset.result)];
   if(item.type==="reef"){
    const region=Object.keys(REGIONS).find(key=>REGIONS[key].sites.includes(item.id));
-   if(region){state.region=region;$("region").value=region;chooseRegion()}
-   state.selected=item.id;render();map.setView([siteById[item.id].lat,siteById[item.id].lon],7);
+   if(region){state.catalog="all";$("catalog-filter").value="all";state.region=region;$("region").value=region;chooseRegion()}
+   state.catalog="all";$("catalog-filter").value="all";inspectSite(item.id);map.flyTo([siteById[item.id].lat,siteById[item.id].lon],7,{duration:.8,animate:!reducedMotion.matches});
   }else if(item.type==="species"){switchPane("species");state.species="all";drawSpecies()}
   else if(item.type==="variable"){state.variable=item.id;document.querySelector('[name="variable"][value="'+item.id+'"]').checked=true;chooseReference();render()}
   else openDialog("how-dialog");
@@ -385,6 +646,7 @@ function search(){
 function switchPane(pane){
  state.pane=pane;$("visualizer-pane").classList.toggle("hidden",pane!=="visualizer");$("species-pane").classList.toggle("hidden",pane!=="species");
  document.querySelectorAll("[data-pane]").forEach(button=>button.classList.toggle("active",button.dataset.pane===pane));
+ document.querySelectorAll("[data-pane]").forEach(button=>button.setAttribute("aria-pressed",button.dataset.pane===pane));
  if(pane==="species")drawSpecies();
 }
 $("region").onchange=event=>{state.region=event.target.value;chooseRegion()};
@@ -395,8 +657,8 @@ document.querySelectorAll("[data-tool]").forEach(input=>input.onchange=()=>{stat
 document.querySelectorAll("[data-layer]").forEach(input=>input.onchange=()=>{state.layers[input.dataset.layer]=input.checked;drawMap();if(input.checked)toast("Illustrative "+input.dataset.layer+" overlay enabled")});
 $("deploy-all").onclick=()=>{const enabled=!Object.values(state.tools).every(Boolean);state.tools={buoy:enabled,film:enabled,node:enabled};render()};
 document.querySelectorAll("[data-mode]").forEach(button=>button.onclick=()=>{const enabled=button.dataset.mode==="on";state.tools={buoy:enabled,film:enabled,node:enabled};render()});
-$("coverage").oninput=event=>{state.coverage=Number(event.target.value);render()};
-$("units").oninput=event=>{state.units=Number(event.target.value);render()};
+$("coverage").oninput=event=>{state.coverage=Number(event.target.value);scheduleIntervention()};
+$("units").oninput=event=>{state.units=Number(event.target.value);scheduleIntervention()};
 document.querySelectorAll("[data-filter]").forEach(button=>button.onclick=()=>{state.filter=button.dataset.filter;document.querySelectorAll("[data-filter]").forEach(item=>item.classList.toggle("active",item===button));drawMap()});
 document.querySelectorAll("[data-pane]").forEach(button=>button.onclick=()=>switchPane(button.dataset.pane));
 document.querySelectorAll("[data-chart]").forEach(button=>button.onclick=()=>{state.chart=button.dataset.chart;document.querySelectorAll("[data-chart]").forEach(item=>item.classList.toggle("active",item===button));drawMainChart()});
@@ -417,6 +679,24 @@ document.addEventListener("click",event=>{if(!event.target.closest(".search"))$(
 document.querySelectorAll("dialog").forEach(dialog=>{dialog.querySelector(".close").onclick=()=>dialog.close();dialog.onclick=event=>{if(event.target===dialog)dialog.close()}});
 let resizeTimer;
 window.addEventListener("resize",()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(()=>{Plotly.Plots.resize("main-chart");if(state.pane==="species")Plotly.Plots.resize("species-chart")},120)});
+$("region").innerHTML=Object.entries(REGIONS).map(([key,region])=>'<option value="'+key+'">'+escapeHTML(region.short)+'</option>').join("");
+$("region").value=state.region;
+$("catalog-filter").onchange=event=>{state.catalog=event.target.value;chooseReference();render(true)};
+$("station-selector").onchange=event=>{if(event.target.value)inspectSite(event.target.value)};
+$("browse-locations").onclick=openDirectory;
+$("directory-search").oninput=renderDirectory;
+$("help-button").onclick=()=>openDialog("guide-dialog");
+$("reset-view").onclick=()=>{state.filter="all";chooseRegion();toast("Map and reef selection reset. Hardware settings retained.")};
+$("journey-step-1").onclick=()=>{$("reference").focus();toast("Choose a statistically worsening reference reef. p must be below 0.05.")};
+$("journey-step-2").onclick=$("journey-step-3").onclick=()=>{renderAssessment();openDialog("assessment-dialog")};
+document.addEventListener("keydown",event=>{
+ if((event.ctrlKey||event.metaKey)&&event.key==="k"){event.preventDefault();$("search").focus()}
+ if(event.key==="Escape")$("search-results").replaceChildren();
+});
+document.querySelectorAll("[data-jump]").forEach(button=>button.onclick=()=>{
+ $(button.dataset.jump).scrollIntoView({behavior:reducedMotion.matches?"instant":"smooth",block:"start"});
+});
+document.querySelectorAll("button").forEach(button=>{if(!button.title)button.title=button.textContent.trim()});
 initMap();chooseReference();render(true);
 </script>
 </body>

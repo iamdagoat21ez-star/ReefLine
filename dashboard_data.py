@@ -7,6 +7,7 @@ import pandas as pd
 from scipy.stats import theilslopes
 
 from satellite import similar, trends
+from satellite.demo import demo_catalog
 
 ROOT = Path(__file__).resolve().parent
 PERIODS = {"2016": "2016", "2021": "2021", "full": None}
@@ -15,10 +16,13 @@ PERIODS = {"2016": "2016", "2021": "2021", "full": None}
 def build_dataset(include_observations=True):
     sites = []
     registry = trends.load_reefs()
-    for reef in registry.to_dict("records"):
+    regions, demo_stations = demo_catalog()
+    measured = [dict(reef, is_demo=False) for reef in registry.to_dict("records")]
+    for reef in [*measured, *demo_stations]:
         measurements = {}
         for variable in trends.VARIABLES:
-            series = trends.load_series(reef["site_id"], variable).dropna()
+            series = (reef["series"][variable] if reef["is_demo"]
+                      else trends.load_series(reef["site_id"], variable)).dropna()
             analyses = {}
             for period, start in PERIODS.items():
                 window = series.loc[start:]
@@ -38,21 +42,24 @@ def build_dataset(include_observations=True):
                 "monthly": [[date.strftime("%Y-%m-%d"), float(value)] for date, value in series.items()],
                 "analysis": analyses,
             }
-        sites.append(dict(reef, measurements=measurements))
+        metadata = {key: value for key, value in reef.items() if key != "series"}
+        sites.append(dict(metadata, measurements=measurements))
     matches = {}
     for variable in trends.VARIABLES:
         matches[variable] = {}
         for period in PERIODS:
             table = pd.DataFrame([
-                dict(site_id=site["site_id"], lat=site["lat"], lon=site["lon"],
+                dict(site_id=site["site_id"], is_demo=site["is_demo"], lat=site["lat"], lon=site["lon"],
                      name=site["name"], region=site["region"],
                      **site["measurements"][variable]["analysis"][period])
                 for site in sites
             ])
             pool = {}
             for site in table.loc[table.worsening, "site_id"]:
-                if (~table.significant).sum() >= 3:
-                    pool[site] = similar.find_similar(site, variable, trends=table).to_dict("records")
+                is_demo = bool(table.loc[table.site_id == site, "is_demo"].iloc[0])
+                eligible_pool = table.loc[table.is_demo == is_demo]
+                if (~eligible_pool.significant).sum() >= 3:
+                    pool[site] = similar.find_similar(site, variable, trends=eligible_pool).to_dict("records")
             matches[variable][period] = pool
     observations = {}
     if include_observations:
@@ -71,7 +78,7 @@ def build_dataset(include_observations=True):
                 observations[site_id] = entry
         except (OSError, ValueError, AttributeError):
             pass
-    return dict(sites=sites, matches=matches, observations=observations,
+    return dict(sites=sites, regions=regions, matches=matches, observations=observations,
                 source="NASA Giovanni · MODIS-Aqua monthly 4 km",
                 periods=PERIODS)
 

@@ -18,7 +18,7 @@ iframe {display:block;width:100%;height:100dvh!important;border:0}
 """, unsafe_allow_html=True)
 
 
-@st.cache_data(ttl=30, show_spinner="Analyzing monthly satellite records…")
+@st.cache_data(ttl=3600, show_spinner="Analyzing monthly satellite records…")
 def satellite_snapshot(log_modified):
     return build_dataset()
 
