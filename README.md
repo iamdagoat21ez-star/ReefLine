@@ -38,8 +38,17 @@ Static snapshots exclude local Pi camera records. The Streamlit application read
 
 ## Location explorer
 
-The catalog includes 300 locations across 36 regions: the original 12 NASA stations and 288 fictional demo reefs. Demo names, coordinates and monthly series are generated deterministically by satellite/demo.py. They are labeled in the map, inspector, historical chart, deployment view and CSV exports. The Location data filter switches between all, measured-only and demo-only views.
+The catalog includes 514 locations in 36 regional views plus worldwide views: the original 12 NASA stations, 288 fictional demo reefs and 214 documented NOAA reef-region markers with demo environmental series. Fictional location names, coordinates and monthly series are generated deterministically by satellite/demo.py. NOAA reef-region names and coordinates retain their documented geography source. They are labeled in the map, inspector, historical chart, deployment view and CSV exports. The Location data filter switches between all, measured-only and demo-only views.
 
 Both evidence types use the same Mann–Kendall, Sen slope and candidate-ranking pipeline. Matching pools remain separate, so measured NASA references receive measured candidates. Demo locations support deployment rehearsal without claiming a live station connection.
 
 Use the sidebar shortcuts for Locations, Data, Layers and Hardware. The three-step navigation above the map follows reference selection, comparison of exactly three candidates, then Pi deployment and Action Report export. Browse all opens the searchable region directory. Quick guide explains controls, labels and data provenance.
+
+
+## Worldwide coastal view
+
+The map opens in Worldwide reef explorer, displaying 514 locations across all ocean basins. The World view button restores this overview after zooming. Existing regional filters remain available.
+
+An additional 214 named coastal reef-region markers use NOAA Coral Reef Watch's published geography, stored in data/reef_coasts.json with its source URL. These are regional markers rather than exact reef boundaries or deployed hardware. Their environmental series are synthetic demo fixtures, labeled separately from the 12 measured NASA stations and 288 fictional demo locations. Search supports coastal names such as Belize, Galapagos, Abrolhos Reefs, Puerto Rico and Seychelles.
+
+The sidebar fades from ice blue at the top to deep navy at the bottom. Light control cards keep labels legible at every scroll position.

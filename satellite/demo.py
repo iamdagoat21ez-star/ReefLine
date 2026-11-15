@@ -1,8 +1,11 @@
-"""Deterministic fictional reef locations for the frontend explorer.
+"""Demo environmental records on fictional and documented reef locations.
 
-Names, coordinates and environmental series are synthetic demonstration fixtures.
-They are never written over the measured NASA data.
+NOAA reef-region marker coordinates retain their geography attribution.
+All added environmental series are synthetic and never overwrite NASA records.
 """
+import json
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
 
@@ -51,7 +54,7 @@ NAMES = [
 
 
 def demo_catalog():
-    """Return 288 explicitly synthetic stations across 36 explorer regions."""
+    """Return fictional fixtures plus documented NOAA geography with demo series."""
     regions, stations = {}, []
     dates = pd.date_range("2016-01-01", "2025-12-01", freq="MS")
     t = np.arange(len(dates), dtype=float)
@@ -84,6 +87,33 @@ def demo_catalog():
             "sites": region_ids, "base": 38 + region_index % 5,
             "factor": round(.9 + region_index % 7 * .025, 3),
         }
+    coastal_catalog = json.loads((Path(__file__).resolve().parents[1] / "data/reef_coasts.json").read_text())
+    coast_ids = []
+    for index, location in enumerate(coastal_catalog["locations"]):
+        site_id = f"demo_coast_{index + 1:03d}"
+        rng = np.random.default_rng(42000 + index)
+        series = {}
+        for variable in ("sst", "chlorophyll"):
+            scale = 1.0 if variable == "sst" else .035
+            slope = (.018 if index % 4 == 0 else .0001) * scale
+            seasonal = (1.0 if variable == "sst" else .05) * np.sin(2 * np.pi * t / 12)
+            noise = rng.normal(0, .30 if variable == "sst" else .025, len(t))
+            series[variable] = pd.Series((27.8 if variable == "sst" else .38) + seasonal + slope * t + noise, index=dates)
+        stations.append(dict(
+            location, site_id=site_id, region="Known reef coasts · NOAA worldwide",
+            is_demo=True, geography_source=coastal_catalog["source"],
+            geography_source_url=coastal_catalog["source_url"],
+            data_source="Synthetic demo environmental series · NOAA marker geography",
+            series=series,
+        ))
+        coast_ids.append(site_id)
+    regions["coasts"] = dict(
+        short="Known reef coasts · NOAA worldwide", center=[8, 0], zoom=1,
+        sites=coast_ids, base=38, factor=1,
+    )
     regions["gbr"].update(base=38, factor=1, zoom=5)
     regions["florida"]["zoom"] = 5
+    all_ids = list(dict.fromkeys(site for region in regions.values() for site in region["sites"]))
+    regions = {"world": dict(short="Worldwide reef explorer", center=[8, 0], zoom=1,
+                              sites=all_ids, base=38, factor=1), **regions}
     return regions, stations

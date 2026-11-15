@@ -1,0 +1,1077 @@
+{
+  "source": "NOAA Coral Reef Watch \u00b7 Regional Virtual Station marker locations",
+  "source_url": "https://coralreefwatch.noaa.gov/product/vs/CRW_RVS_Name_and_Marker_Location.xlsx",
+  "description": "Regional marker coordinates describe reef areas. No NOAA telemetry is included. Environmental series in ReefLine are demo fixtures for these locations.",
+  "locations": [
+    {
+      "name": "Aruba, Curacao, and Bonaire",
+      "lat": 12.3,
+      "lon": -69.125
+    },
+    {
+      "name": "Abrolhos Reefs, Brazil",
+      "lat": -17.225,
+      "lon": -39.0
+    },
+    {
+      "name": "Aden, Yemen",
+      "lat": 12.775,
+      "lon": 44.925
+    },
+    {
+      "name": "Al Wusta, Oman",
+      "lat": 19.625,
+      "lon": 57.9
+    },
+    {
+      "name": "Andaman, India",
+      "lat": 12.725,
+      "lon": 93.15
+    },
+    {
+      "name": "Austral Islands",
+      "lat": -24.825,
+      "lon": -149.1
+    },
+    {
+      "name": "Bahrain",
+      "lat": 26.125,
+      "lon": 50.75
+    },
+    {
+      "name": "Bangka-Belitung Islands",
+      "lat": -2.3,
+      "lon": 107.0
+    },
+    {
+      "name": "Bassas da India, France",
+      "lat": -21.9,
+      "lon": 40.025
+    },
+    {
+      "name": "Beagle Gulf",
+      "lat": -12.775,
+      "lon": 130.425
+    },
+    {
+      "name": "Belize",
+      "lat": 17.025,
+      "lon": -88.075
+    },
+    {
+      "name": "Bermuda",
+      "lat": 32.35,
+      "lon": -64.825
+    },
+    {
+      "name": "Brunei Darussalam",
+      "lat": 5.025,
+      "lon": 114.675
+    },
+    {
+      "name": "Buzios, Brazil",
+      "lat": -22.725,
+      "lon": -41.8
+    },
+    {
+      "name": "Cape Verde Islands",
+      "lat": 15.975,
+      "lon": -24.025
+    },
+    {
+      "name": "Cayman Islands",
+      "lat": 19.5,
+      "lon": -80.575
+    },
+    {
+      "name": "Central Bahamas",
+      "lat": 23.9,
+      "lon": -77.425
+    },
+    {
+      "name": "Central Mozambique",
+      "lat": -16.2,
+      "lon": 39.55
+    },
+    {
+      "name": "Central Philippines",
+      "lat": 13.95,
+      "lon": 122.225
+    },
+    {
+      "name": "Central Western Australia",
+      "lat": -20.7,
+      "lon": 116.9
+    },
+    {
+      "name": "Chagos Archipelago, UK",
+      "lat": -6.2,
+      "lon": 71.75
+    },
+    {
+      "name": "Chesterfield Islands",
+      "lat": -20.4,
+      "lon": 158.9
+    },
+    {
+      "name": "Christmas Island, Australia",
+      "lat": -10.375,
+      "lon": 105.575
+    },
+    {
+      "name": "Clipperton Island, France",
+      "lat": 10.3,
+      "lon": -109.2
+    },
+    {
+      "name": "Colombia Atlantic",
+      "lat": 9.925,
+      "lon": -75.525
+    },
+    {
+      "name": "Comoros",
+      "lat": -11.9,
+      "lon": 43.8
+    },
+    {
+      "name": "Costa dos Corais, Brazil",
+      "lat": -9.25,
+      "lon": -35.525
+    },
+    {
+      "name": "Costa Rica Atlantic",
+      "lat": 9.9,
+      "lon": -82.85
+    },
+    {
+      "name": "Costa Rica Pacific",
+      "lat": 9.5,
+      "lon": -84.425
+    },
+    {
+      "name": "Dhofar, Oman",
+      "lat": 17.375,
+      "lon": 55.5
+    },
+    {
+      "name": "Dongsha, Taiwan",
+      "lat": 20.975,
+      "lon": 116.225
+    },
+    {
+      "name": "Eastern Gulf of Thailand",
+      "lat": 11.25,
+      "lon": 102.5
+    },
+    {
+      "name": "East Java and Bali",
+      "lat": -6.95,
+      "lon": 114.1
+    },
+    {
+      "name": "East Kalimantan",
+      "lat": 0.625,
+      "lon": 117.925
+    },
+    {
+      "name": "East Nusa Tenggara",
+      "lat": -9.325,
+      "lon": 122.05
+    },
+    {
+      "name": "Easter Island, Chile",
+      "lat": -27.175,
+      "lon": -109.325
+    },
+    {
+      "name": "Eastern FSM",
+      "lat": 5.15,
+      "lon": 153.0
+    },
+    {
+      "name": "Eastern New Caledonia",
+      "lat": -20.75,
+      "lon": 165.975
+    },
+    {
+      "name": "Eastern Persian Gulf",
+      "lat": 25.925,
+      "lon": 54.05
+    },
+    {
+      "name": "Eastern Philippines",
+      "lat": 10.95,
+      "lon": 123.9
+    },
+    {
+      "name": "Eastern Sri Lanka",
+      "lat": 8.075,
+      "lon": 81.575
+    },
+    {
+      "name": "Eastern Yemen",
+      "lat": 14.475,
+      "lon": 49.675
+    },
+    {
+      "name": "Egypt",
+      "lat": 24.325,
+      "lon": 35.575
+    },
+    {
+      "name": "El Salvador",
+      "lat": 13.175,
+      "lon": -87.75
+    },
+    {
+      "name": "Eritrea",
+      "lat": 15.525,
+      "lon": 40.75
+    },
+    {
+      "name": "Fernando de Noronha, Brazil",
+      "lat": -3.875,
+      "lon": -33.1
+    },
+    {
+      "name": "Fiji",
+      "lat": -16.775,
+      "lon": 179.35
+    },
+    {
+      "name": "Florida Keys",
+      "lat": 24.75,
+      "lon": -81.625
+    },
+    {
+      "name": "Flower Garden Banks, Texas",
+      "lat": 28.05,
+      "lon": -93.975
+    },
+    {
+      "name": "Galapagos, Ecuador",
+      "lat": 0.15,
+      "lon": -90.625
+    },
+    {
+      "name": "Central GBR",
+      "lat": -19.225,
+      "lon": 148.275
+    },
+    {
+      "name": "Far Northern GBR",
+      "lat": -12.675,
+      "lon": 144.1
+    },
+    {
+      "name": "Northern GBR",
+      "lat": -16.1,
+      "lon": 145.975
+    },
+    {
+      "name": "Southern GBR",
+      "lat": -22.625,
+      "lon": 151.125
+    },
+    {
+      "name": "Gilbert Islands, Kiribati",
+      "lat": 0.35,
+      "lon": 173.2
+    },
+    {
+      "name": "Glorioso Islands",
+      "lat": -11.975,
+      "lon": 46.775
+    },
+    {
+      "name": "Great Nicobar, India",
+      "lat": 8.025,
+      "lon": 93.325
+    },
+    {
+      "name": "Guam",
+      "lat": 13.15,
+      "lon": 144.625
+    },
+    {
+      "name": "Gulf of Aqaba",
+      "lat": 28.6,
+      "lon": 34.625
+    },
+    {
+      "name": "Gulf of Carpentaria",
+      "lat": -14.5,
+      "lon": 138.85
+    },
+    {
+      "name": "Gulf of Kutch, India",
+      "lat": 22.225,
+      "lon": 69.575
+    },
+    {
+      "name": "Gulf of Mannar",
+      "lat": 8.85,
+      "lon": 78.975
+    },
+    {
+      "name": "Gulf of Oman",
+      "lat": 24.1,
+      "lon": 58.5
+    },
+    {
+      "name": "Gulf of Suez",
+      "lat": 28.4,
+      "lon": 33.35
+    },
+    {
+      "name": "Gulf of Tadjoura, Djubouti",
+      "lat": 11.775,
+      "lon": 43.3
+    },
+    {
+      "name": "Hainan Island, China",
+      "lat": 19.125,
+      "lon": 109.85
+    },
+    {
+      "name": "Hamelin Pool",
+      "lat": -26.1,
+      "lon": 113.95
+    },
+    {
+      "name": "Main Hawaiian Islands",
+      "lat": 20.575,
+      "lon": -157.7
+    },
+    {
+      "name": "Honduras",
+      "lat": 16.7,
+      "lon": -85.85
+    },
+    {
+      "name": "Hong Kong, China",
+      "lat": 22.25,
+      "lon": 114.375
+    },
+    {
+      "name": "Houtman Abrolhos",
+      "lat": -28.5,
+      "lon": 113.85
+    },
+    {
+      "name": "Howland and Baker",
+      "lat": 0.5,
+      "lon": -176.525
+    },
+    {
+      "name": "Inhambane, Mozambique",
+      "lat": -23.0,
+      "lon": 35.975
+    },
+    {
+      "name": "Isla del Coco, Costa Rica",
+      "lat": 5.55,
+      "lon": -87.075
+    },
+    {
+      "name": "Jamaica",
+      "lat": 17.675,
+      "lon": -77.25
+    },
+    {
+      "name": "Jazan, Saudi Arabia",
+      "lat": 17.175,
+      "lon": 41.8
+    },
+    {
+      "name": "Johnston Atoll",
+      "lat": 16.7,
+      "lon": -169.475
+    },
+    {
+      "name": "Johor and Pahang, Malaysia",
+      "lat": 2.25,
+      "lon": 104.2
+    },
+    {
+      "name": "Kenya",
+      "lat": -3.2,
+      "lon": 40.525
+    },
+    {
+      "name": "Kerala, India",
+      "lat": 9.9,
+      "lon": 76.3
+    },
+    {
+      "name": "La Guajira, Colombia",
+      "lat": 12.075,
+      "lon": -71.925
+    },
+    {
+      "name": "Lakshadweep, India",
+      "lat": 10.325,
+      "lon": 72.875
+    },
+    {
+      "name": "Lampung and Banten",
+      "lat": -5.925,
+      "lon": 105.075
+    },
+    {
+      "name": "Leeward Caribbean Islands",
+      "lat": 16.775,
+      "lon": -62.325
+    },
+    {
+      "name": "Lord Howe Island, Australia",
+      "lat": -31.275,
+      "lon": 159.225
+    },
+    {
+      "name": "Al Madinah and Makkah",
+      "lat": 21.125,
+      "lon": 39.45
+    },
+    {
+      "name": "Malacca Strait, Malaysia",
+      "lat": 3.225,
+      "lon": 101.35
+    },
+    {
+      "name": "Maldives",
+      "lat": 3.3,
+      "lon": 72.95
+    },
+    {
+      "name": "Maluku, Indonesia",
+      "lat": -5.55,
+      "lon": 130.425
+    },
+    {
+      "name": "Maputo, Mozambique",
+      "lat": -26.15,
+      "lon": 33.275
+    },
+    {
+      "name": "Maracajau, Brazil",
+      "lat": -6.1,
+      "lon": -35.125
+    },
+    {
+      "name": "Marmion and Rottnest Island",
+      "lat": -31.925,
+      "lon": 115.5
+    },
+    {
+      "name": "Marquesas Islands",
+      "lat": -9.275,
+      "lon": -139.625
+    },
+    {
+      "name": "Marshall Islands",
+      "lat": 8.45,
+      "lon": 167.1
+    },
+    {
+      "name": "Mayotte, France",
+      "lat": -12.925,
+      "lon": 45.4
+    },
+    {
+      "name": "Moreton Bay, Australia",
+      "lat": -27.075,
+      "lon": 153.575
+    },
+    {
+      "name": "Nauru",
+      "lat": -0.525,
+      "lon": 166.925
+    },
+    {
+      "name": "Nearshore Venezuela",
+      "lat": 10.625,
+      "lon": -66.275
+    },
+    {
+      "name": "Nicaragua",
+      "lat": 14.125,
+      "lon": -81.75
+    },
+    {
+      "name": "Ningaloo",
+      "lat": -23.225,
+      "lon": 113.9
+    },
+    {
+      "name": "Norfolk Island, Australia",
+      "lat": -29.05,
+      "lon": 167.95
+    },
+    {
+      "name": "North Maluku, Indonesia",
+      "lat": 0.125,
+      "lon": 126.7
+    },
+    {
+      "name": "North Sulawesi",
+      "lat": 2.575,
+      "lon": 125.075
+    },
+    {
+      "name": "North Western Australia",
+      "lat": -15.75,
+      "lon": 124.775
+    },
+    {
+      "name": "Northeastern Cuba",
+      "lat": 21.225,
+      "lon": -75.925
+    },
+    {
+      "name": "Northeastern Madagascar",
+      "lat": -15.325,
+      "lon": 49.875
+    },
+    {
+      "name": "Northern Bahamas",
+      "lat": 26.5,
+      "lon": -77.95
+    },
+    {
+      "name": "Northern Borneo, Malaysia",
+      "lat": 3.85,
+      "lon": 113.425
+    },
+    {
+      "name": "Northern Mariana Islands",
+      "lat": 17.25,
+      "lon": 145.55
+    },
+    {
+      "name": "Northern Cook Islands",
+      "lat": -10.95,
+      "lon": -165.2
+    },
+    {
+      "name": "Northern Coral Sea Islands",
+      "lat": -16.0,
+      "lon": 149.35
+    },
+    {
+      "name": "Northern Hispaniola",
+      "lat": 19.325,
+      "lon": -70.675
+    },
+    {
+      "name": "Northern Java",
+      "lat": -6.225,
+      "lon": 109.525
+    },
+    {
+      "name": "Northern Line Islands",
+      "lat": 3.025,
+      "lon": -159.8
+    },
+    {
+      "name": "Northern Mauritius",
+      "lat": -10.575,
+      "lon": 58.675
+    },
+    {
+      "name": "Northern Mozambique",
+      "lat": -12.625,
+      "lon": 41.0
+    },
+    {
+      "name": "Northern Myanmar",
+      "lat": 18.15,
+      "lon": 93.5
+    },
+    {
+      "name": "Northern Philippines",
+      "lat": 17.75,
+      "lon": 121.125
+    },
+    {
+      "name": "Northern Ryukyu Islands, Japan",
+      "lat": 28.3,
+      "lon": 129.0
+    },
+    {
+      "name": "Northern Taiwan",
+      "lat": 25.1,
+      "lon": 121.725
+    },
+    {
+      "name": "Northern Territory",
+      "lat": -10.975,
+      "lon": 134.3
+    },
+    {
+      "name": "Northern Tonga",
+      "lat": -15.8,
+      "lon": -175.2
+    },
+    {
+      "name": "Northern Vietnam",
+      "lat": 18.1,
+      "lon": 107.475
+    },
+    {
+      "name": "Northwestern Cuba",
+      "lat": 22.65,
+      "lon": -81.275
+    },
+    {
+      "name": "Northwestern Madagascar",
+      "lat": -14.05,
+      "lon": 46.8
+    },
+    {
+      "name": "Northwestern Sumatra",
+      "lat": 2.95,
+      "lon": 97.225
+    },
+    {
+      "name": "Northwestern Hawaiian Islands",
+      "lat": 25.675,
+      "lon": -170.125
+    },
+    {
+      "name": "Offshore Venezuela",
+      "lat": 11.425,
+      "lon": -65.35
+    },
+    {
+      "name": "Ogasawara Islands",
+      "lat": 27.125,
+      "lon": 142.175
+    },
+    {
+      "name": "Palau",
+      "lat": 7.675,
+      "lon": 134.425
+    },
+    {
+      "name": "Panama Atlantic East",
+      "lat": 9.2,
+      "lon": -78.7
+    },
+    {
+      "name": "Panama Atlantic West",
+      "lat": 9.2,
+      "lon": -81.65
+    },
+    {
+      "name": "Panama Pacific East",
+      "lat": 8.175,
+      "lon": -79.325
+    },
+    {
+      "name": "Panama Pacific West",
+      "lat": 7.725,
+      "lon": -82.25
+    },
+    {
+      "name": "Papua New Guinea",
+      "lat": -6.425,
+      "lon": 151.15
+    },
+    {
+      "name": "Paracel Islands, China",
+      "lat": 16.45,
+      "lon": 112.025
+    },
+    {
+      "name": "Phoenix Islands, Kiribati",
+      "lat": -3.15,
+      "lon": -172.825
+    },
+    {
+      "name": "Pitcairn Islands",
+      "lat": -24.35,
+      "lon": -129.575
+    },
+    {
+      "name": "Puerto Rico",
+      "lat": 18.2,
+      "lon": -66.625
+    },
+    {
+      "name": "Pulu Keeling, Australia",
+      "lat": -12.025,
+      "lon": 96.9
+    },
+    {
+      "name": "Quintana Roo, Mexico",
+      "lat": 19.925,
+      "lon": -87.4
+    },
+    {
+      "name": "Riau Islands",
+      "lat": 2.475,
+      "lon": 107.4
+    },
+    {
+      "name": "Rowley Shoals",
+      "lat": -17.325,
+      "lon": 119.25
+    },
+    {
+      "name": "Sabah, Malaysia",
+      "lat": 5.8,
+      "lon": 117.2
+    },
+    {
+      "name": "Samoas",
+      "lat": -12.825,
+      "lon": -170.475
+    },
+    {
+      "name": "Sao Tome and Principe",
+      "lat": 0.825,
+      "lon": 6.95
+    },
+    {
+      "name": "Scott to Ashmore Reefs",
+      "lat": -13.475,
+      "lon": 122.625
+    },
+    {
+      "name": "Seychelles",
+      "lat": -7.0,
+      "lon": 51.325
+    },
+    {
+      "name": "Shark Bay",
+      "lat": -25.475,
+      "lon": 113.0
+    },
+    {
+      "name": "Singapore Strait",
+      "lat": 0.2,
+      "lon": 104.15
+    },
+    {
+      "name": "Society Archipelago",
+      "lat": -16.95,
+      "lon": -151.375
+    },
+    {
+      "name": "Socotra, Yemen",
+      "lat": 12.425,
+      "lon": 53.25
+    },
+    {
+      "name": "Solomon Islands",
+      "lat": -8.7,
+      "lon": 162.175
+    },
+    {
+      "name": "Somalia",
+      "lat": 0.575,
+      "lon": 44.075
+    },
+    {
+      "name": "South Africa",
+      "lat": -27.775,
+      "lon": 32.725
+    },
+    {
+      "name": "South Sulawesi",
+      "lat": -5.325,
+      "lon": 119.625
+    },
+    {
+      "name": "Southeast Florida",
+      "lat": 26.3,
+      "lon": -80.075
+    },
+    {
+      "name": "South East Sulawesi",
+      "lat": -5.0,
+      "lon": 122.75
+    },
+    {
+      "name": "Southeastern Cuba",
+      "lat": 20.675,
+      "lon": -77.025
+    },
+    {
+      "name": "Southeastern India",
+      "lat": 11.7,
+      "lon": 80.15
+    },
+    {
+      "name": "Southeastern Madagascar",
+      "lat": -22.35,
+      "lon": 47.75
+    },
+    {
+      "name": "Southern Borneo",
+      "lat": -3.575,
+      "lon": 116.55
+    },
+    {
+      "name": "Southern Cook Islands",
+      "lat": -19.975,
+      "lon": -163.625
+    },
+    {
+      "name": "Southern Coral Sea Islands",
+      "lat": -21.1,
+      "lon": 153.975
+    },
+    {
+      "name": "Southern Hispaniola",
+      "lat": 18.65,
+      "lon": -71.775
+    },
+    {
+      "name": "Southern Java",
+      "lat": -7.65,
+      "lon": 108.4
+    },
+    {
+      "name": "Southern Line Islands",
+      "lat": -7.7,
+      "lon": -153.075
+    },
+    {
+      "name": "Southern Mauritius",
+      "lat": -18.75,
+      "lon": 60.45
+    },
+    {
+      "name": "Southern Myanmar",
+      "lat": 12.175,
+      "lon": 97.9
+    },
+    {
+      "name": "Southern Philippines",
+      "lat": 7.4,
+      "lon": 122.9
+    },
+    {
+      "name": "Southern Ryukyu Islands, Japan",
+      "lat": 24.975,
+      "lon": 124.2
+    },
+    {
+      "name": "Southern Sri Lanka",
+      "lat": 6.3,
+      "lon": 80.65
+    },
+    {
+      "name": "Southern Taiwan",
+      "lat": 22.875,
+      "lon": 120.55
+    },
+    {
+      "name": "Southern Tonga",
+      "lat": -19.95,
+      "lon": -175.05
+    },
+    {
+      "name": "Southern Vietnam",
+      "lat": 11.3,
+      "lon": 108.125
+    },
+    {
+      "name": "Southwestern Cuba",
+      "lat": 21.75,
+      "lon": -82.475
+    },
+    {
+      "name": "Southwestern Madagascar",
+      "lat": -22.675,
+      "lon": 44.05
+    },
+    {
+      "name": "Southwestern Sumatra",
+      "lat": -2.875,
+      "lon": 100.4
+    },
+    {
+      "name": "Southwestern Thailand",
+      "lat": 7.675,
+      "lon": 98.875
+    },
+    {
+      "name": "Spratly Islands",
+      "lat": 7.95,
+      "lon": 113.75
+    },
+    {
+      "name": "Sudan",
+      "lat": 20.4,
+      "lon": 37.625
+    },
+    {
+      "name": "Central Sulawesi and Gorontalo",
+      "lat": -1.05,
+      "lon": 123.025
+    },
+    {
+      "name": "Tabuk, Saudi Arabia",
+      "lat": 26.0,
+      "lon": 36.175
+    },
+    {
+      "name": "Tanzania",
+      "lat": -7.575,
+      "lon": 39.725
+    },
+    {
+      "name": "Terengganu, Malaysia",
+      "lat": 5.375,
+      "lon": 103.15
+    },
+    {
+      "name": "Timor-Leste",
+      "lat": -8.325,
+      "lon": 127.225
+    },
+    {
+      "name": "Todos os Santos, Brazil",
+      "lat": -13.375,
+      "lon": -38.375
+    },
+    {
+      "name": "Torres Strait",
+      "lat": -9.95,
+      "lon": 143.65
+    },
+    {
+      "name": "Trinadade and Martim Vaz, Brazil",
+      "lat": -20.475,
+      "lon": -29.125
+    },
+    {
+      "name": "Trinidad and Tobago",
+      "lat": 10.875,
+      "lon": -60.725
+    },
+    {
+      "name": "Tromelin and Reunion, France",
+      "lat": -18.625,
+      "lon": 54.975
+    },
+    {
+      "name": "Tuamotu Archipelago",
+      "lat": -18.975,
+      "lon": -141.5
+    },
+    {
+      "name": "Turks and Caicos",
+      "lat": 22.0,
+      "lon": -72.725
+    },
+    {
+      "name": "Tuvalu",
+      "lat": -7.525,
+      "lon": 177.975
+    },
+    {
+      "name": "Virgin Islands",
+      "lat": 18.2,
+      "lon": -64.55
+    },
+    {
+      "name": "Vanuatu",
+      "lat": -16.65,
+      "lon": 168.375
+    },
+    {
+      "name": "Veracruz, Mexico",
+      "lat": 20.35,
+      "lon": -96.075
+    },
+    {
+      "name": "Wake Atoll",
+      "lat": 19.3,
+      "lon": 166.8
+    },
+    {
+      "name": "Wallis and Futuna",
+      "lat": -13.625,
+      "lon": -176.9
+    },
+    {
+      "name": "Western Gulf of Thailand",
+      "lat": 10.9,
+      "lon": 99.75
+    },
+    {
+      "name": "West Kalimantan",
+      "lat": -1.05,
+      "lon": 109.375
+    },
+    {
+      "name": "West Nusa Tenggara",
+      "lat": -8.625,
+      "lon": 117.625
+    },
+    {
+      "name": "West Papua",
+      "lat": -1.625,
+      "lon": 133.9
+    },
+    {
+      "name": "West Sulawesi",
+      "lat": -2.275,
+      "lon": 119.075
+    },
+    {
+      "name": "West Timor",
+      "lat": -9.925,
+      "lon": 123.775
+    },
+    {
+      "name": "Western FSM",
+      "lat": 9.1,
+      "lon": 139.45
+    },
+    {
+      "name": "Western India",
+      "lat": 17.675,
+      "lon": 72.2
+    },
+    {
+      "name": "Western Madagascar",
+      "lat": -17.45,
+      "lon": 43.45
+    },
+    {
+      "name": "Western New Caledonia",
+      "lat": -21.025,
+      "lon": 165.075
+    },
+    {
+      "name": "Western Persian Gulf",
+      "lat": 28.325,
+      "lon": 49.375
+    },
+    {
+      "name": "Western Philippines",
+      "lat": 10.5,
+      "lon": 119.225
+    },
+    {
+      "name": "Western Yemen",
+      "lat": 14.35,
+      "lon": 42.6
+    },
+    {
+      "name": "Windward Caribbean Islands",
+      "lat": 13.4,
+      "lon": -60.475
+    },
+    {
+      "name": "Yucatan Peninsula",
+      "lat": 21.3,
+      "lon": -90.325
+    }
+  ]
+}
