@@ -328,7 +328,7 @@ def main() -> None:
     start = periods[period]
     st.sidebar.markdown("**3. Trend options**")
     show_significant = st.sidebar.checkbox("Statistically significant trends (p < 0.05)", value=True)
-    show_early = st.sidebar.checkbox("Show early-detection matches", value=True)
+    show_early = st.sidebar.checkbox("Show early-detection matches on map", value=True)
     st.sidebar.info(
         "Data source: NASA Giovanni, MODIS-Aqua monthly 4 km.\n\n"
         "Mann–Kendall and Sen's slope are calculated on the deseasonalized monthly series. "
@@ -345,7 +345,11 @@ def main() -> None:
     worsening = in_region.loc[in_region["worsening"]].sort_values("site_id")
     names = table.set_index("site_id")["name"].to_dict()
 
-    if worsening.empty:
+    eligible_count = int((~table["significant"]).sum())
+    if eligible_count < 3:
+        reference = None
+        st.sidebar.info(f"Only {eligible_count} reefs have p ≥ 0.05 in this analysis. Select another period or variable to compare three deployment candidates.")
+    elif worsening.empty:
         reference = None
         st.sidebar.warning("No reef in this region has a significant worsening trend for this variable.")
     else:
@@ -356,12 +360,12 @@ def main() -> None:
         )
 
     matches = pd.DataFrame(columns=similar._CANDIDATE_COLUMNS)
-    if reference and show_early:
+    if reference:
         try:
-            matches = similar.rank_candidates(reference, variable, trends=table)
+            matches = similar.find_similar(reference, variable, trends=table)
         except (OSError, ValueError, KeyError) as exc:
             st.error(f"Unable to rank early-detection reefs: {exc}")
-    shown_matches = matches.head(3) if len(matches) >= 3 else matches.iloc[:0]
+    shown_matches = matches
     match_ids = set(shown_matches["site_id"]) if show_early else set()
 
     mapped = table.copy()
@@ -394,6 +398,14 @@ def main() -> None:
         else:
             updated.markdown('<div class="updated-pill">NASA Giovanni MODIS-Aqua</div>', unsafe_allow_html=True)
 
+    workflow, scenarios = st.tabs(["Reef assessment & deployment", "Coral cover & buoy visualizer"])
+    with scenarios:
+        show_scenarios()
+    with workflow:
+        show_assessment(table, mapped, reference, shown_matches, show_early, names, variable, period, start)
+
+
+def show_assessment(table, mapped, reference, shown_matches, show_early, names, variable, period, start):
     with st.container(key="reefmap"):
         st.subheader("Satellite reef map")
         st.caption(f"{VARIABLES[variable]['label']} · {period} · NASA Giovanni, MODIS-Aqua. Hover over a reef for its measured trend.")
@@ -414,11 +426,11 @@ def main() -> None:
             unsafe_allow_html=True,
         )
 
-    show_scenarios()
 
     if reference is None:
         return
 
+    series = trends.load_series(reference, variable).loc[start:]
     row = table.set_index("site_id").loc[reference]
     with st.container(key="trendpanel"):
         chart_col, summary_col = st.columns([1.7, 1], gap="medium")
@@ -449,8 +461,6 @@ def main() -> None:
                 "#D7263D" if row["worsening"] else "#9fb3c8",
             )
 
-    if not show_early:
-        return
 
     st.subheader(f"Reefs at risk from {names[reference]}")
     st.markdown(
@@ -458,7 +468,7 @@ def main() -> None:
         "and its profile is close: **60% Sen's slope**, **40% distance**."
     )
     if len(shown_matches) < 3:
-        st.info(f"This analysis has {len(matches)} eligible reefs. Three are required for deployment. Try another variable or analysis period.")
+        st.warning("Three deployment candidates could not be loaded.")
         return
     cards = st.columns(len(shown_matches))
     for card, (_, match) in zip(cards, shown_matches.iterrows()):
