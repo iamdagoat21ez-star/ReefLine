@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ReefLine: Coral Reef Trend Analysis & Active Biological Intervention Platform</title>
+<link rel="stylesheet" href="vendor/leaflet.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--coral:#ff6b6b;--orange:#ff8e53;--red:#ff334b;--yellow:#ffd000;--green:#00e676;--sky:#00b0ff;--ink:#0b2239;--muted:#94b8d7;--border:rgba(255,107,107,.35)}
+*{box-sizing:border-box}body{margin:0;color:#f8fafc;font:12px Inter,Arial,sans-serif;background:linear-gradient(90deg,#f2f8ff 0%,#e3effc 18%,#9cc2e6 38%,#3a6b9c 60%,#122c4f 82%,#071833 100%)}button,input,select{font:inherit}button,summary{cursor:pointer}button{color:inherit}button,input,select,.kpi,.panel{transition:transform .2s cubic-bezier(.2,.8,.2,1),border-color .2s,box-shadow .2s}button:hover,.kpi:hover{transform:translateY(-2px);border-color:var(--coral);box-shadow:0 3px 14px #ff6b6b18}button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--sky);outline-offset:3px}button:disabled{opacity:.5;cursor:default}button svg{width:15px;height:15px}h1,h2,h3,p{margin:0}small{font-size:10px}code,.mono,.readout{font-family:"JetBrains Mono",monospace}.shell{height:100dvh;min-height:760px;display:flex;gap:12px;padding:12px;max-width:2400px;margin:auto}.glass{background:rgba(8,22,44,.82);backdrop-filter:blur(16px);border:1px solid var(--border);border-radius:15px;box-shadow:0 8px 22px #07183314}.sidebar{width:300px;flex-shrink:0;display:flex;flex-direction:column;background:rgba(255,255,255,.8);color:var(--ink);border-color:#ff6b6b4d;overflow:auto;padding:20px 16px;scrollbar-width:thin}.brand{display:flex;gap:12px;align-items:center;margin-bottom:20px}.brand svg{width:49px;height:49px;flex-shrink:0;filter:drop-shadow(0 3px 8px #ff6b6b40)}.brand h2{font-size:15px;line-height:1.35;font-weight:800}.brand p{font-size:10px;color:#f45d79;margin-top:4px;font-weight:600}.control-section{margin-bottom:17px}.section-label{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px;font-size:10px;font-weight:800;letter-spacing:.65px;color:#47627e}.pill{font-size:9px;font-weight:700;letter-spacing:0;padding:4px 7px;border-radius:14px;background:#00b0ff15;color:#008bd0;white-space:nowrap}.pill.green{background:#00e67620;color:#008b56}select{width:100%;padding:11px 10px;background:#f8fcff;border:1px solid #b7d4ec;border-radius:9px;color:var(--ink);font-weight:600}.variable,.hardware{display:flex;align-items:center;gap:10px;border:1px solid #bed4e8;border-radius:10px;background:#f8fcff;padding:10px;margin-bottom:7px;cursor:pointer}.variable:has(input:checked){border-color:var(--coral);background:#ff6b6b10;box-shadow:0 0 0 1px #ff6b6b10}.variable input{accent-color:var(--coral);margin-left:auto;order:2}.tile-icon{width:31px;height:31px;background:linear-gradient(135deg,#ff4964,#ff943c);border-radius:8px;color:white;display:grid;place-items:center;font-size:18px;flex-shrink:0}.tile-icon.blue{background:linear-gradient(135deg,#00b0ff,#00d4a4)}.variable strong,.hardware strong{font-size:11px}.variable small,.hardware small{display:block;color:#47627e;font-size:9px;line-height:1.5;margin-top:3px}.submetric{display:flex;gap:3px;flex-wrap:wrap;margin:5px 0 9px}.submetric button{font-size:8px;padding:5px;border-radius:5px;border:1px solid #a0d3e9;background:white;color:#22607e}.submetric button.active{background:#d4f2ff}.layer{display:flex;align-items:center;gap:7px;padding:7px 4px;color:#263e55;font-size:11px}.layer input,.hardware input{accent-color:#ff536a}.dot{width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block;flex-shrink:0;box-shadow:0 0 7px currentColor}.layer .dot{margin-left:auto}.hardware{align-items:flex-start;padding:9px;border-left:3px solid var(--yellow);gap:6px}.hardware input{margin:3px 2px 0 0}.hardware .cost{font:600 9px "JetBrains Mono",monospace;background:#fff1c3;padding:4px;border-radius:4px;white-space:nowrap}.hardware .details{flex:1}.hardware.film{border-left-color:var(--green)}.hardware.node{border-left-color:var(--sky)}.hardware.film .cost{background:#c6f8df}.hardware.node .cost{background:#dbf0ff}.deploy{width:100%;border:0;background:linear-gradient(100deg,#00e676,#ffd000 55%,#00b0ff);color:#061b28;padding:10px;border-radius:8px;font-weight:800;margin-top:2px}.source-card{margin-top:auto;background:#deecf9b0;border:1px solid #bed5e6;padding:12px;border-radius:10px;color:#47627e;line-height:1.65;font-size:10px}.source-card b{color:#143650}.pulse{animation:pulse 2s infinite}@keyframes pulse{50%{opacity:.45}}.workspace{flex:1;min-width:0;display:flex;flex-direction:column;gap:12px}.topbar{display:flex;gap:14px;align-items:center;justify-content:space-between;padding:15px 19px;flex-shrink:0}.eyebrow{font-size:9px;letter-spacing:1.4px;color:#ffc0aa;font-weight:700;margin-bottom:5px}.topbar h1{font-size:clamp(16px,1.4vw,24px);font-weight:800;letter-spacing:-.6px;line-height:1.2}.topbar p{font-size:10px;color:var(--muted);margin-top:6px}.head-actions{display:flex;align-items:center;gap:8px}.solution-button{border:0;border-radius:8px;padding:11px 13px;background:linear-gradient(110deg,#ff536e,#ffb34f);color:#231321;font-size:10px;font-weight:800;white-space:nowrap}.search{position:relative;width:210px}.search input{width:100%;background:#07182b;border:1px solid #236086;color:#eef5ff;border-radius:8px;padding:11px;font-size:10px}.search-results{position:absolute;top:100%;width:290px;right:0;z-index:1002;background:#0c233d;border:1px solid #286383;border-radius:9px;max-height:230px;overflow:auto;box-shadow:0 8px 20px #0005}.search-results:empty{display:none}.search-results button{display:block;text-align:left;width:100%;border:0;border-bottom:1px solid #25435b;background:transparent;padding:10px}.search-results small{display:block;color:var(--muted);margin-top:4px}.profile{border-radius:50%;background:#243d59;border:1px solid #467494;width:34px;height:34px;display:grid;place-items:center}.bento{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:12px;flex:1;min-height:320px}.panel{min-width:0;position:relative;overflow:hidden}.panel-heading{flex-wrap:wrap;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:13px 15px 9px}.panel-heading h2{font-size:13px;font-weight:800}.panel-heading p{color:var(--muted);font-size:9px;margin-top:4px}.map-panel{display:flex;flex-direction:column}.map-wrap{flex:1;min-height:230px;position:relative;margin:0 10px;border:1px solid #15526c;border-radius:10px;overflow:hidden}.map{height:100%;width:100%;min-height:230px;background:#0b2a42}.map-hud{position:absolute;z-index:500}.quick-filters{top:10px;left:10px;display:flex;gap:3px;background:#07182bdd;padding:4px;border-radius:7px}.quick-filters button,.tab-button,.chart-mode{font-size:9px;border:1px solid transparent;background:transparent;border-radius:5px;padding:6px 8px;color:#99b8d0}.quick-filters button.active,.tab-button.active,.chart-mode.active{background:var(--sky);color:#001c30;font-weight:800}.risk-legend{right:10px;top:10px;background:#07182be8;border:1px solid #235676;border-radius:9px;width:130px;padding:10px;font-size:8px}.risk-legend b{font-size:9px}.scale-gradient{height:6px;margin:8px 0;background:linear-gradient(90deg,var(--sky),var(--green),var(--yellow),var(--red));border-radius:4px}.risk-legend .range{display:flex;justify-content:space-between;color:#9eb7ce}.north{font-size:16px;text-align:right;color:var(--sky);margin-top:5px}.inspector{bottom:12px;right:10px;background:#07182be8;border:1px solid #235676;border-radius:10px;width:min(280px,74%);padding:11px}.inspector h3{font-size:10px;color:#fff}.inspector .coords{font-size:8px;color:#8cb6d4;margin-top:5px}.inspector-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-top:7px}.inspector-grid div{background:#11243c;padding:7px 4px;border-radius:6px;font-size:8px;color:#a5bdd3}.inspector-grid strong{display:block;font:600 11px "JetBrains Mono";color:var(--coral);margin-top:5px}.inspector-grid div:nth-child(2) strong{color:var(--green)}.inspector-grid div:nth-child(3) strong{color:var(--sky)}.map-note{position:absolute;bottom:12px;left:10px;z-index:500;color:#d4e5f2;background:#07182be8;padding:7px;border-radius:7px;font-size:9px;max-width:45%;line-height:1.4}.leaflet-container{font-family:Inter,sans-serif}.leaflet-control-attribution{font-size:7px!important;background:#07182bcc!important;color:#adc6d9!important}.leaflet-control-attribution a{color:#a3c8e0!important}.leaflet-control-scale-line{background:#07182bcb;color:white;border-color:white;font-size:8px}.leaflet-bar a{background:#0c233b;color:white;border-color:#2a526b}.leaflet-tooltip{color:#11273b;font-size:10px}.map-bottom{padding:10px 13px;display:flex;gap:8px;align-items:center;justify-content:space-between}.legend{font-size:8px;color:#adbed1;display:flex;gap:9px;flex-wrap:wrap}.legend i{display:inline-block;border-radius:50%;width:6px;height:6px;margin-right:4px}.map-actions{flex-wrap:wrap;justify-content:flex-end;display:flex;gap:5px;flex-shrink:0}.outline{border:1px solid #1a6b95;background:#06213a;padding:7px 8px;border-radius:7px;font-size:9px;color:#30c5ff}.restoration-halo{stroke-dasharray:5 6;animation:halo 15s linear infinite}@keyframes halo{to{stroke-dashoffset:-150}}.right-panel{display:flex;flex-direction:column;padding:12px}.tabs{display:flex;gap:4px;background:#07182b;border:1px solid #24415c;border-radius:8px;padding:4px}.tab-button{flex:1}.right-content{flex:1;min-height:0;display:flex;flex-direction:column}.scene-header{display:flex;align-items:center;justify-content:space-between;margin:10px 0 8px;gap:6px}.scene-header h3{font-size:11px}.mode-switch{display:flex;gap:3px;background:#07182b;border-radius:6px;padding:3px}.mode-switch button{font-size:8px;padding:5px 6px;background:transparent;border:0;border-radius:4px;color:#ff7184}.mode-switch button:last-child{color:var(--green)}.mode-switch button.active{background:var(--red);color:white}.mode-switch button:last-child.active{background:var(--green);color:#041f25}.scene-frame{position:relative;border:1px solid #125173;border-radius:9px;overflow:hidden;flex:1;min-height:140px;background:linear-gradient(#0d2744,#04111f)}.scene-frame svg{display:block;width:100%;height:100%;position:absolute;inset:0}.scene-status{font-size:8px;color:var(--green);border:1px solid #006144;background:#032a25;border-radius:6px;padding:6px 8px;display:flex;justify-content:space-between;gap:6px;margin:7px 0}.scene-status button{padding:0;color:var(--yellow);border:0;background:none;font-size:8px}.sliders{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:6px 1px}.sliders label{color:#a8bfd2;font-size:9px}.sliders label span{float:right;color:var(--green);font-family:"JetBrains Mono"}.sliders input{width:100%;height:13px;accent-color:var(--green);margin:6px 0 0}.sliders label:last-child input{accent-color:var(--yellow)}.sim-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:6px}.sim-kpis div{border:1px solid #25516a;background:#071b2c;border-radius:7px;padding:8px 6px}.sim-kpis small{font-size:7px;color:#9fb7c9;display:block;line-height:1.4}.sim-kpis strong{font:700 clamp(11px,1vw,18px) "JetBrains Mono";color:var(--green);display:block;margin-top:5px}.sim-kpis div:nth-child(2) strong{color:var(--yellow)}.sim-kpis div:nth-child(4) strong{color:var(--sky)}.sim-label{font-size:8px;color:#7e9db4;margin-top:7px;line-height:1.4}.banner{background:linear-gradient(115deg,rgba(255,228,220,.94),rgba(255,185,168,.90) 48%,rgba(255,138,115,.88));color:#2b0912;display:grid;grid-template-columns:minmax(0,8fr) minmax(230px,4fr);gap:13px;padding:13px;min-height:250px;height:32%;flex-shrink:0;border-color:#ff6b6b;overflow:hidden}.chart-area{background:#ffffff30;border:1px solid #fff6;border-radius:12px;display:flex;flex-direction:column;min-width:0}.chart-head{display:flex;gap:8px;align-items:center;justify-content:space-between;padding:11px 12px 0}.chart-head h2{font-size:13px;font-weight:800}.chart-head p{font-size:8px;color:#6b4651;margin-top:4px}.chart-modes{display:flex;background:#fff7;border:1px solid #e9a8a0;border-radius:6px;padding:2px;flex-shrink:0}.chart-mode{color:#673443;font-size:8px}.chart-mode.active{background:#092438;color:white}.chart{min-height:0;flex:1;width:100%}.trend-summary{display:flex;flex-direction:column;gap:7px;min-height:0;overflow:auto}.summary-title{font-size:10px;letter-spacing:.7px;font-weight:800;margin:2px 0 1px}.kpi{background:#141e34ed;color:#eef4ff;border:1px solid #f89390;border-radius:10px;padding:11px;display:flex;align-items:center;gap:10px;flex:1}.kpi .symbol{width:32px;height:32px;display:grid;place-items:center;border:1px solid #f45d7970;border-radius:10px;background:#ff6b6b1c;color:var(--coral);font-size:19px}.kpi .label{font-size:8px;color:#b4bac9}.kpi strong{display:block;font-size:15px;color:var(--green);margin:4px 0}.kpi p{font-size:8px;line-height:1.5;color:#d5d8e5}.footer{display:flex;justify-content:space-between;font-size:8px;color:#9ebdd7;padding:0 3px;gap:8px}.footer span:first-child{color:#294e70}.data-badge{font-size:8px;border:1px solid #29816d;color:#00e88b;border-radius:10px;padding:3px 6px;white-space:nowrap}.reference-row{display:flex;gap:7px;align-items:center}.reference-row label{font-size:9px;color:#abc4d9;white-space:nowrap}.reference-row select{padding:6px;font-size:9px;background:#102b43;border-color:#28516e;color:white;width:190px}.species-pane{height:100%;display:flex;flex-direction:column}.species-pane .submetric button{color:#9fe3ff;background:#081b2e;border-color:#28516d}.species-pane .submetric button.active{background:#00b0ff;color:#081b2e}.species-notice{font-size:9px;color:#9bb7ce;margin-top:9px;line-height:1.4}.hidden{display:none!important}dialog{background:#0b223b;color:#edf5ff;border:1px solid #3b6888;border-radius:17px;padding:24px;width:min(900px,95vw);max-height:90dvh;box-shadow:0 20px 100px #0008}dialog::backdrop{background:#041126aa;backdrop-filter:blur(5px)}.dialog-head{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-bottom:16px}.dialog-head h2{font-size:19px}.close{border:1px solid #49647a;background:#14304a;border-radius:6px;font-size:17px;padding:4px 9px}dialog p{font-size:12px;color:#b6ccde;line-height:1.65;margin:8px 0}dialog h3{font-size:13px;margin:12px 0}dialog code{display:block;white-space:pre-wrap;background:#04172c;padding:12px;border-radius:8px;color:#7cdcff;font-size:11px}dialog select{background:#112c45;color:white;border-color:#3a5c78}.candidate-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}.candidate{border:1px solid #416781;border-radius:10px;padding:13px;background:#0c1d31;text-align:left}.candidate.selected{border-color:var(--green)}.candidate b{display:block;color:#ffce68;font-size:11px;line-height:1.5}.candidate p{font:10px "JetBrains Mono";margin:9px 0;color:#abc4d9}.candidate small{color:#9ab8ce;font-size:9px}.decision{display:flex;align-items:center;gap:8px}.decision button{border:1px solid #229669;background:#00e676;color:#082730;border-radius:7px;padding:9px;font-weight:700}.deployment-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:13px 0}.observation{max-width:100%;max-height:180px;border-radius:8px}.action-box{padding:14px;background:#083f35;border:1px solid #00a978;border-radius:9px;color:#6df6ad;font-size:13px;line-height:1.5}.error-msg{color:#ffb8bf;font-size:10px;margin:7px 0}.modal-note{background:#172f48;padding:10px;border-radius:8px}.statline{font-family:"JetBrains Mono";font-size:10px}.tag{background:#0b2640;border:1px solid #225470;padding:5px;border-radius:5px;color:#ffdd80;font-size:9px}.deploy-action{background:#00e676;color:#052a29;border:1px solid #00e676;padding:7px 10px;font-size:9px;font-weight:800;border-radius:7px}.station-filter{padding:6px 8px;color:#0b2239;background:#e6f6ff;border:1px solid #8ac1df;border-radius:6px;margin-top:8px;font-size:10px}.deployment-footer{display:flex;justify-content:space-between;gap:6px;flex-wrap:wrap;margin-top:10px}.chart-footnote{font-size:8px;color:#6c3b47;padding:0 12px 7px}.status-toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#0d2c44;border:1px solid #00b0ff;border-radius:9px;padding:12px 20px;z-index:3000;box-shadow:0 5px 20px #0007}.plot-container{min-height:0}.chart .js-plotly-plot{height:100%}
+@media(min-width:1800px){.sidebar{padding:25px 20px}.control-section{margin-bottom:24px}.right-panel{padding:16px}.scene-header h3{font-size:14px}.scene-status,.sim-label{font-size:10px}.sliders label{font-size:11px}.topbar{padding:20px}.shell{min-height:900px}.banner{height:34%}}
+@media(max-width:1300px){.sidebar{width:260px;padding:15px 12px}.search{width:155px}.profile{display:none}.topbar{padding:13px}.head-actions{flex-direction:column;align-items:stretch;gap:5px}.solution-button{padding:7px}.search input{padding:7px}.banner{grid-template-columns:minmax(0,8fr) minmax(190px,4fr)}.reference-row select{width:155px}.sim-kpis{grid-template-columns:repeat(2,1fr)}.sim-kpis div{padding:5px}.sim-kpis strong{font-size:12px;margin:2px 0}.scene-header{flex-wrap:wrap}.right-panel{padding:9px}.chart-head{align-items:flex-start;flex-direction:column;gap:5px}.kpi strong{font-size:13px}.risk-legend{width:110px}.map-note{display:none}}
+@media(max-width:1050px){.shell{height:auto;min-height:100dvh;align-items:flex-start}.sidebar{position:sticky;top:12px;width:245px;max-height:calc(100dvh - 24px)}.workspace{overflow:visible}.bento{grid-template-columns:1fr;flex:none}.map-panel{height:450px}.right-panel{height:440px}.sim-kpis{grid-template-columns:repeat(4,1fr)}.banner{height:530px;grid-template-columns:1fr}.trend-summary{display:grid;grid-template-columns:repeat(3,1fr);overflow:visible}.summary-title{display:none}.kpi{padding:9px;display:block}.kpi .symbol{display:none}.topbar{flex-wrap:wrap}.head-actions{flex-direction:row;width:100%}.search{flex:1}.chart-area{min-height:295px}.reference-row{display:flex}.footer{flex-wrap:wrap}}
+@media(max-width:650px){.shell{display:block;padding:8px}.sidebar{width:100%;position:static;max-height:none;padding:14px;margin-bottom:10px}.brand{margin-bottom:10px}.control-section{margin-bottom:10px}.sidebar details.mobile-controls>summary{display:block}.source-card{margin-top:10px}.workspace{gap:10px}.topbar h1{font-size:18px}.topbar p{line-height:1.6}.map-panel{height:410px}.right-panel{height:470px}.reference-row select{width:150px}.candidate-grid{grid-template-columns:1fr}.deployment-grid{grid-template-columns:1fr}.banner{height:610px}.trend-summary{grid-template-columns:1fr;gap:4px}.kpi{padding:8px;display:flex}.kpi strong{font-size:12px;display:inline-block;margin:0 7px 0 0}.chart-head h2{font-size:12px}.legend{max-width:60%}.map-actions button{padding:5px;font-size:8px}.chart-area{min-height:300px}.sim-kpis strong{font-size:12px}.footer{font-size:7px}.risk-legend{width:105px}.solution-button{font-size:9px}.sim-kpis small{font-size:7px}.sliders{gap:8px}.sliders label{font-size:9px}}
+@media(min-width:1051px) and (max-height:850px){
+.shell{min-height:0}.bento{min-height:280px}.banner{min-height:210px;height:31%;padding:10px}
+.scene-frame{min-height:85px}.sim-kpis{grid-template-columns:repeat(4,1fr)}.sim-kpis div{padding:5px 4px}.sim-kpis small{font-size:6px}.sim-kpis strong{font-size:11px}
+.scene-header{margin:7px 0 5px}.scene-status{padding:5px;margin:5px 0}.sliders{margin:3px 0}.sim-label{display:none}
+.topbar{padding:10px 13px}.kpi{padding:8px}.kpi strong{font-size:12px}.kpi .symbol{width:25px;height:25px;font-size:15px}
+.chart-head{padding:8px 10px 0}.chart-head h2{font-size:11px}.chart-footnote{font-size:7px}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="shell">
+<aside class="sidebar glass">
+ <div class="brand"><svg viewBox="0 0 50 50" aria-hidden="true"><rect x="1" y="1" width="48" height="48" rx="16" fill="#08263e" stroke="#ff6b6b" stroke-width="2"/><circle cx="25" cy="25" r="16" fill="none" stroke="#00b0ff" stroke-dasharray="2 2"/><ellipse cx="25" cy="25" rx="8" ry="16" fill="none" stroke="#00b0ff" opacity=".5"/><path d="M10 25h30M25 40V17m0 12-8-9m8 4 8-9m-8 9-2-10m9 4 2-5" stroke="#ff6b6b" stroke-width="2" fill="none" stroke-linecap="round"/></svg><div><h2>Coral Reef Trend Analysis</h2><p>Satellite Data & Reef Rescue Tool</p></div></div>
+ <section class="control-section"><div class="section-label">1. SELECT REGION <span class="pill">4 sectors</span></div><select id="region" aria-label="Select region"><option value="gbr">Great Barrier Reef - Northern Sector</option><option value="triangle">Coral Triangle - Indonesia</option><option value="florida">Florida Keys & Caribbean</option><option value="africa">East African Coastal Reef</option></select></section>
+ <section class="control-section"><div class="section-label">2. SELECT VARIABLE <span class="pill" id="variable-pill">Primary · SST</span></div>
+ <label class="variable"><span class="tile-icon">♨</span><span><strong>Sea Surface Temperature (°C)</strong><small>NASA MODIS-Aqua · thermal trend</small></span><input type="radio" name="variable" value="sst" checked></label>
+ <label class="variable"><span class="tile-icon blue">♧</span><span><strong>Chlorophyll-a Concentration</strong><small>Ocean color · mg/m³</small></span><input type="radio" name="variable" value="chlorophyll"></label>
+ <div class="submetric hidden" id="submetrics"><button class="active" data-submetric="mean">Mean Chlorophyll-a</button><button data-submetric="bloom">Algal Bloom Risk Index</button><button data-submetric="runoff">Eutrophication & Runoff Index</button></div>
+ <select id="period" aria-label="Analysis period" style="padding:7px;font-size:10px"><option value="2016">Analysis period · 2016 onward</option><option value="2021" selected>Analysis period · 2021 onward</option><option value="full">Analysis period · Full record</option></select>
+ </section>
+ <section class="control-section"><div class="section-label">3. LAYER OPTIONS <span class="pill">Scenario overlays</span></div>
+ <label class="layer"><input type="checkbox" data-layer="ph">Acidification (pH)<i class="dot" style="background:#ff7b00;color:#ff7b00"></i></label>
+ <label class="layer"><input type="checkbox" data-layer="disease">Disease Risk<i class="dot" style="background:#ff334b;color:#ff334b"></i></label>
+ <label class="layer"><input type="checkbox" data-layer="plumes">Chlorophyll Plumes<i class="dot"></i></label>
+ </section>
+ <section class="control-section"><div class="section-label">4. LOW-COST REEF SOLUTIONS <span class="pill green" id="active-badge">3 ACTIVE</span></div>
+ <label class="hardware"><input type="checkbox" data-tool="buoy" checked><span class="details"><strong>Dusk Light Buoy</strong><small>1 hr at dusk · concentrates wild zooplankton<br><b>2.6x growth scenario</b></small></span><span class="cost">$145/unit</span></label>
+ <label class="hardware film"><input type="checkbox" data-tool="film" checked><span class="details"><strong>Bio-Shield Film</strong><small>Localized floating nutrient & UV film<br><b>−30% UV scenario</b></small></span><span class="cost">$65/unit</span></label>
+ <label class="hardware node"><input type="checkbox" data-tool="node" checked><span class="details"><strong>Pi Reef Node</strong><small>Temperature sensor + field camera<br><b>Early alert & image log</b></small></span><span class="cost">$185/unit</span></label>
+ <button class="deploy" id="deploy-all">✓ All solutions deployed · Turn off</button>
+ </section>
+ <div class="source-card"><b><i class="dot pulse"></i> NASA Giovanni · MODIS-Aqua</b><br>Measured monthly SST & chlorophyll-a<br><span id="source-dates"></span><br>MK + Sen’s slope · deseasonalized series<br><small>NOAA CRW & GBRMPA are contextual references. Local dataset source is NASA.</small></div>
+</aside>
+<main class="workspace">
+ <header class="topbar glass"><div><div class="eyebrow">REEFLINE / DETECTION TO ACTION</div><h1 id="region-title">Coral Reef Trend Analysis</h1><p>Satellite environmental telemetry & active biological intervention platform</p></div><div class="head-actions"><button class="solution-button" id="how-button">⌘ How Our Solution Works</button><div class="search"><input id="search" aria-label="Search reefs, variables, or studies" placeholder="⌕ Search reefs, variables, or studies…" autocomplete="off"><div class="search-results" id="search-results"></div></div><button class="profile" id="about-button" aria-label="About this workspace">♙</button></div></header>
+ <section class="bento">
+ <article class="panel glass map-panel" id="map-panel"><div class="panel-heading"><div><h2>Satellite Reef Observatory</h2><p id="map-subtitle">Measured monthly records · NASA Giovanni</p></div><div class="reference-row"><label for="reference">Worsening reef</label><select id="reference"></select></div></div>
+ <div class="map-wrap"><div class="map" id="map" aria-label="Interactive satellite reef map"></div>
+ <div class="map-hud quick-filters" id="map-filters"><button class="active" data-filter="all">All Sites</button><button data-filter="critical">Critical</button><button data-filter="moderate">Moderate</button><button data-filter="stable">Stable</button></div>
+ <div class="map-hud risk-legend"><b>COMBINED RISK INDEX</b><div class="scale-gradient"></div><div class="range"><span>0.05</span><span>0.84</span></div><p style="margin-top:6px;color:#9ab9d2;line-height:1.4">Illustrative overlay scale.<br>Markers use MK trends.</p><div class="north">N ↑</div></div>
+ <div class="map-note" id="map-note"></div><div class="map-hud inspector" id="inspector"></div></div>
+ <div class="map-bottom"><div class="legend"><span><i style="background:#ff334b"></i>Significant worsening · p &lt; .05</span><span><i style="background:#ffd000"></i>3 at-risk matches</span><span><i style="background:#ff7b00"></i>Rising, p ≥ .05</span><span><i style="background:#00e676"></i>Solution halo</span></div><div class="map-actions"><button class="outline" id="fit-matches">Fit matches</button><button class="outline" id="full-map">⛶ Full map</button><button class="outline" id="export-data">↓ CSV</button><button class="deploy-action" id="assessment-button">3 reefs → Deploy</button></div></div>
+ </article>
+ <article class="panel glass right-panel"><div class="tabs"><button class="tab-button active" data-pane="visualizer">Live Reef Visualizer</button><button class="tab-button" data-pane="species">Species Cover (%)</button></div>
+ <div class="right-content" id="visualizer-pane">
+ <div class="scene-header"><h3>Live Interactive Reef Visualizer</h3><div class="mode-switch"><button data-mode="off">No Action (Bleached)</button><button class="active" data-mode="on">With Our Solution (Restored)</button></div></div>
+ <div class="scene-frame" id="reef-frame"></div>
+ <div class="scene-status"><span id="scene-status"></span><button id="spec-button">System Specs →</button></div>
+ <div class="sliders"><label>Deployment Coverage <span id="coverage-label">75%</span><input type="range" id="coverage" min="10" max="100" value="75"></label><label>Buoy & Film Units <span id="units-label">15 units</span><input type="range" id="units" min="5" max="50" value="15"></label></div>
+ <div class="sim-kpis"><div><small>CORAL SURVIVAL</small><strong id="survival"></strong></div><div><small>GROWTH RATE</small><strong id="growth"></strong></div><div><small>EST. SECTOR COST</small><strong id="cost"></strong></div><div><small>COST / m²</small><strong id="cost-area"></strong></div></div><p class="sim-label">Illustrative intervention model · 15 paired units + 4 Pi nodes cost $3,890. Field validation required.</p>
+ </div>
+ <div class="right-content hidden" id="species-pane"><div class="species-pane"><div style="margin-top:13px"><h3 style="font-size:12px">Coral Cover Change by Key Species Group</h3><p class="species-notice">2000–2024 illustrative regional scenario · 12 taxa</p></div><div class="submetric" id="species-filters"><button class="active" data-species="all">All</button><button data-species="growth">+ Growth</button><button data-species="decline">− Decline</button></div><div id="species-chart" class="chart"></div><p class="species-notice">Scenario values demonstrate the requested species analytics. The repository contains no measured species-cover observations.</p></div></div>
+ </article>
+ </section>
+ <section class="banner glass"><div class="chart-area"><div class="chart-head"><div><h2 id="chart-title">Action vs. No Action · Live Coral Cover</h2><p id="chart-subtitle"></p></div><div class="chart-modes"><button class="chart-mode active" data-chart="forecast">2020–2040 Forecast</button><button class="chart-mode" data-chart="history">Historical Telemetry</button></div></div><div class="chart" id="main-chart"></div><div class="chart-footnote" id="chart-footnote"></div></div>
+ <div class="trend-summary"><div class="summary-title">TREND & IMPACT SUMMARY <span class="tag" id="slope-badge"></span></div><div class="kpi"><span class="symbol">♧</span><div><span class="label">STATUS & SIGNIFICANCE</span><strong id="trend-status"></strong><p id="trend-p"></p></div></div><div class="kpi"><span class="symbol">↗</span><div><span class="label">RATE OF CHANGE & FEEDING IMPACT</span><strong id="trend-slope"></strong><p id="feeding-impact"></p></div></div><div class="kpi"><span class="symbol">⌁</span><div><span class="label">ENVIRONMENTAL DRIVERS & ECONOMICS</span><strong id="summary-cost"></strong><p id="driver-summary"></p></div></div></div></section>
+ <footer class="footer"><span>ReefLine · NASA Giovanni / MODIS-Aqua · Esri satellite imagery</span><span id="footer-status"></span></footer>
+</main>
+</div>
+<dialog id="how-dialog"><div class="dialog-head"><h2>From satellite signal to field action</h2><button class="close" aria-label="Close">×</button></div><p>Choose a statistically worsening reef, compare exactly three non-significant matches, deploy a Pi station and review its imagery alongside satellite trends.</p><h3>Satellite analysis</h3><p>Mann–Kendall and Sen’s slope use deseasonalized monthly data. Significant means p &lt; 0.05. Candidate ranking uses 60% normalized slope difference and 40% distance. Candidates may lie outside the selected region.</p><h3>Hardware architecture & unit economics</h3><p>Dusk Light Buoy ($145) → downward light at dusk → modeled zooplankton concentration. Bio-Shield Film ($65) → modeled surface shielding and nutrient release. Pi Reef Node ($185) → field temperature and motion-triggered camera records.</p><p class="modal-note">Each unit on the slider represents one buoy and one film canister. Pi nodes = ceil(units ÷ 4). At 15 paired units, 15 × $145 + 15 × $65 + 4 × $185 = $3,890. Cost per m² uses a 672 m² sector × selected coverage. The $4,650 reference configuration uses 18 buoys, 20 films and 4 Pi nodes.</p><p>The 2.6x growth, 30% UV reduction, 88% survival, species bars, pH/disease overlays and cover forecasts are illustrative model assumptions. Satellite records support the measured trend cards. Unavailable geography or dates are labeled.</p></dialog>
+<dialog id="assessment-dialog"><div class="dialog-head"><h2>Reefs at risk → Pi deployment</h2><button class="close" aria-label="Close">×</button></div><p id="reference-summary"></p><div id="candidate-grid" class="candidate-grid"></div><div id="deployment-details"></div></dialog>
+<dialog id="spec-dialog"><div class="dialog-head"><h2>Live system specifications</h2><button class="close" aria-label="Close">×</button></div><div id="spec-content"></div></dialog>
+<div id="toast" class="status-toast hidden" role="status"></div>
+<script id="reef-data" type="application/json">__REEF_DATA__</script>
+<script src="vendor/leaflet.js"></script>
+<script src="vendor/plotly.min.js"></script>
+<script>
+"use strict";
+const DATA = JSON.parse(document.getElementById("reef-data").textContent);
+const $ = id => document.getElementById(id);
+const COLORS = {red:"#ff334b", orange:"#ff7b00", yellow:"#ffd000", green:"#00e676", blue:"#00b0ff"};
+const REGIONS = {
+ gbr:{short:"Great Barrier Reef", center:[-16.8,147.4], zoom:5, sites:["reef_005","reef_006","reef_007"], base:38, factor:1},
+ triangle:{short:"Coral Triangle · Indonesia", center:[-3.3,121.5],zoom:5,sites:[],base:41,factor:1.04},
+ florida:{short:"Florida Keys & Caribbean",center:[23,-82.7],zoom:5,sites:["reef_001","reef_002","reef_003","reef_004"],base:34,factor:.9},
+ africa:{short:"East African Coastal Reef",center:[-7.3,40.3],zoom:5,sites:[],base:36,factor:.95}
+};
+const TAXA=["Acropora","Porites","Montipora","Pocillopora","Millepora","Faviidae","Goniopora","Fungia","Stylophora","Echinopora","Turbinaria","Others"];
+const state={region:"gbr",variable:"sst",period:"2021",tools:{buoy:true,film:true,node:true},coverage:75,units:15,
+ pane:"visualizer",chart:"forecast",filter:"all",species:"all",submetric:"mean",layers:{ph:false,disease:false,plumes:false},reference:null,selected:null,deployment:null};
+const siteById = Object.fromEntries(DATA.sites.map(site=>[site.site_id,site]));
+const escapeHTML = value => String(value??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const money = value=>value.toLocaleString("en-US",{style:"currency",currency:"USD",maximumFractionDigits:0});
+const pformat = p=>p<.001?"< 0.001":p.toFixed(3);
+const stat = (id,variable=state.variable)=>siteById[id]?.measurements[variable].analysis[state.period];
+const slopeUnit = ()=>state.variable==="sst"?"°C/year":"mg/m³/year";
+const slopeFormat = value=>(value>=0?"+":"")+value.toFixed(state.variable==="sst"?3:4);
+const regionSites = ()=>REGIONS[state.region].sites.map(id=>siteById[id]);
+const matches = ()=>DATA.matches[state.variable][state.period][state.reference]||[];
+const currentSite = ()=>siteById[state.selected]||siteById[state.reference]||null;
+const latest = (site,variable)=>site?.measurements[variable].monthly.at(-1)?.[1];
+const unitNodes = ()=>Math.ceil(state.units/4);
+const budget = ()=>state.units*(Number(state.tools.buoy)*145+Number(state.tools.film)*65)+Number(state.tools.node)*unitNodes()*185;
+const intervention = ()=>Math.min(1.28,(state.coverage/75)*Math.min(1.15,state.units/15))*(Number(state.tools.buoy)*.6+Number(state.tools.film)*.4);
+const config={responsive:true,displayModeBar:false,displaylogo:false};
+let toastTimer, map, markers, layers, halos;
+function toast(message){$("toast").textContent=message;$("toast").classList.remove("hidden");clearTimeout(toastTimer);toastTimer=setTimeout(()=>$("toast").classList.add("hidden"),4500)}
+function chooseReference(){
+ const possible=regionSites().filter(site=>stat(site.site_id).worsening);
+ const old=state.reference;
+ if(!possible.some(site=>site.site_id===state.reference))state.reference=possible[0]?.site_id||null;
+ if(!REGIONS[state.region].sites.includes(state.selected)||old!==state.reference)state.selected=state.reference||REGIONS[state.region].sites[0]||null;
+ if(!matches().some(site=>site.site_id===state.deployment))state.deployment=null;
+ $("reference").innerHTML=possible.length?possible.map(site=>'<option value="'+site.site_id+'">'+escapeHTML(site.name)+'</option>').join(""):'<option>No worsening reef in this view</option>';
+ $("reference").disabled=!possible.length;
+ if(state.reference)$("reference").value=state.reference;
+}
+function selectedMonthly(site, variable){
+ if(!site)return [];
+ const series=site.measurements[variable].monthly;
+ return state.period==="full"?series:series.filter(row=>row[0]>=state.period);
+}
+function colorFor(site){
+ const result=stat(site.site_id);
+ if(matches().some(match=>match.site_id===site.site_id))return COLORS.yellow;
+ if(result.worsening)return COLORS.red;
+ if(!result.significant&&result.slope_per_year>0)return COLORS.orange;
+ return COLORS.blue;
+}
+function initMap(){
+ map=L.map("map",{zoomControl:false,worldCopyJump:true}).setView(REGIONS.gbr.center,REGIONS.gbr.zoom);
+ const tiles=L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+ {attribution:"Imagery © Esri and its data providers",maxZoom:18});
+ tiles.addTo(map);
+ L.control.zoom({position:"bottomleft"}).addTo(map);
+ L.control.scale({position:"bottomleft",imperial:false,maxWidth:120}).addTo(map);
+ markers=L.layerGroup().addTo(map);layers=L.layerGroup().addTo(map);halos=L.layerGroup().addTo(map);
+ let tileErrors=0;
+ tiles.on("tileerror",()=>{if(++tileErrors===8)toast("Satellite imagery is unavailable. Reef coordinates and trends remain interactive.")});
+ new ResizeObserver(()=>map.invalidateSize()).observe($("map"));
+}
+function drawMap(recenter=false){
+ markers.clearLayers();layers.clearLayers();halos.clearLayers();
+ const local=regionSites(), ids=new Set([...local.map(site=>site.site_id),...matches().map(site=>site.site_id)]);
+ if(state.selected)ids.add(state.selected);
+ const shown=[...ids].map(id=>siteById[id]);
+ shown.forEach(site=>{
+  const result=stat(site.site_id), candidate=matches().some(match=>match.site_id===site.site_id);
+  const category=result.worsening?"critical":(candidate||(!result.significant&&result.slope_per_year>0))?"moderate":"stable";
+  if(state.filter!=="all"&&state.filter!==category)return;
+  const point=[site.lat,site.lon];
+  if(Object.values(state.tools).some(Boolean)&&(result.worsening||site.site_id===state.deployment)){
+   L.circle(point,{radius:19000+state.coverage*450,color:COLORS.green,weight:2,fillOpacity:.12,className:"restoration-halo"}).addTo(halos);
+  }
+  L.circleMarker(point,{radius:site.site_id===state.selected?9:6,color:"#071d2f",weight:2,fillColor:colorFor(site),fillOpacity:1})
+   .bindTooltip(escapeHTML(site.name)+" · p "+pformat(result.p_value),{direction:"top"})
+   .on("click",()=>{state.selected=site.site_id;render(false)}).addTo(markers);
+  if(state.reference&&candidate){
+   const reference=siteById[state.reference];
+   L.polyline([[reference.lat,reference.lon],point],{color:COLORS.yellow,weight:1,dashArray:"5 8",opacity:.5}).addTo(markers);
+  }
+  for(const [layer,enabled] of Object.entries(state.layers)){
+   if(!enabled||!REGIONS[state.region].sites.includes(site.site_id))continue;
+   const color={ph:COLORS.orange,disease:COLORS.red,plumes:COLORS.green}[layer];
+   L.polygon([[site.lat-.4,site.lon-.6],[site.lat+.55,site.lon-.3],[site.lat+.3,site.lon+.7],[site.lat-.35,site.lon+.5]],
+    {color,weight:1,fillOpacity:.2,dashArray:"4 3"}).bindTooltip(escapeHTML(layer)+" · illustrative scenario zone").addTo(layers);
+  }
+ });
+ if(recenter){map.setView(REGIONS[state.region].center,REGIONS[state.region].zoom,{animate:false})}
+ $("map-note").textContent=local.length?matches().length===3?"Three globally ranked candidates linked in yellow.":"Fewer than three eligible matches in this period.":"No local satellite records in this repository. Select GBR or Florida for the measured deployment workflow.";
+ $("map-subtitle").textContent=local.length?local.length+" regional stations · "+(state.period==="full"?"full available record":state.period+" onward"):"Region view · no local telemetry";
+ $("assessment-button").textContent=matches().length===3?"3 reefs → Deploy":"Review eligibility";
+ renderInspector();
+}
+function renderInspector(){
+ const site=currentSite();
+ if(!site){$("inspector").innerHTML="<h3>Click a station for details</h3><p class='coords'>No measured local stations available.</p>";return}
+ const sst=latest(site,"sst"),chlor=latest(site,"chlorophyll");
+ const month=site.measurements.sst.monthly.at(-1)[0].slice(5,7);
+ const baseline=site.measurements.sst.monthly.filter(row=>row[0].slice(5,7)===month);
+ const anomaly=sst-baseline.reduce((sum,row)=>sum+row[1],0)/baseline.length;
+ let second=chlor.toFixed(3)+" mg/m³",label="CHLOROPHYLL";
+ if(state.variable==="chlorophyll"&&state.submetric!=="mean"){
+  const values=selectedMonthly(site,"chlorophyll").map(row=>row[1]);
+  const percentile=values.filter(value=>value<=chlor).length/values.length;
+  second=(100*percentile).toFixed(0)+"/100";label=state.submetric==="bloom"?"BLOOM PROXY":"RUNOFF PROXY";
+ }
+ $("inspector").innerHTML='<h3>⌖ '+escapeHTML(site.name)+'</h3><p class="coords mono">'+site.lat.toFixed(3)+'°, '+site.lon.toFixed(3)+'° · '+site.measurements.sst.monthly.at(-1)[0].slice(0,7)+'</p><div class="inspector-grid"><div>SST ANOMALY<strong>'+(anomaly>=0?"+":"")+anomaly.toFixed(2)+' °C</strong></div><div>'+label+'<strong>'+second+'</strong></div><div>HARDWARE<strong>'+Object.values(state.tools).filter(Boolean).length+' / 3</strong></div></div>';
+}
+function reefSVG(){
+ const action=state.tools.buoy||state.tools.film;
+ const intensity=intervention();
+ const corals=action?["#ff6b6b","#ff8e53","#f45d79","#00e676","#ffd000","#00b0ff"]:Array(6).fill("#e4e1d9");
+ const particles=Array.from({length:20},(_,i)=>'<circle cx="'+(230+(i*17)%140)+'" cy="'+(90+(i*23)%100)+'" r="'+(1.5+i%2*.6)+'" fill="#ffd000"><animate attributeName="cy" values="'+(95+i*5)+';'+(85+i*5)+';'+(95+i*5)+'" dur="'+(3+i%4)+'s" repeatCount="indefinite"/></circle>').join("");
+ const droplets=Array.from({length:5},(_,i)=>'<circle cx="'+(365+i*29)+'" cy="70" r="2" fill="#00e676" opacity=".6"><animate attributeName="cy" values="70;185" dur="'+(5+i)+'s" repeatCount="indefinite"/><animate attributeName="opacity" values=".8;0" dur="'+(5+i)+'s" repeatCount="indefinite"/></circle>').join("");
+ return '<svg viewBox="0 0 630 270" role="img" aria-label="'+(action?"Restored reef with active hardware":"Bleached reef without intervention")+'" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sea" x2="0" y2="1"><stop stop-color="#0c2744"/><stop offset="1" stop-color="#031322"/></linearGradient><linearGradient id="light" x2=".3" y2="1"><stop stop-color="#ffed6b" stop-opacity=".9"/><stop offset=".35" stop-color="#00b0ff" stop-opacity=".48"/><stop offset="1" stop-color="#00e676" stop-opacity=".06"/></linearGradient><linearGradient id="film"><stop stop-color="#008b9b"/><stop offset=".5" stop-color="#d1ed40"/><stop offset="1" stop-color="#00bad3"/></linearGradient><path id="coral-branch" d="M0 0V-40M0 -20L-17 -40M-11 -33L-14 -52M0 -27L17 -48M12 -40L16 -59" fill="none" stroke-width="5" stroke-linecap="round"/></defs><rect width="630" height="270" fill="url(#sea)"/><path d="M18 42Q95 37 175 42T335 42T495 42T620 41" stroke="#00b0ff" fill="none" stroke-width="1.5"><animate attributeName="d" values="M18 42Q95 37 175 42T335 42T495 42T620 41;M18 42Q95 47 175 42T335 42T495 42T620 41;M18 42Q95 37 175 42T335 42T495 42T620 41" dur="6s" repeatCount="indefinite"/></path>'+
+ (state.tools.film?'<g><path d="M350 8l18 20 18-20M465 8l18 20 18-20M560 8l18 20 18-20" fill="none" stroke="#ffd000" stroke-dasharray="3 3"/><rect x="325" y="37" width="272" height="9" rx="4" fill="url(#film)" stroke="#77cddd"/><text x="332" y="32" fill="#00e676" font-size="8" font-weight="bold">Bio-Shield Film (Floating Biodegradable Slick · −30% UV)</text><rect x="425" y="58" width="188" height="39" rx="5" fill="#061c30" stroke="#00e676"/><text x="432" y="73" fill="#00e676" font-size="9" font-weight="bold">Bio-Shield Film (Surface Slick)</text><text x="432" y="88" fill="#00b0ff" font-size="8">▲ Localized Lipid Feed · Wildlife Safe</text>'+droplets+'</g>':"")+
+ (state.tools.buoy?'<g><polygon points="177,44 190,44 414,243 145,243" fill="url(#light)" opacity="'+Math.min(1,intensity)+'"/><path d="M187 46L287 233" stroke="#ffd000" stroke-width="1.8" stroke-dasharray="4 5"/><ellipse cx="143" cy="43" rx="26" ry="8" fill="#ffce00"/><rect x="119" y="37" width="50" height="13" rx="5" fill="#07182b" stroke="#ffdd33"/><text x="123" y="46" font-size="6.5" fill="white" font-weight="bold">LIGHT BUOY</text><path d="M170 38l23 4-4 9-20-6Z" fill="#fff0a0"/><path d="M145 33V18" stroke="#9ebbd2"/><circle cx="145" cy="18" r="3" fill="#00e676"/><circle cx="145" cy="18" r="12" fill="none" stroke="#00e676" opacity=".12"><animate attributeName="r" values="9;22" dur="2s" repeatCount="indefinite"/><animate attributeName="opacity" values=".15;0" dur="2s" repeatCount="indefinite"/></circle><rect x="27" y="59" width="194" height="40" rx="5" fill="#071a2a" stroke="#ffd000"/><text x="34" y="74" fill="#ffd000" font-weight="bold" font-size="9">Dusk Light Buoy (Surface Front Beam)</text><text x="34" y="89" fill="#00e676" font-size="8">▲ Shines Down to Concentrate Plankton</text>'+particles+'</g>':"")+
+ (!action?'<g stroke="#ff334b" fill="#ff334b"><path d="M220 8l30 68m100-68 30 68m100-68 30 68" stroke-width="2"/><path d="M242 67l8 9 1-13m121 4 8 9 1-13m121 4 8 9 1-13" fill="none" stroke-width="2"/><text x="210" y="104" font-size="12" stroke="none">31.3°C Peak Stress · scenario</text></g><rect y="149" width="630" height="90" fill="#777732" opacity=".13"/>':"")+
+ '<g fill="#00b0ff"><ellipse cx="72" cy="112" rx="8" ry="4"><animate attributeName="cx" values="72;102;72" dur="7s" repeatCount="indefinite"/></ellipse><path d="M63 112l-10-6v12Z"><animateTransform attributeName="transform" type="translate" values="0;30;0" dur="7s" repeatCount="indefinite"/></path></g><g fill="#ff6b6b"><ellipse cx="560" cy="109" rx="8" ry="4"><animate attributeName="cx" values="560;535;560" dur="6s" repeatCount="indefinite"/></ellipse><path d="M568 109l10-6v12Z"><animateTransform attributeName="transform" type="translate" values="0;-25;0" dur="6s" repeatCount="indefinite"/></path></g>'+
+ '<path d="M0 246Q180 230 315 244T630 239V270H0Z" fill="#15314a"/><g><use href="#coral-branch" transform="translate(156 244)" stroke="'+corals[0]+'"/><path d="M193 244q29-50 58 0Z" fill="'+corals[1]+'" stroke="'+(action?"#ffd000":"#eee8d8")+'" stroke-width="2"/><use href="#coral-branch" transform="translate(285 244) scale(1.08)" stroke="'+corals[2]+'"/><path d="M353 244v-45m0 25-21-23m21 16 20-23" stroke="'+corals[3]+'" fill="none" stroke-width="5" stroke-linecap="round"/><path d="M451 244v-48m0 26-21-22m21 16 20-20" stroke="'+corals[4]+'" fill="none" stroke-width="5" stroke-linecap="round"/><path d="M522 244v-39m0 21-16-21m16 16 16-20" stroke="'+corals[5]+'" fill="none" stroke-width="5" stroke-linecap="round"/></g>'+
+ (state.tools.node?'<g><rect x="563" y="226" width="37" height="21" rx="4" fill="#0a243a" stroke="#00b0ff"/><text x="571" y="239" fill="#8ee5ff" font-size="8">PI 185</text><path d="M581 226v-14" stroke="#00b0ff"/><circle cx="581" cy="211" r="3" fill="#00e676"><animate attributeName="opacity" values="1;.25;1" dur="2s" repeatCount="indefinite"/></circle></g>':"")+'</svg>';
+}
+function renderSimulator(){
+ const effect=intervention(), active=Object.values(state.tools).filter(Boolean).length;
+ $("reef-frame").innerHTML=reefSVG();
+ $("scene-status").textContent=effect>0?"✓ "+(state.tools.buoy?"Dusk Light Buoy":"")+(state.tools.buoy&&state.tools.film?" + ":"")+(state.tools.film?"Bio-Shield":"")+" active":"○ No biological intervention · bleaching scenario";
+ $("active-badge").textContent=active+" ACTIVE";
+ $("deploy-all").textContent=active===3?"✓ All solutions deployed · Turn off":"✓ Deploy All Solutions";
+ $("coverage-label").textContent=state.coverage+"%";$("units-label").textContent=state.units+" units";
+ $("survival").textContent=Math.min(96,14+74*effect).toFixed(0)+"%";
+ $("growth").textContent=(.3+2.3*effect).toFixed(1)+"x";
+ $("cost").textContent=money(budget());$("cost-area").textContent="$"+(budget()/(672*state.coverage/100)).toFixed(2);
+ document.querySelectorAll("[data-tool]").forEach(input=>input.checked=state.tools[input.dataset.tool]);
+ document.querySelectorAll("[data-mode]").forEach(button=>button.classList.toggle("active",button.dataset.mode===(active?"on":"off")));
+ const svg=$("reef-frame").querySelector("svg");if(matchMedia("(prefers-reduced-motion: reduce)").matches)svg.pauseAnimations();
+}
+function forecastSeries(){
+ const base=REGIONS[state.region].base, effect=intervention(), region=REGIONS[state.region].factor;
+ const years=Array.from({length:21},(_,i)=>2020+i);
+ const endpoint=Math.min(85,8.4+(64.2-8.4)*effect*region);
+ const partial=8.4+(35.5-8.4)*Math.min(1.3,state.coverage/75)*Math.min(1,state.units/15)*(state.tools.buoy||state.tools.film?1:0);
+ const values=end=>years.map(year=>year<=2024?base+3-(year-2020)*.75:base+(end-base)*(year-2024)/16);
+ return {years,with:values(endpoint),partial:values(partial),none:values(8.4)};
+}
+function annualRows(site,variable){
+ const groups={};
+ selectedMonthly(site,variable).forEach(([date,value])=>{const year=date.slice(0,4);(groups[year]??=[]).push(value)});
+ return Object.entries(groups).map(([year,values])=>[Number(year),values.reduce((a,b)=>a+b,0)/values.length]);
+}
+function drawMainChart(){
+ const site=currentSite(), result=site?stat(site.site_id):null, forecast=forecastSeries();
+ let traces=[],axes={};
+ const layout={autosize:true,margin:{l:45,r:18,t:18,b:30},paper_bgcolor:"rgba(0,0,0,0)",plot_bgcolor:"rgba(255,255,255,.08)",font:{family:"Inter,Arial",color:"#62323e",size:9},
+ legend:{orientation:"h",x:0,y:1.13,font:{size:8}},xaxis:{gridcolor:"#ba7f7f30",tickfont:{size:8},zeroline:false},
+ yaxis:{gridcolor:"#ba7f7f40",tickfont:{size:8},zeroline:false},hovermode:"x unified",showlegend:true};
+ if(state.chart==="forecast"){
+  $("chart-title").textContent="Projected Live Coral Cover (%) · 2020–2040";
+  $("chart-subtitle").textContent=REGIONS[state.region].short+" · "+state.coverage+"% coverage · "+state.units+" paired units · "+money(budget());
+  [["With Dusk Light Buoy + Bio-Shield Film",forecast.with,COLORS.green,"solid"],["Partial Action (Single Tool)",forecast.partial,COLORS.yellow,"dot"],["Taking No Action",forecast.none,COLORS.red,"dash"]].forEach(([name,y,color,dash],index)=>{
+   traces.push({x:forecast.years,y,name,type:"scatter",mode:"lines",line:{color,dash,width:2.5},fill:index===0?"tozeroy":undefined,fillcolor:"rgba(0,170,108,.10)",hovertemplate:"%{y:.1f}%<extra>"+name+"</extra>"});
+  });
+  layout.yaxis.ticksuffix="%";layout.yaxis.range=[0,90];layout.xaxis.dtick=4;
+  $("chart-footnote").textContent="Illustrative cover scenario. Baseline 2020–2024 is assumed. Default GBR intervention reaches 64.2% in 2040 versus 8.4% with no action.";
+ }else{
+  $("chart-title").textContent="Historical Satellite Telemetry";
+  $("chart-subtitle").textContent=site?site.name+" · "+result.start+" to "+result.end:"No satellite records for this region";
+  if(site){
+   const temp=annualRows(site,"sst"),chl=annualRows(site,"chlorophyll");
+   const variableAnnual=state.variable==="sst"?temp:chl;
+   const mean=variableAnnual.reduce((sum,row)=>sum+row[1],0)/variableAnnual.length;
+   const meanYear=variableAnnual.reduce((sum,row)=>sum+row[0],0)/variableAnnual.length;
+   const x=variableAnnual.map(row=>row[0]);
+   const yaxis=state.variable==="sst"?"y":"y2";
+   traces.push({x:[...x,...x.slice().reverse()],y:[...x.map(year=>Math.max(mean+result.high_slope*(year-meanYear),mean+result.low_slope*(year-meanYear))),...x.slice().reverse().map(year=>Math.min(mean+result.high_slope*(year-meanYear),mean+result.low_slope*(year-meanYear)))],type:"scatter",fill:"toself",fillcolor:"rgba(244,93,121,.17)",line:{width:0},name:"Sen’s slope interval",hoverinfo:"skip",showlegend:false,yaxis});
+   traces.push({x:temp.map(row=>row[0]),y:temp.map(row=>row[1]),name:"Sea Surface Temperature",type:"scatter",line:{color:COLORS.red,width:2},yaxis:"y"});
+   traces.push({x:chl.map(row=>row[0]),y:chl.map(row=>row[1]),name:"Chlorophyll-a",type:"scatter",line:{color:"#009d87",width:2},yaxis:"y2"});
+   traces.push({x,y:x.map(year=>mean+result.slope_per_year*(year-meanYear)),name:"Sen’s slope",type:"scatter",line:{color:"#8b3a72",width:2,dash:"dash"},yaxis});
+   layout.margin.r=45;layout.yaxis.title={text:"SST (°C)",font:{size:9}};layout.yaxis2={overlaying:"y",side:"right",title:{text:"Chl-a (mg/m³)",font:{size:9}},showgrid:false,tickfont:{size:8}};
+  }else{layout.annotations=[{text:"No local telemetry in the repository",xref:"paper",yref:"paper",x:.5,y:.5,showarrow:false}]}
+  $("chart-footnote").textContent=site?"Measured annual means. MK and Sen’s slope use deseasonalized monthly values. Shading shows the Sen slope interval centered on the annual mean.":"The requested 1985–2024 record is unavailable here. Choose GBR or Florida for measured data.";
+ }
+ Plotly.react("main-chart",traces,layout,config);
+}
+function drawSpecies(){
+ const factor=REGIONS[state.region].factor;
+ const values=[41,48,35,33,37,21,-10,-16,-24,-20,-31,-47].map((value,i)=>Math.round(value*factor+(state.region==="florida"?(i%3-1)*3:0)));
+ const rows=TAXA.map((name,i)=>({name,value:values[i],projected:values[i]+intervention()*17}));
+ const filtered=rows.filter(row=>state.species==="all"||(state.species==="growth"?row.value>=0:row.value<0));
+ Plotly.react("species-chart",[
+ {x:filtered.map(row=>row.name),y:filtered.map(row=>row.value),type:"bar",name:"Baseline change",marker:{color:filtered.map(row=>row.value>=0?COLORS.green:COLORS.red)}},
+ {x:filtered.map(row=>row.name),y:filtered.map(row=>row.projected),type:"bar",name:"With active tools",marker:{color:"rgba(0,230,118,.12)",line:{color:COLORS.green,width:1}}}
+ ],{margin:{l:35,r:10,t:20,b:65},paper_bgcolor:"transparent",plot_bgcolor:"transparent",font:{family:"Inter",color:"#abc6dc",size:8},legend:{orientation:"h",y:1.13,font:{size:8}},barmode:"group",xaxis:{tickangle:-45,tickfont:{size:8}},yaxis:{ticksuffix:"%",gridcolor:"#24405a",zerolinecolor:"#406078"}},config);
+}
+function renderSummary(){
+ const site=currentSite(),result=site?stat(site.site_id):null,effect=intervention();
+ $("region-title").textContent="Coral Reef Trend Analysis: "+REGIONS[state.region].short;
+ $("variable-pill").textContent=state.variable==="sst"?"Primary · SST":"Primary · Chl-a";
+ $("submetrics").classList.toggle("hidden",state.variable!=="chlorophyll");
+ $("trend-status").textContent=effect>0?"Restoring · "+(.3+2.3*effect).toFixed(1)+"x modeled growth":result?.worsening?"Warming · significant trend":result?"Monitoring · "+result.direction:"Awaiting local telemetry";
+ $("trend-status").style.color=effect>0?COLORS.green:result?.worsening?COLORS.red:"#afc8d9";
+ $("trend-p").textContent=result?"Mann–Kendall p "+pformat(result.p_value)+" · "+(result.significant?"Statistically significant":"Not significant")+" · "+site.name:"No local monthly observations in this region.";
+ $("trend-slope").textContent=result?slopeFormat(result.slope_per_year)+" "+slopeUnit():"No measured slope";
+ $("slope-badge").textContent=result?"95% CI "+slopeFormat(result.low_slope)+" to "+slopeFormat(result.high_slope):"No local record";
+ $("feeding-impact").textContent=state.tools.buoy?"Dusk Light Buoy · 1 hr dusk zooplankton concentration":"Dusk light buoy inactive";
+ $("summary-cost").textContent=money(budget())+" sector cost";
+ if(site){
+  const temp=annualRows(site,"sst"),chl=annualRows(site,"chlorophyll");
+  const delta=temp.at(-1)[1]-temp[0][1],ratio=(chl.at(-1)[1]/chl[0][1]-1)*100;
+  $("driver-summary").textContent="Annual SST Δ "+(delta>=0?"+":"")+delta.toFixed(2)+" °C · Chl-a Δ "+(ratio>=0?"+":"")+ratio.toFixed(1)+"% · "+unitNodes()+" Pi nodes if enabled";
+  $("source-dates").textContent=result.start+"–"+result.end+" · available record";
+ }else{$("driver-summary").textContent="Scenario hardware budget · measured environmental drivers unavailable";$("source-dates").textContent="Local observations unavailable"}
+ $("footer-status").textContent=(result?"Telemetry through "+result.end+" · ":"")+"Intervention estimates are illustrative";
+}
+function render(recenter=false){
+ renderSummary();renderSimulator();drawMap(recenter);drawMainChart();
+ if(state.pane==="species")drawSpecies();
+ if($("assessment-dialog").open)renderAssessment();
+}
+function chooseRegion(){
+ state.selected=null;state.reference=null;state.deployment=null;chooseReference();render(true);
+}
+function openDialog(id){const dialog=$(id);if(!dialog.open)dialog.showModal()}
+function recommendation(site,match){
+ const result=stat(site.site_id), reference=stat(state.reference);
+ const close=match.slope_diff<=Math.max(.35*Math.abs(reference.slope_per_year),state.variable==="sst"?.01:.001);
+ if(result.slope_per_year>0&&close)return {priority:"Elevated",action:"Prioritize a field survey within 30 days."};
+ if(result.slope_per_year>0||match.distance_km<=1000)return {priority:"Watch",action:"Review station captures weekly and reassess after the next satellite update."};
+ return {priority:"Routine",action:"Maintain monthly satellite and station monitoring."};
+}
+function renderAssessment(){
+ const candidates=matches();
+ const result=state.reference?stat(state.reference):null;
+ $("reference-summary").textContent=result?siteById[state.reference].name+" · p "+pformat(result.p_value)+" · "+slopeFormat(result.slope_per_year)+" "+slopeUnit()+". Ranked by 60% slope difference + 40% geographic distance.":"No significantly worsening reference is available in this region and period. Choose GBR or Florida.";
+ $("candidate-grid").innerHTML=candidates.length===3?candidates.map((match,index)=>'<button class="candidate '+(state.deployment===match.site_id?"selected":"")+'" data-candidate="'+match.site_id+'"><small>MATCH '+(index+1)+' · '+escapeHTML(match.region)+'</small><b>'+escapeHTML(match.name)+'</b><p>p '+pformat(match.p_value)+'<br>'+slopeFormat(match.slope_per_year)+' '+slopeUnit()+'<br>'+Math.round(match.distance_km).toLocaleString()+' km away</p><small>Score '+match.score.toFixed(3)+' · Click to deploy</small></button>').join(""):'<div class="modal-note" style="grid-column:1/-1">Exactly three non-significant candidates are required. This region/period has insufficient eligible records. Try SST, 2016 onward, Great Barrier Reef.</div>';
+ $("candidate-grid").querySelectorAll("[data-candidate]").forEach(button=>button.onclick=()=>{state.deployment=button.dataset.candidate;state.selected=state.deployment;render(false);map.setView([siteById[state.deployment].lat,siteById[state.deployment].lon],7)});
+ const site=siteById[state.deployment],match=candidates.find(row=>row.site_id===state.deployment);
+ if(!site||!match){$("deployment-details").innerHTML="<p>Select one of the three candidates as the Pi deployment site.</p>";return}
+ const stats=stat(site.site_id), decision=recommendation(site,match),observation=DATA.observations[site.site_id];
+ $("deployment-details").innerHTML='<h3>Deployment · '+escapeHTML(site.name)+'</h3><div class="deployment-grid"><div class="modal-note"><h3>Satellite statistics</h3><p class="statline">Mann–Kendall p '+pformat(stats.p_value)+'<br>Sen’s slope '+slopeFormat(stats.slope_per_year)+' '+slopeUnit()+'<br>Direction · '+escapeHTML(stats.direction)+'<br>Not significant · p ≥ 0.05<br>Monthly observations · '+stats.months+'</p></div><div class="modal-note"><h3>Latest Pi observation</h3>'+
+ (observation?.image?'<img class="observation" src="'+observation.image+'" alt="Latest field station image">':"<p>No Pi image logged for this site yet.</p>")+
+ (observation?'<p>'+escapeHTML(observation.timestamp)+'<br>Motion '+Number(observation.motion_value).toFixed(3)+'</p>':"")+
+ '</div></div><h3>Recommended Action · '+decision.priority+' priority</h3><div class="action-box">'+decision.action+'</div><p>Prototype priority uses slope direction, slope similarity and distance.</p><details><summary>Connect the Pi station</summary><p>Run on the Pi and sync station/logs, including its images, into this app’s station/logs directory. Reload this dashboard to read the newest snapshot.</p><code>python station/reef_station.py --camera picamera --site '+site.site_id+'</code><p>Camera-free image test</p><code>python station/reef_station.py --fake-image --site '+site.site_id+'</code></details><div class="deployment-footer"><button class="outline" id="refresh-observation">Refresh station snapshot</button><button class="deploy-action" id="export-report">↓ Export Action Report</button></div>';
+ $("export-report").onclick=exportReport;
+ $("refresh-observation").onclick=()=>{location.reload()};
+}
+function renderSpecs(){
+ $("spec-content").innerHTML="<h3>Current hardware configuration</h3><p>"+state.units+" buoys × $145 "+(state.tools.buoy?"enabled":"disabled")+"<br>"+state.units+" film units × $65 "+(state.tools.film?"enabled":"disabled")+"<br>"+unitNodes()+" Pi nodes × $185 "+(state.tools.node?"enabled":"disabled")+"</p><p class='modal-note'>Total "+money(budget())+" · "+state.coverage+"% of a 672 m² scenario sector · $"+(budget()/(672*state.coverage/100)).toFixed(2)+" / m² protected</p><h3>Modeled action</h3><p>Surface buoy shines toward the bottom reef for one hour at dusk. Yellow particles represent concentrated wild zooplankton. The localized surface film deflects incoming UV and releases slow-sinking nutrient droplets. The Pi node logs field imagery and temperature.</p><p>Restored mode displays colored coral, fish, light cone and active hardware. No Action hides the buoy and film, displays red radiation arrows, pale coral skeletons and an algal haze. Hardware claims and ecological responses require field validation.</p>";
+}
+function downloadCSV(filename,rows){
+ const keys=[...new Set(rows.flatMap(row=>Object.keys(row)))];
+ const cell=value=>'"'+String(value??"").replace(/"/g,'""')+'"';
+ const csv=keys.map(cell).join(",")+"\r\n"+rows.map(row=>keys.map(key=>cell(row[key])).join(",")).join("\r\n");
+ const url=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8"})),a=document.createElement("a");
+ a.href=url;a.download=filename;a.click();setTimeout(()=>URL.revokeObjectURL(url),2000);
+ toast("Downloaded "+filename);
+}
+function exportData(){
+ const rows=[];
+ regionSites().forEach(site=>{
+  const temp=new Map(selectedMonthly(site,"sst")),chl=new Map(selectedMonthly(site,"chlorophyll"));
+  [...new Set([...temp.keys(),...chl.keys()])].sort().forEach(date=>rows.push({record_type:"measured_monthly",region:REGIONS[state.region].short,site_id:site.site_id,reef:site.name,date,sst_c:temp.get(date),chlorophyll_mg_m3:chl.get(date),source:DATA.source}));
+ });
+ const forecast=forecastSeries();
+ forecast.years.forEach((year,i)=>rows.push({record_type:"illustrative_cover_scenario",region:REGIONS[state.region].short,date:year,
+ with_solutions_cover_pct:forecast.with[i],partial_action_cover_pct:forecast.partial[i],no_action_cover_pct:forecast.none[i],
+ coverage_pct:state.coverage,paired_units:state.units,pi_nodes:state.tools.node?unitNodes():0,sector_cost_usd:budget(),
+ buoy_enabled:state.tools.buoy,film_enabled:state.tools.film,node_enabled:state.tools.node,source:"Illustrative model assumptions"}));
+ downloadCSV("reefline_"+state.region+"_"+state.period+".csv",rows);
+}
+function exportReport(){
+ const site=siteById[state.deployment],match=matches().find(row=>row.site_id===state.deployment);if(!site||!match)return;
+ const decision=recommendation(site,match),result=stat(site.site_id),obs=DATA.observations[site.site_id]||{};
+ downloadCSV(site.site_id+"_action_report.csv",[{
+ site_id:site.site_id,reef:site.name,reference_site:state.reference,variable:state.variable,analysis_period:state.period,
+ p_value:result.p_value,slope_per_year:result.slope_per_year,slope_unit:slopeUnit(),significant:result.significant,
+ distance_km:match.distance_km,match_score:match.score,priority:decision.priority,recommended_action:decision.action,
+ timestamp:obs.timestamp,image_filename:obs.image_filename,motion_value:obs.motion_value,source:DATA.source}]);
+}
+function search(){
+ const query=$("search").value.trim().toLowerCase();if(!query){$("search-results").replaceChildren();return}
+ const reefs=DATA.sites.filter(site=>(site.name+" "+site.region).toLowerCase().includes(query)).slice(0,6).map(site=>({label:site.name,detail:site.region,type:"reef",id:site.site_id}));
+ const taxa=TAXA.filter(taxon=>taxon.toLowerCase().includes(query)).map(taxon=>({label:taxon,detail:"Illustrative species scenario",type:"species"}));
+ const other=[{label:"Sea Surface Temperature",detail:"Measured SST",type:"variable",id:"sst"},{label:"Chlorophyll-a",detail:"Measured ocean color",type:"variable",id:"chlorophyll"},{label:"Mann–Kendall and Sen’s slope",detail:"Method & model documentation",type:"method"},{label:"NASA Giovanni",detail:"Satellite data provenance",type:"method"}].filter(item=>item.label.toLowerCase().includes(query));
+ const results=[...reefs,...taxa,...other].slice(0,9);
+ $("search-results").innerHTML=results.length?results.map((item,i)=>'<button data-result="'+i+'">'+escapeHTML(item.label)+'<small>'+escapeHTML(item.detail)+'</small></button>').join(""):"<p style='padding:12px'>No matching station, variable or taxon.</p>";
+ $("search-results").querySelectorAll("button").forEach(button=>button.onclick=()=>{
+  const item=results[Number(button.dataset.result)];
+  if(item.type==="reef"){
+   const region=Object.keys(REGIONS).find(key=>REGIONS[key].sites.includes(item.id));
+   if(region){state.region=region;$("region").value=region;chooseRegion()}
+   state.selected=item.id;render();map.setView([siteById[item.id].lat,siteById[item.id].lon],7);
+  }else if(item.type==="species"){switchPane("species");state.species="all";drawSpecies()}
+  else if(item.type==="variable"){state.variable=item.id;document.querySelector('[name="variable"][value="'+item.id+'"]').checked=true;chooseReference();render()}
+  else openDialog("how-dialog");
+  $("search-results").replaceChildren();$("search").value="";
+ });
+}
+function switchPane(pane){
+ state.pane=pane;$("visualizer-pane").classList.toggle("hidden",pane!=="visualizer");$("species-pane").classList.toggle("hidden",pane!=="species");
+ document.querySelectorAll("[data-pane]").forEach(button=>button.classList.toggle("active",button.dataset.pane===pane));
+ if(pane==="species")drawSpecies();
+}
+$("region").onchange=event=>{state.region=event.target.value;chooseRegion()};
+document.querySelectorAll('[name="variable"]').forEach(input=>input.onchange=()=>{state.variable=input.value;state.reference=null;chooseReference();render()});
+$("period").onchange=event=>{state.period=event.target.value;chooseReference();render()};
+$("reference").onchange=event=>{state.reference=event.target.value;state.selected=state.reference;state.deployment=null;render()};
+document.querySelectorAll("[data-tool]").forEach(input=>input.onchange=()=>{state.tools[input.dataset.tool]=input.checked;render()});
+document.querySelectorAll("[data-layer]").forEach(input=>input.onchange=()=>{state.layers[input.dataset.layer]=input.checked;drawMap();if(input.checked)toast("Illustrative "+input.dataset.layer+" overlay enabled")});
+$("deploy-all").onclick=()=>{const enabled=!Object.values(state.tools).every(Boolean);state.tools={buoy:enabled,film:enabled,node:enabled};render()};
+document.querySelectorAll("[data-mode]").forEach(button=>button.onclick=()=>{const enabled=button.dataset.mode==="on";state.tools={buoy:enabled,film:enabled,node:enabled};render()});
+$("coverage").oninput=event=>{state.coverage=Number(event.target.value);render()};
+$("units").oninput=event=>{state.units=Number(event.target.value);render()};
+document.querySelectorAll("[data-filter]").forEach(button=>button.onclick=()=>{state.filter=button.dataset.filter;document.querySelectorAll("[data-filter]").forEach(item=>item.classList.toggle("active",item===button));drawMap()});
+document.querySelectorAll("[data-pane]").forEach(button=>button.onclick=()=>switchPane(button.dataset.pane));
+document.querySelectorAll("[data-chart]").forEach(button=>button.onclick=()=>{state.chart=button.dataset.chart;document.querySelectorAll("[data-chart]").forEach(item=>item.classList.toggle("active",item===button));drawMainChart()});
+document.querySelectorAll("[data-species]").forEach(button=>button.onclick=()=>{state.species=button.dataset.species;document.querySelectorAll("[data-species]").forEach(item=>item.classList.toggle("active",item===button));drawSpecies()});
+document.querySelectorAll("[data-submetric]").forEach(button=>button.onclick=()=>{state.submetric=button.dataset.submetric;document.querySelectorAll("[data-submetric]").forEach(item=>item.classList.toggle("active",item===button));renderInspector();if(state.submetric!=="mean")toast("Proxy = percentile of the latest measured chlorophyll within this period. It is unvalidated for "+state.submetric+" risk.")});
+$("how-button").onclick=$("about-button").onclick=()=>openDialog("how-dialog");
+$("spec-button").onclick=()=>{renderSpecs();openDialog("spec-dialog")};
+$("assessment-button").onclick=()=>{renderAssessment();openDialog("assessment-dialog")};
+$("fit-matches").onclick=()=>{
+ const points=[...(state.reference?[siteById[state.reference]]:[]),...matches()];
+ if(points.length)map.fitBounds(points.map(site=>[site.lat,site.lon]),{padding:[35,35]});
+ else toast("No eligible matches for this region and analysis period.");
+};
+$("full-map").onclick=()=>{if(document.fullscreenElement)document.exitFullscreen();else $("map-panel").requestFullscreen().catch(()=>toast("Fullscreen unavailable in this view. Use the map’s zoom controls."))};
+$("export-data").onclick=exportData;
+$("search").oninput=search;$("search").onkeydown=event=>{if(event.key==="Escape")$("search-results").replaceChildren()};
+document.addEventListener("click",event=>{if(!event.target.closest(".search"))$("search-results").replaceChildren()});
+document.querySelectorAll("dialog").forEach(dialog=>{dialog.querySelector(".close").onclick=()=>dialog.close();dialog.onclick=event=>{if(event.target===dialog)dialog.close()}});
+let resizeTimer;
+window.addEventListener("resize",()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(()=>{Plotly.Plots.resize("main-chart");if(state.pane==="species")Plotly.Plots.resize("species-chart")},120)});
+initMap();chooseReference();render(true);
+</script>
+</body>
+</html>
